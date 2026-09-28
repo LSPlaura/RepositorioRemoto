@@ -1,5 +1,4 @@
 ﻿using FluentAssertions;
-using RepositorioRemoto.Back.Dto;
 using RepositorioRemoto.Back.Dtos;
 
 namespace RepositorioRemoto.Tests.Dtos;
