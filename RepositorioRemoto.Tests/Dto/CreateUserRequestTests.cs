@@ -2,8 +2,6 @@
 using RepositorioRemoto.Back.Dto;
 using RepositorioRemoto.Back.Dto.Users.Request;
 
-namespace RepositorioRemoto.Tests.Dto;
-
 [TestFixture]
 public class CreateUserRequestTests {
     [Test]
