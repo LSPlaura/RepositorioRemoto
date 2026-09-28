@@ -14,4 +14,8 @@
       </Content>
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Refit" Version="16.3.0" />
+    </ItemGroup>
+
 </Project>
