@@ -1,5 +1,4 @@
 namespace RepositorioRemoto.Back.Models;
-
 /// <summary>
 ///  Representa un usuario dentro del sistema.
 /// </summary>
