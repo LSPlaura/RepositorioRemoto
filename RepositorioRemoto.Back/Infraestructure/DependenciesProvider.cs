@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using RepositorioRemoto.Back.Infraestructure.Interfaces;
 
 namespace RepositorioRemoto.Back.Infraestructure;
 
