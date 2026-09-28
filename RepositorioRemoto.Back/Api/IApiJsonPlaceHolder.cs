@@ -1,4 +1,5 @@
 ﻿using Refit;
+using RepositorioRemoto.Back.Dto;
 using RepositorioRemoto.Back.Models;
 
 namespace RepositorioRemoto.Back.Api;
