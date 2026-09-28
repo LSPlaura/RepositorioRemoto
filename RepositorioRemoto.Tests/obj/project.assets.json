@@ -1751,19 +1751,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Lu\\.nuget\\packages\\": {}
+    "C:\\Users\\laura\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Lu\\Desktop\\Git-Repository\\RepositorioRemoto\\RepositorioRemoto.Tests\\RepositorioRemoto.Tests.csproj",
+      "projectUniqueName": "C:\\Users\\laura\\RiderProjects\\RepositorioRemoto\\RepositorioRemoto.Tests\\RepositorioRemoto.Tests.csproj",
       "projectName": "RepositorioRemoto.Tests",
-      "projectPath": "C:\\Users\\Lu\\Desktop\\Git-Repository\\RepositorioRemoto\\RepositorioRemoto.Tests\\RepositorioRemoto.Tests.csproj",
-      "packagesPath": "C:\\Users\\Lu\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Lu\\Desktop\\Git-Repository\\RepositorioRemoto\\RepositorioRemoto.Tests\\obj\\",
+      "projectPath": "C:\\Users\\laura\\RiderProjects\\RepositorioRemoto\\RepositorioRemoto.Tests\\RepositorioRemoto.Tests.csproj",
+      "packagesPath": "C:\\Users\\laura\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\laura\\RiderProjects\\RepositorioRemoto\\RepositorioRemoto.Tests\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Lu\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\laura\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net10.0"
@@ -1773,11 +1773,10 @@
       },
       "frameworks": {
         "net10.0": {
-          "framework": "net10.0",
           "targetAlias": "net10.0",
           "projectReferences": {
-            "C:\\Users\\Lu\\Desktop\\Git-Repository\\RepositorioRemoto\\RepositorioRemoto.Back\\RepositorioRemoto.Back.csproj": {
-              "projectPath": "C:\\Users\\Lu\\Desktop\\Git-Repository\\RepositorioRemoto\\RepositorioRemoto.Back\\RepositorioRemoto.Back.csproj"
+            "C:\\Users\\laura\\RiderProjects\\RepositorioRemoto\\RepositorioRemoto.Back\\RepositorioRemoto.Back.csproj": {
+              "projectPath": "C:\\Users\\laura\\RiderProjects\\RepositorioRemoto\\RepositorioRemoto.Back\\RepositorioRemoto.Back.csproj"
             }
           }
         }
@@ -1796,7 +1795,6 @@
     },
     "frameworks": {
       "net10.0": {
-        "framework": "net10.0",
         "targetAlias": "net10.0",
         "dependencies": {
           "Microsoft.NET.Test.Sdk": {
