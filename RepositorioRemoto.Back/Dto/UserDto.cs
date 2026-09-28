@@ -11,9 +11,5 @@ public record UserDto(
     AddressDto Address,
     string Phone,
     string Website,
-    CompanyDto Company,
-    string CreateAt,
-    string UpdateAt,
-    string DeleteAt,
-    bool IsDeleted
+    CompanyDto Company
 );
