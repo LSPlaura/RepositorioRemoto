@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("RepositorioRemoto.Tests")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ba1fe04efdfa54b072020c4c09b9285a00a6fdd8")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f2536aa72c0328102252108d61cf9fefe04ba906")]
 [assembly: System.Reflection.AssemblyProductAttribute("RepositorioRemoto.Tests")]
 [assembly: System.Reflection.AssemblyTitleAttribute("RepositorioRemoto.Tests")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
