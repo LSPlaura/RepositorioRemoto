@@ -1,4 +1,4 @@
-﻿namespace RepositorioRemoto.Back.Dto;
+﻿namespace RepositorioRemoto.Back.Dtos;
 
 /// <summary>
 /// Dto especializado para editar el registro de un usuario ya registrado en el sistema.

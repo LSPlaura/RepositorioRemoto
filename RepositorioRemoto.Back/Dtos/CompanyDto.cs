@@ -1,4 +1,4 @@
-﻿namespace RepositorioRemoto.Back.Dto;
+﻿namespace RepositorioRemoto.Back.Dtos;
 
 /// <summary>
 ///  Representa el dto de una compañía dentro del sistema.

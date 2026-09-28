@@ -1,4 +1,6 @@
-﻿namespace RepositorioRemoto.Back.Dto;
+﻿using RepositorioRemoto.Back.Dtos;
+
+namespace RepositorioRemoto.Back.Dtos;
 
 /// <summary>
 ///  Representa el dto de una dirección dentro del sistema.
