@@ -27,35 +27,14 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
                 entity.Property(e => e.Email)
                     .IsRequired()
                     .HasMaxLength(50);
-                entity.OwnsOne(e => e.Address, address => {
-                    address.Property(e => e.Street)
-                        .HasMaxLength(50);
-                    address.Property(e => e.Suite)
-                        .HasMaxLength(50);
-                    address.Property(e => e.City)
-                        .HasMaxLength(50);
-                    address.Property(e => e.ZipCode)
-                        .HasMaxLength(50);
-                    address.OwnsOne(e => e.Geo, geo => {
-                        geo.Property(e => e.Lat)
-                            .HasMaxLength(50);
-                        geo.Property(e => e.Lng)
-                            .HasMaxLength(50);
-                    });
-                });
+                entity.Property(e => e.Address );
                 entity.Property(e => e.Phone)
                     .IsRequired()
                     .HasMaxLength(8);
                 entity.Property(e => e.Website)
                     .HasMaxLength(50);
-                entity.OwnsOne(e => e.Company, company=> {
-                    company.Property(e => e.Name)
-                        .HasMaxLength(50);
-                    company.Property(e => e.CatchPhrase)
-                        .HasMaxLength(50);
-                    company.Property(e => e.Bs)
-                        .HasMaxLength(50);
-                });
+                entity.Property(e => e.Company)
+                    .HasConversion<string>();
                 entity.Property(e => e.CreateAt);
                 entity.Property(e => e.UpdateAt);
                 entity.Property(e => e.DeleteAt);
