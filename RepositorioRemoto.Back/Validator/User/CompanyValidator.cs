@@ -1,5 +1,5 @@
 using CSharpFunctionalExtensions;
-using RepositorioRemoto.Back.Dto;
+using RepositorioRemoto.Back.Dto.Users;
 using RepositorioRemoto.Back.Errors;
 using RepositorioRemoto.Back.Errors.Users;
 

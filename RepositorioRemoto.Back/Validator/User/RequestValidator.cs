@@ -1,5 +1,6 @@
 using CSharpFunctionalExtensions;
 using RepositorioRemoto.Back.Dto;
+using RepositorioRemoto.Back.Dto.Users.Request;
 using RepositorioRemoto.Back.Errors;
 using RepositorioRemoto.Back.Errors.Users;
 
@@ -8,10 +9,10 @@ namespace RepositorioRemoto.Back.Validator.User;
 /// <summary>
 /// Validador para <see cref="CreateUserRequest"/>
 /// </summary>
-public class CreateUserRequestValidator : IValidate<CreateUserRequest>
+public class RequestValidator : IValidate<RequestDto>
 {
     /// <inheritdoc />
-    public Result<bool, DomainError> Validate(CreateUserRequest item)
+    public Result<bool, DomainError> Validate(RequestDto item)
     {
         if (CheckEmptyOrWhiteSpace(item).IsFailure)
             return CheckEmptyOrWhiteSpace(item);
@@ -19,7 +20,7 @@ public class CreateUserRequestValidator : IValidate<CreateUserRequest>
         return true;
     }
 
-    private Result<bool, DomainError> CheckEmptyOrWhiteSpace(CreateUserRequest item)
+    private Result<bool, DomainError> CheckEmptyOrWhiteSpace(RequestDto item)
     {
         if (string.IsNullOrWhiteSpace(item.Name))
             return new UsersErrors.ValidationError();
