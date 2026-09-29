@@ -1,5 +1,6 @@
 using System.Text.Json;
 using RepositorioRemoto.Back.Cache.Common;
+using RepositorioRemoto.Back.Infraestructure.Interfaces;
 using Serilog;
 using StackExchange.Redis;
 using ILogger = Microsoft.Extensions.Logging.ILogger;
@@ -13,7 +14,7 @@ namespace RepositorioRemoto.Back.Cache;
 /// se obtiene de la fuente de datos y se almacena en Redis.
 /// </summary>
 /// <param name="redis">Multiplexor de conexión a Redis.</param>
-public class Cache(IConnectionMultiplexer redis) : ICache
+public class Cache(IConnectionMultiplexer redis) : ICache, ISingletonService
 {
     private readonly IDatabase _db = redis.GetDatabase();
     private readonly Serilog.ILogger _logger = Log.ForContext<Cache>();
