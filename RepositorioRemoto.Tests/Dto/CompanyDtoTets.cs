@@ -1,14 +1,12 @@
 ﻿using FluentAssertions;
-using RepositorioRemoto.Back.Dtos;
+using RepositorioRemoto.Back.Dto;
 
-namespace RepositorioRemoto.Tests.Dtos;
+namespace RepositorioRemoto.Tests.Dto;
 
 [TestFixture]
-public class CompanyDtoTets
-{
+public class CompanyDtoTets {
     [Test]
-    public void Constructor_DeberiaAsignarPropiedades_Correctamente()
-    {
+    public void Constructor_DeberiaAsignarPropiedades_Correctamente() {
         var name = "Tech Solutions";
         var catchPhrase = "Innovating the future";
         var bs = "e-commerce solutions";

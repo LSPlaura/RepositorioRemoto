@@ -1,12 +1,12 @@
 ﻿using FluentAssertions;
-using RepositorioRemoto.Back.Dtos;
+using RepositorioRemoto.Back.Dto;
+
+namespace RepositorioRemoto.Tests.Dto;
 
 [TestFixture]
-public class CreateUserRequestTests
-{
+public class CreateUserRequestTests {
     [Test]
-    public void Constructor_DeberiaAsignarPropiedades_Correctamente()
-    {
+    public void Constructor_DeberiaAsignarPropiedades_Correctamente() {
         var name = "Laura";
         var userName = "lauradev";
         var email = "laura@example.com";
