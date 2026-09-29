@@ -7,8 +7,8 @@ public record CreateUserRequest (
     string Name,
     string UserName,
     string Email,
-    string Address,
+    AddressDto Address,
     string Phone,
     string Website,
-    string Company
+    CompanyDto Company
 );
