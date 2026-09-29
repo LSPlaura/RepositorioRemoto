@@ -4,11 +4,9 @@ using RepositorioRemoto.Back.Errors.Users;
 namespace RepositorioRemoto.Tests.Errors.Users;
 
 [TestFixture]
-public class UsersErrorsTests
-{
+public class UsersErrorsTests {
     [Test]
-    public void NotFoundError_DeberiaAsignarPropiedades_Correctamente()
-    {
+    public void NotFoundError_DeberiaAsignarPropiedades_Correctamente() {
         var resource = "User";
         var id = 42;
 
@@ -20,8 +18,7 @@ public class UsersErrorsTests
     }
     
     [Test]
-    public void ValidationError_DeberiaAsignarPropiedades_Correctamente()
-    {
+    public void ValidationError_DeberiaAsignarPropiedades_Correctamente() {
         var field = "Email";
         var message = "El formato del email no es válido.";
 

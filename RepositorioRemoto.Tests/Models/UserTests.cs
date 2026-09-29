@@ -4,11 +4,9 @@ using RepositorioRemoto.Back.Models;
 namespace RepositorioRemoto.Tests.Models;
 
 [TestFixture]
-public class UserTests
-{
+public class UserTests {
     [Test]
-    public void Constructor_DeberiaAsignarPropiedades_Correctamente()
-    {
+    public void Constructor_DeberiaAsignarPropiedades_Correctamente() {
         var id = 1;
         var name = "John Doe";
         var userName = "johndoe";

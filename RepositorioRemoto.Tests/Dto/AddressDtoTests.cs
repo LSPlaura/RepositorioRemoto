@@ -1,14 +1,12 @@
 ﻿using FluentAssertions;
-using RepositorioRemoto.Back.Dtos;
+using RepositorioRemoto.Back.Dto;
 
-namespace RepositorioRemoto.Tests.Dtos;
+namespace RepositorioRemoto.Tests.Dto;
 
 [TestFixture]
-public class AdressDtoTests
-{
+public class AddressDtoTests {
     [Test]
-    public void Constructor_DeberiaAsignarPropiedades_Correctamente()
-    {
+    public void Constructor_DeberiaAsignarPropiedades_Correctamente() {
         var street = "Calle Falsa 123";
         var suite = "Apto 4B";
         var city = "Madrid";
