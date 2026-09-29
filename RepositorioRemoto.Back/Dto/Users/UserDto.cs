@@ -1,9 +1,10 @@
-﻿namespace RepositorioRemoto.Back.Dto;
+﻿namespace RepositorioRemoto.Back.Dto.Users;
 
 /// <summary>
-/// Dto especializado para el registro de un nuevo usuario en el sistema.
+///  Representa el dto de un usuario dentro del sistema.
 /// </summary>
-public record CreateUserRequest (
+public record UserDto(
+    int Id,
     string Name,
     string UserName,
     string Email,
