@@ -1,14 +1,12 @@
 ﻿using FluentAssertions;
-using RepositorioRemoto.Back.Dtos;
+using RepositorioRemoto.Back.Dto;
 
-namespace RepositorioRemoto.Tests.Dtos;
+namespace RepositorioRemoto.Tests.Dto;
 
 [TestFixture]
-public class UserDtoTests
-{
+public class UserDtoTests {
     [Test]
-    public void Constructor_DeberiaAsignarPropiedades_Correctamente()
-    {
+    public void Constructor_DeberiaAsignarPropiedades_Correctamente() {
         var id = 1;
         var name = "Laura";
         var userName = "lauradev";

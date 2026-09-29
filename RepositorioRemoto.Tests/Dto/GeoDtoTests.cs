@@ -1,14 +1,12 @@
 ﻿using FluentAssertions;
-using RepositorioRemoto.Back.Dtos;
+using RepositorioRemoto.Back.Dto;
 
-namespace RepositorioRemoto.Tests.Dtos;
+namespace RepositorioRemoto.Tests.Dto;
 
 [TestFixture]
-public class GeoDtoTests
-{
+public class GeoDtoTests {
     [Test]
-    public void Constructor_DeberiaAsignarPropiedades_Correctamente()
-    {
+    public void Constructor_DeberiaAsignarPropiedades_Correctamente() {
         var lat = "-37.3159";
         var lng = "81.1496";
 

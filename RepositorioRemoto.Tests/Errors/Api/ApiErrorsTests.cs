@@ -5,11 +5,9 @@ using RepositorioRemoto.Back.Errors.Api;
 namespace RepositorioRemoto.Tests.Errors.Api;
 
 [TestFixture]
-public class ApiErrorsTests
-{
+public class ApiErrorsTests {
     [Test]
-    public void ApiError_DeberiaAsignarPropiedades_Correctamente()
-    {
+    public void ApiError_DeberiaAsignarPropiedades_Correctamente() {
         var statusCode = 404;
         var details = "El recurso solicitado no fue encontrado en el servidor.";
 

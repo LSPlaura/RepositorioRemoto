@@ -4,11 +4,9 @@ using RepositorioRemoto.Back.Models;
 namespace RepositorioRemoto.Tests.Models;
 
 [TestFixture]
-public class CompanyTest
-{
+public class CompanyTest {
     [Test]
-    public void Constructor_DeberiaAsignarPropiedades_Correctamente()
-    {
+    public void Constructor_DeberiaAsignarPropiedades_Correctamente() {
         var name = "Acme Corp";
         var catchPhrase = "Quality First";
         var bs = "synergize scalable solutions";
