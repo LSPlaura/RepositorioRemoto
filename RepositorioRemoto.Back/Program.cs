@@ -1,10 +1,20 @@
-﻿namespace RepositorioRemoto.Back;
+﻿using Serilog;
+using Serilog.Events;
+
+namespace RepositorioRemoto.Back;
 
 class Program
 {
     static void Main(string[] args)
     {
-        Console.WriteLine("Hello, World!");
+        Log.Logger = new LoggerConfiguration()
+            .MinimumLevel.Information()
+            .WriteTo.Console(
+                outputTemplate:
+                "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff}] [{Level:u3}] {Message:lj}{NewLine}{Exception}"
+            )
+            .CreateLogger();
+
+        Log.Information("Aplicación iniciada");
     }
 }
-
