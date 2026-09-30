@@ -1,18 +1,30 @@
 ﻿using FluentAssertions;
-using RepositorioRemoto.Back.Dto;
+using RepositorioRemoto.Back.Dto.Users;
 using RepositorioRemoto.Back.Dto.Users.Request;
 
 [TestFixture]
-public class CreateUserRequestTests {
+public class CreateUserRequestTests
+{
     [Test]
-    public void Constructor_DeberiaAsignarPropiedades_Correctamente() {
+    public void Constructor_DeberiaAsignarPropiedades_Correctamente()
+    {
         var name = "Laura";
         var userName = "lauradev";
         var email = "laura@example.com";
-        var address = "Calle Principal 1";
+        var address = new AddressDto(
+            "Calle Principal 1",
+            "Piso 2 B",
+            "Madrid",
+            "28001",
+            new GeoDto("-40.4167754", "-3.7037902")
+        );
         var phone = "600000000";
         var website = "laura.dev";
-        var company = "DevCorp";
+        var company = new CompanyDto(
+            "DevCorp",
+            "Innovacion constante",
+            "Soluciones tecnologicas"
+        );
 
         var request = new CreateUserRequest(
             name,
