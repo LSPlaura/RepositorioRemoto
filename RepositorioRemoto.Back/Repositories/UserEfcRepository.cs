@@ -59,7 +59,20 @@ public class UserEfcRepository(AppDbContext context) : IUserRepository {
         }
 
         try {
-            user = entity;
+            user = user with {
+                Id = id,  
+                Name = entity.Name,
+                UserName = entity.UserName,
+                Email = entity.Email,
+                Address = entity.Address,
+                Phone = entity.Phone,
+                Website = entity.Website,
+                Company = entity.Company,
+                CreateAt = entity.CreateAt,
+                UpdateAt = entity.UpdateAt,
+                DeleteAt = entity.DeleteAt,
+                IsDeleted = entity.IsDeleted
+            };
             await _context.SaveChangesAsync();
             
             _logger.Debug($"Se ha actualizado con exito la entidad con el id: {id}.");
