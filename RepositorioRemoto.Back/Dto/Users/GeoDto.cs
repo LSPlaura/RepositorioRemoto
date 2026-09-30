@@ -1,4 +1,4 @@
-﻿namespace RepositorioRemoto.Back.Dto;
+﻿namespace RepositorioRemoto.Back.Dto.Users;
 
 /// <summary>
 ///  Representa el dto de la geolocalizacion dentro del sistema.

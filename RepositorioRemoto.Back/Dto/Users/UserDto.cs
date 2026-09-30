@@ -1,4 +1,4 @@
-﻿namespace RepositorioRemoto.Back.Dto;
+﻿namespace RepositorioRemoto.Back.Dto.Users;
 
 /// <summary>
 ///  Representa el dto de un usuario dentro del sistema.
