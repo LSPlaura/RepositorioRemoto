@@ -6,9 +6,11 @@ using RepositorioRemoto.Back.Dto.Users.Request;
 namespace RepositorioRemoto.Tests.Dto;
 
 [TestFixture]
-public class UpdateUserRequestTests {
+public class UpdateUserRequestTests
+{
     [Test]
-    public void Constructor_DeberiaAsignarPropiedades_Correctamente() {
+    public void Constructor_DeberiaAsignarPropiedades_Correctamente()
+    {
         var id = 1;
         var name = "Lucia";
         var userName = "luluchandev";
@@ -17,6 +19,7 @@ public class UpdateUserRequestTests {
         var phone = "600000000";
         var website = "luluchan.dev";
         var company = new CompanyDto("", "", "");
+
 
         var request = new UpdateUserRequest(
             id,

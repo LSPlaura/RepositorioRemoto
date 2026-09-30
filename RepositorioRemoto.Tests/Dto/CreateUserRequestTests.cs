@@ -1,15 +1,16 @@
 ﻿using FluentAssertions;
 using RepositorioRemoto.Back.Dto;
+
 using RepositorioRemoto.Back.Dto.Users;
 using RepositorioRemoto.Back.Dto.Users.Request;
 using RepositorioRemoto.Back.Models;
 
-namespace RepositorioRemoto.Tests.Dto;
-
 [TestFixture]
-public class CreateUserRequestTests {
+public class CreateUserRequestTests
+{
     [Test]
-    public void Constructor_DeberiaAsignarPropiedades_Correctamente() {
+    public void Constructor_DeberiaAsignarPropiedades_Correctamente()
+    {
         var name = "Laura";
         var userName = "lauradev";
         var email = "laura@example.com";
@@ -17,6 +18,7 @@ public class CreateUserRequestTests {
         var phone = "600000000";
         var website = "laura.dev";
         var company = new CompanyDto("", "", "");
+
 
         var request = new CreateUserRequest(
             name,
