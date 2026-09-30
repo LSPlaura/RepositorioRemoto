@@ -3,6 +3,4 @@
 /// <summary>
 /// Clase base para los errores del sistema.
 /// </summary>
-public abstract record DomainError {
-    
-}
+public abstract record DomainError(string Message) { }

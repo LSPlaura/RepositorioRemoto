@@ -21,20 +21,24 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
                 entity.ToTable("users");
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.Name)
-                    .HasMaxLength(100);
-                entity.Property(e => e.UserName)
                     .HasMaxLength(50);
+                entity.Property(e => e.UserName)
+                    .HasMaxLength(30);
                 entity.Property(e => e.Email)
                     .IsRequired()
-                    .HasMaxLength(50);
-                entity.Property(e => e.Address );
+                    .HasMaxLength(254);
+                entity.OwnsOne(e => e.Address, address => {
+                    address.ToJson();
+                    address.OwnsOne(e => e.Geo);
+                });
                 entity.Property(e => e.Phone)
                     .IsRequired()
-                    .HasMaxLength(8);
+                    .HasMaxLength(15);
                 entity.Property(e => e.Website)
-                    .HasMaxLength(50);
-                entity.Property(e => e.Company)
-                    .HasConversion<string>();
+                    .HasMaxLength(250);
+                entity.OwnsOne(e => e.Company, company => {
+                    company.ToJson();
+                });
                 entity.Property(e => e.CreateAt);
                 entity.Property(e => e.UpdateAt);
                 entity.Property(e => e.DeleteAt);
