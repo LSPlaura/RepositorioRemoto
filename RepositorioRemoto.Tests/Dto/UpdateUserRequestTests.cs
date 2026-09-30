@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using RepositorioRemoto.Back.Dto;
+using RepositorioRemoto.Back.Dto.Users;
 using RepositorioRemoto.Back.Dto.Users.Request;
 
 namespace RepositorioRemoto.Tests.Dto;
@@ -12,10 +13,10 @@ public class UpdateUserRequestTests {
         var name = "Lucia";
         var userName = "luluchandev";
         var email = "luluchan@example.com";
-        var address = "Calle Principal 1";
+        var address = new AddressDto("", "", "", "", new GeoDto("", ""));
         var phone = "600000000";
         var website = "luluchan.dev";
-        var company = "DevCorp";
+        var company = new CompanyDto("", "", "");
 
         var request = new UpdateUserRequest(
             id,

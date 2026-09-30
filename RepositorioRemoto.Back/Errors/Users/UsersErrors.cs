@@ -16,4 +16,8 @@ public static class UsersErrors {
     public static DomainError NotFoundError(int Id) {
         return new UsersError.NotFoundError(Id);
     }
+    
+    public static DomainError ValidationError(string Field, string Message) {
+        return new UsersError.ValidationError(Field, Message);
+    }
 }
