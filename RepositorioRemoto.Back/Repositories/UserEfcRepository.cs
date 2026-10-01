@@ -106,7 +106,7 @@ public class UserEfcRepository(AppDbContext context) : IUserRepository {
         }
     }
 
-    public async Task<Result<bool, DomainError>> DeleteAllAsync(int id) {
+    public async Task<Result<bool, DomainError>> DeleteAllAsync() {
         try {
             var entities = await _context.Users.ToListAsync();
             _context.Users.RemoveRange(entities);
