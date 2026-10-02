@@ -20,17 +20,12 @@ public class RequestValidator : IValidate<RequestDto> {
     private static readonly Regex _regexWebsite = new(@"^(https?:\/\/)?(www\.)?[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(\/.*)?$");
 
     /// <inheritdoc />
-    public Result<bool, DomainError> Validate(RequestDto item)
-    {
+    public Result<bool, DomainError> Validate(RequestDto item) {
         var emptyCheckResult = CheckEmptyOrWhiteSpace(item);
-
-        if (emptyCheckResult.IsFailure)
-            return emptyCheckResult;
+        if (emptyCheckResult.IsFailure) return emptyCheckResult;
 
         var regexCheckResult = CheckRegex(item);
-
-        if (regexCheckResult.IsFailure)
-            return regexCheckResult;
+        if (regexCheckResult.IsFailure) return regexCheckResult;
 
         return true;
     }
