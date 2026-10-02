@@ -15,7 +15,7 @@ public class UserEfcRepositoryTests {
 
     public abstract class Base {
 
-        protected Mock<AppDbContext> ContextMock = null!;
+        protected Mock<AppDbContextPostgre> ContextMock = null!;
         protected Mock<DbSet<User>> UsersMock = null!;
         protected UserEfcRepository Repository = null!;
 
@@ -23,9 +23,9 @@ public class UserEfcRepositoryTests {
 
         [SetUp]
         public void SetUp() {
-            var options = new DbContextOptions<AppDbContext>();
+            var options = new DbContextOptions<AppDbContextPostgre>();
 
-            ContextMock = new Mock<AppDbContext>(options);
+            ContextMock = new Mock<AppDbContextPostgre>(options);
 
             ContextMock
                 .Setup(x => x.SaveChangesAsync(

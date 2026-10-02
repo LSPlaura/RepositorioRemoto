@@ -710,7 +710,7 @@
         </class>
         <class name="RepositorioRemoto.Back.Repositories.UserEfcRepository" filename="Repositories/UserEfcRepository.cs" line-rate="1" branch-rate="1" complexity="1">
           <methods>
-            <method name=".ctor" signature="(RepositorioRemoto.Back.Entity.AppDbContext)" line-rate="1" branch-rate="1" complexity="1">
+            <method name=".ctor" signature="(RepositorioRemoto.Back.Entity.AppDbContextSqlite)" line-rate="1" branch-rate="1" complexity="1">
               <lines>
                 <line number="13" hits="16" branch="False" />
                 <line number="15" hits="16" branch="False" />
@@ -1388,7 +1388,7 @@
             <line number="6" hits="0" branch="False" />
           </lines>
         </class>
-        <class name="RepositorioRemoto.Back.Entity.AppDbContext" filename="Entity/AppDbContext.cs" line-rate="0.0625" branch-rate="1" complexity="3">
+        <class name="RepositorioRemoto.Back.Entity.AppDbContextSqlite" filename="Entity/AppDbContextPostgre.cs" line-rate="0.0625" branch-rate="1" complexity="3">
           <methods>
             <method name="get_Users" signature="()" line-rate="1" branch-rate="1" complexity="1">
               <lines>
@@ -1429,7 +1429,7 @@
                 <line number="48" hits="0" branch="False" />
               </lines>
             </method>
-            <method name=".ctor" signature="(Microsoft.EntityFrameworkCore.DbContextOptions`1&lt;RepositorioRemoto.Back.Entity.AppDbContext&gt;)" line-rate="1" branch-rate="1" complexity="1">
+            <method name=".ctor" signature="(Microsoft.EntityFrameworkCore.DbContextOptions`1&lt;RepositorioRemoto.Back.Entity.AppDbContextSqlite&gt;)" line-rate="1" branch-rate="1" complexity="1">
               <lines>
                 <line number="9" hits="16" branch="False" />
               </lines>
