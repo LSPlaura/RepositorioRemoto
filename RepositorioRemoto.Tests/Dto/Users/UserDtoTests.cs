@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
 using RepositorioRemoto.Back.Dto.Users;
 
-namespace RepositorioRemoto.Tests.Dto;
+namespace RepositorioRemoto.Tests.Dto.Users;
 
 [TestFixture]
 public class UserDtoTests {
