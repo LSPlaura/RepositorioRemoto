@@ -290,7 +290,6 @@ var assemblies = [
   {
     "name": "RepositorioRemoto.Back",
     "classes": [
-      { "name": "RepositorioRemoto.Back.Cache.Cache", "rp": "RepositorioRemoto.Back_Cache.html", "cl": 0, "ucl": 32, "cal": 32, "tl": 77, "cb": 0, "tb": 4, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "RepositorioRemoto.Back.Config.ApiConfig", "rp": "RepositorioRemoto.Back_ApiConfig.html", "cl": 0, "ucl": 1, "cal": 1, "tl": 9, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "RepositorioRemoto.Back.Dto.RequestDto", "rp": "RepositorioRemoto.Back_RequestDto.html", "cl": 8, "ucl": 0, "cal": 8, "tl": 12, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "RepositorioRemoto.Back.Dto.Users.AddressDto", "rp": "RepositorioRemoto.Back_AddressDto.html", "cl": 7, "ucl": 0, "cal": 7, "tl": 12, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
@@ -299,23 +298,26 @@ var assemblies = [
       { "name": "RepositorioRemoto.Back.Dto.Users.Request.CreateUserRequest", "rp": "RepositorioRemoto.Back_CreateUserRequest.html", "cl": 1, "ucl": 0, "cal": 1, "tl": 6, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "RepositorioRemoto.Back.Dto.Users.Request.UpdateUserRequest", "rp": "RepositorioRemoto.Back_UpdateUserRequest.html", "cl": 1, "ucl": 0, "cal": 1, "tl": 6, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "RepositorioRemoto.Back.Dto.Users.UserDto", "rp": "RepositorioRemoto.Back_UserDto.html", "cl": 10, "ucl": 0, "cal": 10, "tl": 15, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
-      { "name": "RepositorioRemoto.Back.Entity.AppDbContext", "rp": "RepositorioRemoto.Back_AppDbContext.html", "cl": 2, "ucl": 30, "cal": 32, "tl": 49, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "RepositorioRemoto.Back.Entity.AppDbContextPostgre", "rp": "RepositorioRemoto.Back_AppDbContextPostgre.html", "cl": 2, "ucl": 41, "cal": 43, "tl": 64, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "RepositorioRemoto.Back.Entity.AppDbContextSqlite", "rp": "RepositorioRemoto.Back_AppDbContextSqlite.html", "cl": 0, "ucl": 46, "cal": 46, "tl": 69, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "RepositorioRemoto.Back.Errors.Api.ApiError", "rp": "RepositorioRemoto.Back_ApiError.html", "cl": 0, "ucl": 1, "cal": 1, "tl": 6, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "RepositorioRemoto.Back.Errors.DomainError", "rp": "RepositorioRemoto.Back_DomainError.html", "cl": 1, "ucl": 0, "cal": 1, "tl": 6, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "RepositorioRemoto.Back.Errors.Repository.RepositoryError", "rp": "RepositorioRemoto.Back_RepositoryError.html", "cl": 4, "ucl": 0, "cal": 4, "tl": 32, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "RepositorioRemoto.Back.Errors.Repository.RepositoryErrors", "rp": "RepositorioRemoto.Back_RepositoryErrors.html", "cl": 9, "ucl": 0, "cal": 9, "tl": 32, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
-      { "name": "RepositorioRemoto.Back.Errors.Users.UsersError", "rp": "RepositorioRemoto.Back_UsersError.html", "cl": 2, "ucl": 1, "cal": 3, "tl": 23, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
-      { "name": "RepositorioRemoto.Back.Errors.Users.UsersErrors", "rp": "RepositorioRemoto.Back_UsersErrors.html", "cl": 3, "ucl": 3, "cal": 6, "tl": 23, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "RepositorioRemoto.Back.Errors.Users.UsersError", "rp": "RepositorioRemoto.Back_UsersError.html", "cl": 3, "ucl": 0, "cal": 3, "tl": 23, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "RepositorioRemoto.Back.Errors.Users.UsersErrors", "rp": "RepositorioRemoto.Back_UsersErrors.html", "cl": 6, "ucl": 0, "cal": 6, "tl": 23, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "RepositorioRemoto.Back.Infraestructure.DependenciesProvider", "rp": "RepositorioRemoto.Back_DependenciesProvider.html", "cl": 0, "ucl": 16, "cal": 16, "tl": 30, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "RepositorioRemoto.Back.Mappers.AddressMapper", "rp": "RepositorioRemoto.Back_AddressMapper.html", "cl": 0, "ucl": 27, "cal": 27, "tl": 59, "cb": 0, "tb": 6, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "RepositorioRemoto.Back.Mappers.CompanyMapper", "rp": "RepositorioRemoto.Back_CompanyMapper.html", "cl": 0, "ucl": 25, "cal": 25, "tl": 56, "cb": 0, "tb": 6, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "RepositorioRemoto.Back.Models.Address", "rp": "RepositorioRemoto.Back_Address.html", "cl": 2, "ucl": 5, "cal": 7, "tl": 12, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "RepositorioRemoto.Back.Models.Company", "rp": "RepositorioRemoto.Back_Company.html", "cl": 5, "ucl": 0, "cal": 5, "tl": 10, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "RepositorioRemoto.Back.Models.Geo", "rp": "RepositorioRemoto.Back_Geo.html", "cl": 4, "ucl": 0, "cal": 4, "tl": 9, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "RepositorioRemoto.Back.Models.User", "rp": "RepositorioRemoto.Back_User.html", "cl": 14, "ucl": 0, "cal": 14, "tl": 18, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "RepositorioRemoto.Back.Program", "rp": "RepositorioRemoto.Back_Program.html", "cl": 0, "ucl": 10, "cal": 10, "tl": 18, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "RepositorioRemoto.Back.Repositories.UserEfcRepository", "rp": "RepositorioRemoto.Back_UserEfcRepository.html", "cl": 85, "ucl": 0, "cal": 85, "tl": 122, "cb": 10, "tb": 10, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
-      { "name": "RepositorioRemoto.Back.Validator.User.AddressValidator", "rp": "RepositorioRemoto.Back_AddressValidator.html", "cl": 0, "ucl": 62, "cal": 62, "tl": 112, "cb": 0, "tb": 28, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
-      { "name": "RepositorioRemoto.Back.Validator.User.CompanyValidator", "rp": "RepositorioRemoto.Back_CompanyValidator.html", "cl": 0, "ucl": 28, "cal": 28, "tl": 59, "cb": 0, "tb": 12, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
-      { "name": "RepositorioRemoto.Back.Validator.User.RequestValidator", "rp": "RepositorioRemoto.Back_RequestValidator.html", "cl": 0, "ucl": 67, "cal": 67, "tl": 123, "cb": 0, "tb": 32, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "RepositorioRemoto.Back.Validator.User.AddressValidator", "rp": "RepositorioRemoto.Back_AddressValidator.html", "cl": 62, "ucl": 0, "cal": 62, "tl": 112, "cb": 28, "tb": 28, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "RepositorioRemoto.Back.Validator.User.CompanyValidator", "rp": "RepositorioRemoto.Back_CompanyValidator.html", "cl": 28, "ucl": 0, "cal": 28, "tl": 59, "cb": 12, "tb": 12, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "RepositorioRemoto.Back.Validator.User.RequestValidator", "rp": "RepositorioRemoto.Back_RequestValidator.html", "cl": 65, "ucl": 0, "cal": 65, "tl": 118, "cb": 32, "tb": 32, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
     ]},
 ];
 
@@ -324,47 +326,9 @@ var metrics = [{ "name": "Crap Score", "abbreviation": "crp", "explanationUrl": 
 var historicCoverageExecutionTimes = [];
 
 var riskHotspotMetrics = [
-      { "name": "Crap Score", "explanationUrl": "https://googletesting.blogspot.de/2011/02/this-code-is-crap.html" },
-      { "name": "Cyclomatic complexity", "explanationUrl": "https://en.wikipedia.org/wiki/Cyclomatic_complexity" },
 ];
 
 var riskHotspots = [
-  {
-    "assembly": "RepositorioRemoto.Back", "class": "RepositorioRemoto.Back.Validator.User.RequestValidator", "reportPath": "RepositorioRemoto.Back_RequestValidator.html", "methodName": "CheckEmptyOrWhiteSpace(RepositorioRemoto.Back.Dto.RequestDto)", "methodShortName": "CheckEmptyOrWhiteSpace(...)", "fileIndex": 0, "line": 38,
-    "metrics": [
-      { "value": 210, "exceeded": true },
-      { "value": 14, "exceeded": false },
-    ]},
-  {
-    "assembly": "RepositorioRemoto.Back", "class": "RepositorioRemoto.Back.Validator.User.RequestValidator", "reportPath": "RepositorioRemoto.Back_RequestValidator.html", "methodName": "CheckRegex(RepositorioRemoto.Back.Dto.RequestDto)", "methodShortName": "CheckRegex(...)", "fileIndex": 0, "line": 81,
-    "metrics": [
-      { "value": 210, "exceeded": true },
-      { "value": 14, "exceeded": false },
-    ]},
-  {
-    "assembly": "RepositorioRemoto.Back", "class": "RepositorioRemoto.Back.Validator.User.AddressValidator", "reportPath": "RepositorioRemoto.Back_AddressValidator.html", "methodName": "CheckEmptyOrWhiteSpace(RepositorioRemoto.Back.Dto.Users.AddressDto)", "methodShortName": "CheckEmptyOrWhiteSpace(...)", "fileIndex": 0, "line": 23,
-    "metrics": [
-      { "value": 110, "exceeded": true },
-      { "value": 10, "exceeded": false },
-    ]},
-  {
-    "assembly": "RepositorioRemoto.Back", "class": "RepositorioRemoto.Back.Validator.User.AddressValidator", "reportPath": "RepositorioRemoto.Back_AddressValidator.html", "methodName": "CheckRegex(RepositorioRemoto.Back.Dto.Users.AddressDto)", "methodShortName": "CheckRegex(...)", "fileIndex": 0, "line": 54,
-    "metrics": [
-      { "value": 110, "exceeded": true },
-      { "value": 10, "exceeded": false },
-    ]},
-  {
-    "assembly": "RepositorioRemoto.Back", "class": "RepositorioRemoto.Back.Validator.User.CompanyValidator", "reportPath": "RepositorioRemoto.Back_CompanyValidator.html", "methodName": "CheckEmptyOrWhiteSpace(RepositorioRemoto.Back.Dto.Users.CompanyDto)", "methodShortName": "CheckEmptyOrWhiteSpace(...)", "fileIndex": 0, "line": 21,
-    "metrics": [
-      { "value": 42, "exceeded": true },
-      { "value": 6, "exceeded": false },
-    ]},
-  {
-    "assembly": "RepositorioRemoto.Back", "class": "RepositorioRemoto.Back.Validator.User.CompanyValidator", "reportPath": "RepositorioRemoto.Back_CompanyValidator.html", "methodName": "CheckRegex(RepositorioRemoto.Back.Dto.Users.CompanyDto)", "methodShortName": "CheckRegex(...)", "fileIndex": 0, "line": 41,
-    "metrics": [
-      { "value": 42, "exceeded": true },
-      { "value": 6, "exceeded": false },
-    ]},
 ];
 
 var branchCoverageAvailable = true;
