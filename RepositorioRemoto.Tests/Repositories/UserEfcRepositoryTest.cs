@@ -356,7 +356,7 @@ public class UserEfcRepositoryTests {
 
             //Act
             var result =
-                await Repository.DeleteAllAsync(0);
+                await Repository.DeleteAllAsync();
 
             //Assert
             result.IsSuccess.Should().BeTrue();
@@ -713,7 +713,7 @@ public class UserEfcRepositoryTests {
 
             //Act
             var result =
-                await Repository.DeleteAllAsync(0);
+                await Repository.DeleteAllAsync();
 
             //Assert
             result.IsFailure.Should().BeTrue();
@@ -823,12 +823,7 @@ public class UserEfcRepositoryTests {
         : EnumerableQuery<T>,
             IAsyncEnumerable<T>,
             IQueryable<T> {
-
-        public TestAsyncEnumerable(
-            IEnumerable<T> enumerable
-        ) : base(enumerable) {
-        }
-
+        
         public TestAsyncEnumerable(
             Expression expression
         ) : base(expression) {
