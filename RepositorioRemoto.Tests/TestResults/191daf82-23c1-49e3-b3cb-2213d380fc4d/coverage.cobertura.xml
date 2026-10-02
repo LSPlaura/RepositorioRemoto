@@ -710,7 +710,11 @@
         </class>
         <class name="RepositorioRemoto.Back.Repositories.UserEfcRepository" filename="Repositories/UserEfcRepository.cs" line-rate="0" branch-rate="1" complexity="1">
           <methods>
+<<<<<<< HEAD:RepositorioRemoto.Tests/TestResults/191daf82-23c1-49e3-b3cb-2213d380fc4d/coverage.cobertura.xml
             <method name=".ctor" signature="(RepositorioRemoto.Back.Entity.AppDbContext)" line-rate="0" branch-rate="1" complexity="1">
+=======
+            <method name=".ctor" signature="(RepositorioRemoto.Back.Entity.AppDbContextSqlite)" line-rate="1" branch-rate="1" complexity="1">
+>>>>>>> origin/dev:RepositorioRemoto.Tests/TestResults/1450c83b-1d5b-4c32-9bd9-cac4163e0d8b/coverage.cobertura.xml
               <lines>
                 <line number="13" hits="0" branch="False" />
                 <line number="15" hits="0" branch="False" />
@@ -1388,7 +1392,11 @@
             <line number="6" hits="0" branch="False" />
           </lines>
         </class>
+<<<<<<< HEAD:RepositorioRemoto.Tests/TestResults/191daf82-23c1-49e3-b3cb-2213d380fc4d/coverage.cobertura.xml
         <class name="RepositorioRemoto.Back.Entity.AppDbContext" filename="Entity/AppDbContext.cs" line-rate="0" branch-rate="1" complexity="3">
+=======
+        <class name="RepositorioRemoto.Back.Entity.AppDbContextSqlite" filename="Entity/AppDbContextPostgre.cs" line-rate="0.0625" branch-rate="1" complexity="3">
+>>>>>>> origin/dev:RepositorioRemoto.Tests/TestResults/1450c83b-1d5b-4c32-9bd9-cac4163e0d8b/coverage.cobertura.xml
           <methods>
             <method name="get_Users" signature="()" line-rate="0" branch-rate="1" complexity="1">
               <lines>
@@ -1429,7 +1437,11 @@
                 <line number="48" hits="0" branch="False" />
               </lines>
             </method>
+<<<<<<< HEAD:RepositorioRemoto.Tests/TestResults/191daf82-23c1-49e3-b3cb-2213d380fc4d/coverage.cobertura.xml
             <method name=".ctor" signature="(Microsoft.EntityFrameworkCore.DbContextOptions`1&lt;RepositorioRemoto.Back.Entity.AppDbContext&gt;)" line-rate="0" branch-rate="1" complexity="1">
+=======
+            <method name=".ctor" signature="(Microsoft.EntityFrameworkCore.DbContextOptions`1&lt;RepositorioRemoto.Back.Entity.AppDbContextSqlite&gt;)" line-rate="1" branch-rate="1" complexity="1">
+>>>>>>> origin/dev:RepositorioRemoto.Tests/TestResults/1450c83b-1d5b-4c32-9bd9-cac4163e0d8b/coverage.cobertura.xml
               <lines>
                 <line number="9" hits="0" branch="False" />
               </lines>
