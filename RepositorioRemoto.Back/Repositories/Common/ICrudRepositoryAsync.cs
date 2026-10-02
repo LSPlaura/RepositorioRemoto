@@ -46,7 +46,6 @@ public interface ICrudRepositoryAsync<in TKey, TEntity> where TEntity : class {
     /// <summary>
     /// ELimina la entidad del sistema.
     /// </summary>
-    /// <param name="id">Id de la entidad existente.</param>
-    /// <returns>En caso de ser correcta la entidad eliminada y failure en caso contrario.</returns>
-    Task<Result<bool, DomainError>> DeleteAllAsync(TKey id);
+    /// <returns>True si se ha podido eliminar, failure en caso contrario.</returns>
+    Task<Result<bool, DomainError>> DeleteAllAsync();
 }
