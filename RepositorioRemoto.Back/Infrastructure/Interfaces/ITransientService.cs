@@ -1,3 +1,5 @@
+using RepositorioRemoto.Back.Infrastructure;
+
 namespace RepositorioRemoto.Back.Infraestructure.Interfaces;
 
 /// <summary>

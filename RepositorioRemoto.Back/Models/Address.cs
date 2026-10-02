@@ -9,4 +9,6 @@ public record Address(
     string City,
     string ZipCode,
     Geo Geo
-);
+) {
+    public Address() : this("", "", "", "", new Geo()) { }
+}
