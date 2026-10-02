@@ -15,4 +15,4 @@ class Program {
 
         Log.Information("Aplicación iniciada");
     }
-}
+}    
