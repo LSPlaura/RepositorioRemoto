@@ -3,6 +3,7 @@ using CSharpFunctionalExtensions;
 using RepositorioRemoto.Back.Dto;
 using RepositorioRemoto.Back.Errors;
 using RepositorioRemoto.Back.Errors.Users;
+using RepositorioRemoto.Back.Infraestructure.Interfaces;
 using Serilog;
 
 namespace RepositorioRemoto.Back.Validator.User;
@@ -10,7 +11,7 @@ namespace RepositorioRemoto.Back.Validator.User;
 /// <summary>
 /// Validador para <see cref="RequestDto"/>
 /// </summary>
-public class RequestValidator : IValidate<RequestDto> {
+public class RequestValidator : IValidate<RequestDto>, ITransientService {
     private readonly ILogger _logger = Log.ForContext<RequestValidator>();
 
     private static readonly Regex _regexName = new(@"^[A-Za-z\s.-]{2,50}$");
