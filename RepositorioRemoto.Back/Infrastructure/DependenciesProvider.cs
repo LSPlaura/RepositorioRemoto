@@ -6,7 +6,7 @@ namespace RepositorioRemoto.Back.Infraestructure;
 public static class DependenciesProvider
 {
     /// <summary>
-    /// Método estático que centraliza y simplifica la creación de las classes que implementan las interfaces <see cref="ITransientService"/> <see cref="IScopedService"/> ISingletonServicez<see cref="ISingletonService"/>
+    /// Método estático que centraliza y simplifica la creación de las classes que implementan las interfaces <see cref="ITransientService"/> <see cref="IScopedService"/> <see cref="ISingletonService"/>
     /// con el rango de vida establecido por las mismas interfaces
     /// </summary>
     /// <returns><see cref="IServiceCollection"/></returns>
