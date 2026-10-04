@@ -4,13 +4,14 @@ using RepositorioRemoto.Back.Entity;
 using RepositorioRemoto.Back.Errors;
 using RepositorioRemoto.Back.Errors.Repository;
 using RepositorioRemoto.Back.Errors.Users;
+using RepositorioRemoto.Back.Infrastructure.Interfaces;
 using RepositorioRemoto.Back.Models;
 using Serilog;
 
 namespace RepositorioRemoto.Back.Repositories;
 
 /// <inheritdoc cref="IUserRepository"/>
-public class UserEfcRepository(AppDbContextPostgre contextPostgre) : IUserRepository {
+public class UserEfcRepository(AppDbContextPostgre contextPostgre) : IUserRepository, IScopedService{
 
     private readonly ILogger _logger = Log.ForContext<UserEfcRepository>();
     private readonly AppDbContextPostgre _contextPostgre = contextPostgre;
