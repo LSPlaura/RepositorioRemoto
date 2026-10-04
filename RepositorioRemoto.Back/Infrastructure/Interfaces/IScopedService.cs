@@ -1,4 +1,5 @@
-namespace RepositorioRemoto.Back.Infraestructure.Interfaces;
+
+namespace RepositorioRemoto.Back.Infrastructure.Interfaces;
 
 /// <summary>
 /// Interfaz utilizada para tipar las clases se registrarán en el contenedor de inyección de dependencias <see cref="DependenciesProvider"/>

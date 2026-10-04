@@ -20,17 +20,17 @@ public static class CompanyValidator {
 
     public static Result<bool, DomainError> CheckEmptyOrWhiteSpace(this CompanyDto item) {
         if (string.IsNullOrWhiteSpace(item.Name)) {
-            _logger.Warning("Error de validación: El campo Name de la empresa está vacío o contiene solo espacios.");
+            _logger.Debug("Error de validación: El campo Name de la empresa está vacío o contiene solo espacios.");
             return UsersErrors.ValidationError("Name", "El nombre de la empresa no puede estar vacío.");
         }
 
         if (string.IsNullOrWhiteSpace(item.CatchPhrase)) {
-            _logger.Warning("Error de validación: El campo CatchPhrase de la empresa está vacío o contiene solo espacios.");
+            _logger.Debug("Error de validación: El campo CatchPhrase de la empresa está vacío o contiene solo espacios.");
             return UsersErrors.ValidationError("CatchPhrase", "El eslogan de la empresa no puede estar vacío.");
         }
 
         if (string.IsNullOrWhiteSpace(item.Bs)) {
-            _logger.Warning("Error de validación: El campo Bs de la empresa está vacío o contiene solo espacios.");
+            _logger.Debug("Error de validación: El campo Bs de la empresa está vacío o contiene solo espacios.");
             return UsersErrors.ValidationError("Bs", "La actividad o sector de la empresa no puede estar vacío.");
         }
 
@@ -40,17 +40,17 @@ public static class CompanyValidator {
     public static Result<bool, DomainError> CheckRegex(this CompanyDto item)
     {
         if (!_regexName.IsMatch(item.Name)) {
-            _logger.Warning("Error de validación: El formato del campo Name de la empresa no es válido.");
+            _logger.Debug("Error de validación: El formato del campo Name de la empresa no es válido.");
             return UsersErrors.ValidationError("Name", "El formato del nombre de la empresa no es válido.");
         }
 
         if (!_regexCatchPhrase.IsMatch(item.CatchPhrase)) {
-            _logger.Warning("Error de validación: El formato del campo CatchPhrase de la empresa no es válido.");
+            _logger.Debug("Error de validación: El formato del campo CatchPhrase de la empresa no es válido.");
             return UsersErrors.ValidationError("CatchPhrase", "El formato del eslogan de la empresa no es válido.");
         }
 
         if (!_regexBs.IsMatch(item.Bs)) {
-            _logger.Warning("Error de validación: El formato del campo Bs de la empresa no es válido.");
+            _logger.Debug("Error de validación: El formato del campo Bs de la empresa no es válido.");
             return UsersErrors.ValidationError("Bs", "El formato de la actividad de la empresa no es válido.");
         }
 
