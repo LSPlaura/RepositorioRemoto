@@ -17,5 +17,4 @@ public record User(
     bool IsDeleted
 ) {
     public User() : this(0, "", "", "", new Address(), "", "", new Company(), default, default, default, false) { }
->>>>>>> dev
 }
