@@ -15,4 +15,6 @@ public record User(
     DateTime UpdateAt,
     DateTime DeleteAt,
     bool IsDeleted
-);
+) {
+    public User() : this(0, "", "", "", new Address(), "", "", new Company(), default, default, default, false) { }
+}

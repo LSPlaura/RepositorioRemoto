@@ -3,8 +3,7 @@ using RepositorioRemoto.Back.Infrastructure.Interfaces;
 
 namespace RepositorioRemoto.Back.Infrastructure;
 
-public static class DependenciesProvider
-{
+public static class DependenciesProvider {
     /// <summary>
     /// Método estático que centraliza y simplifica la creación de las classes que implementan las interfaces <see cref="ITransientService"/> <see cref="IScopedService"/> <see cref="ISingletonService"/>
     /// con el rango de vida establecido por las mismas interfaces

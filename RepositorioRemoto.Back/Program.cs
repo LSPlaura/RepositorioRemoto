@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using RepositorioRemoto.Back.Infraestructure;
+using Microsoft.Extensions.DependencyInjection;
 using RepositorioRemoto.Back.Infrastructure;
 using Serilog;
 using Serilog.Events;

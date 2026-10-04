@@ -1,3 +1,4 @@
+
 namespace RepositorioRemoto.Back.Infrastructure.Interfaces;
 
 /// <summary>
