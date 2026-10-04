@@ -257,7 +257,7 @@ public class UserEfcRepositoryTestsUnitarios {
 
             //Verify
             UsersMock.Verify(
-                x => x.Add(user),
+                x => x.AddAsync(user, It.IsAny<CancellationToken>()),
                 Times.Once
             );
 
@@ -442,7 +442,7 @@ public class UserEfcRepositoryTestsUnitarios {
 
             //Verify
             UsersMock.Verify(
-                x => x.Add(user),
+                x => x.AddAsync(user, It.IsAny<CancellationToken>()),
                 Times.Once
             );
 

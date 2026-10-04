@@ -11,112 +11,141 @@ using Serilog;
 namespace RepositorioRemoto.Back.Repositories;
 
 /// <inheritdoc cref="IUserRepository"/>
-public class UserEfcRepository(AppDbContextPostgre contextPostgre) : IUserRepository, IScopedService{
-
+public class UserEfcRepository(DbContext context) : IUserRepository, IScopedService
+{
     private readonly ILogger _logger = Log.ForContext<UserEfcRepository>();
-    private readonly AppDbContextPostgre _contextPostgre = contextPostgre;
-    
+    private readonly DbContext _context = context;
+
     /// <inheritdoc cref="IUserRepository.GetAllAsync"/>
-    public async Task<IEnumerable<User>> GetAllAsync() {
-        var entities = await _contextPostgre.Users
+    public async Task<IEnumerable<User>> GetAllAsync()
+    {
+        return await _context.Set<User>()
+            .AsNoTracking()
             .OrderBy(u => u.Id)
             .ToListAsync();
-        return entities;
     }
 
-    /// <inheritdoc cref="IUserRepository.GetByIdAsync" />
-    public async Task<Result<User, DomainError>> GetByIdAsync(int id) {
-        var entity = await _contextPostgre.Users.FindAsync(id);
-        if (entity is null) {
+    /// <inheritdoc cref="IUserRepository.GetByIdAsync"/>
+    public async Task<Result<User, DomainError>> GetByIdAsync(int id)
+    {
+        var entity = await _context.Set<User>().FindAsync(id);
+        if (entity is null)
+        {
             _logger.Debug($"Error al intentar encontrar la entidad con el id: {id}.");
             return Result.Failure<User, DomainError>(UsersErrors.NotFoundError(id));
         }
+
         _logger.Debug($"Se ha encontrado con exito la entidad con el id: {id}.");
         return Result.Success<User, DomainError>(entity);
     }
 
-    public async Task<Result<User, DomainError>> CreateAsync(User entity) {
-        try {
-            _contextPostgre.Users.Add(entity);
-            await _contextPostgre.SaveChangesAsync();
-            
-            _logger.Debug($"Se ha registrado correctamente la nueva entidad.");
+    public async Task<Result<User, DomainError>> CreateAsync(User entity)
+    {
+        try
+        {
+            await _context.Set<User>().AddAsync(entity);
+            await _context.SaveChangesAsync();
+
+            _logger.Debug("Se ha registrado correctamente la nueva entidad.");
             return Result.Success<User, DomainError>(entity);
-        } catch ( Exception ) {
-            _logger.Debug($"Error al intentar registrar la entidad.");
+        }
+        catch (Exception ex)
+        {
+            _logger.Debug(ex, "Error al intentar registrar la entidad.");
             return Result.Failure<User, DomainError>(RepositoryErrors.CreationError());
         }
     }
 
-    public async Task<Result<User, DomainError>> UpdateAsync(int id, User entity) {
-        var user = await _contextPostgre.Users.FindAsync(id);
-        if (user is null) {
-            _logger.Debug($"Error al intentar encontrar la entidad con el id: {id}.");
-            return Result.Failure<User, DomainError>(UsersErrors.NotFoundError(id));
-        }
-        if(user.IsDeleted) {
-            _logger.Debug("Error la entidad ya esta borrada.");
-            return Result.Failure<User, DomainError>(RepositoryErrors.UpdatedError());
-        }
+    public async Task<Result<User, DomainError>> UpdateAsync(int id, User entity)
+    {
+        try
+        {
+            var user = await _context.Set<User>().FindAsync(id);
+            if (user is null)
+            {
+                _logger.Debug($"Error al intentar encontrar la entidad con el id: {id}.");
+                return Result.Failure<User, DomainError>(UsersErrors.NotFoundError(id));
+            }
 
-        try {
-            user = user with {
-                Id = id,  
-                Name = entity.Name,
-                UserName = entity.UserName,
-                Email = entity.Email,
-                Address = entity.Address,
-                Phone = entity.Phone,
-                Website = entity.Website,
-                Company = entity.Company,
-                CreateAt = entity.CreateAt,
-                UpdateAt = entity.UpdateAt,
-                DeleteAt = entity.DeleteAt,
-                IsDeleted = entity.IsDeleted
-            };
-            await _contextPostgre.SaveChangesAsync();
-            
+            if (user.IsDeleted)
+            {
+                _logger.Debug("Error la entidad ya esta borrada.");
+                return Result.Failure<User, DomainError>(RepositoryErrors.UpdatedError());
+            }
+
+            if (entity.Address is null || entity.Company is null)
+            {
+                _logger.Debug("Error: Address o Company no pueden ser nulos al actualizar.");
+                return Result.Failure<User, DomainError>(RepositoryErrors.UpdatedError());
+            }
+
+            var userEntry = _context.Entry(user);
+            if (userEntry is null)
+            {
+                _context.Set<User>().Update(entity);
+            }
+            else
+            {
+                userEntry.CurrentValues.SetValues(entity);
+                userEntry.State = EntityState.Modified;
+            }
+
+            await _context.SaveChangesAsync();
+
             _logger.Debug($"Se ha actualizado con exito la entidad con el id: {id}.");
-            return Result.Success<User, DomainError>(user);
-        } catch (Exception) {
-            _logger.Debug($"Error al intentar actualizar la entidad.");
+            return Result.Success<User, DomainError>(entity);
+        }
+        catch (Exception ex)
+        {
+            _logger.Debug(ex, $"Error al intentar actualizar la entidad.");
             return Result.Failure<User, DomainError>(RepositoryErrors.UpdatedError());
         }
     }
 
-    public async Task<Result<User, DomainError>> DeleteAsync(int id) {
-        var user = await _contextPostgre.Users.FindAsync(id);
-        if (user is null) {
-            _logger.Debug($"Error al intentar encontrar la entidad con el id: {id}.");
-            return Result.Failure<User, DomainError>(UsersErrors.NotFoundError(id));
-        }
-        if(user.IsDeleted) {
-            _logger.Debug("Error la entidad ya esta borrada.");
-            return Result.Failure<User, DomainError>(RepositoryErrors.UpdatedError());
-        }
+    public async Task<Result<User, DomainError>> DeleteAsync(int id)
+    {
+        try
+        {
+            var user = await _context.Set<User>().FindAsync(id);
+            if (user is null)
+            {
+                _logger.Debug($"Error al intentar encontrar la entidad con el id: {id}.");
+                return Result.Failure<User, DomainError>(UsersErrors.NotFoundError(id));
+            }
 
-        try {
-            _contextPostgre.Users.Remove(user);
-            await _contextPostgre.SaveChangesAsync();
-            
+            if (user.IsDeleted)
+            {
+                _logger.Debug("Error la entidad ya esta borrada.");
+                return Result.Failure<User, DomainError>(RepositoryErrors.UpdatedError());
+            }
+
+            _context.Set<User>().Remove(user);
+            await _context.SaveChangesAsync();
+
             _logger.Debug($"Se ha eliminado con exito la entidad con el id: {id}.");
             return Result.Success<User, DomainError>(user);
-        } catch (Exception ) {
-            _logger.Debug($"Error al intentar eliminar la entidad.");
+        }
+        catch (Exception ex)
+        {
+            _logger.Debug(ex, $"Error al intentar eliminar la entidad.");
             return Result.Failure<User, DomainError>(RepositoryErrors.DeletedError());
         }
     }
 
-    public async Task<Result<bool, DomainError>> DeleteAllAsync() {
-        try {
-            var entities = await _contextPostgre.Users.ToListAsync();
-            _contextPostgre.Users.RemoveRange(entities);
-            await _contextPostgre.SaveChangesAsync();
-            
+    public async Task<Result<bool, DomainError>> DeleteAllAsync()
+    {
+        try
+        {
+            var entities = await _context.Set<User>().ToListAsync();
+            _context.Set<User>().RemoveRange(entities);
+            await _context.SaveChangesAsync();
+
             _logger.Debug("Se han eliminado todas las entidades registrados.");
             return Result.Success<bool, DomainError>(true);
-        } catch (Exception) {
-            _logger.Debug($"Error al intentar eliminar todas las entidades.");
+        }
+        catch (Exception ex)
+        {
+            _logger.Debug(ex, "Error al intentar eliminar todas las entidades.");
             return Result.Failure<bool, DomainError>(RepositoryErrors.DeletedError());
         }
     }

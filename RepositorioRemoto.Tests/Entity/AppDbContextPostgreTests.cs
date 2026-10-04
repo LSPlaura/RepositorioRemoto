@@ -131,80 +131,31 @@ public class AppDbContextPostgreTests {
         }
 
         [Test]
-        public void Address_EstaConfiguradoComoOwned() {
+        public void Address_TieneConversionJsonConfigurada() {
             // Arrange
             var entityType = _context.Model.FindEntityType(typeof(User));
 
             // Act
-            var navigation = entityType!.FindNavigation(nameof(User.Address));
+            var property = entityType!.FindProperty(nameof(User.Address));
 
             // Assert
-            navigation.Should().NotBeNull();
-            navigation!.TargetEntityType.IsOwned().Should().BeTrue();
+            property.Should().NotBeNull();
+            property!.GetValueConverter().Should().NotBeNull();
+            property.GetColumnType().Should().Be("jsonb");
         }
 
         [Test]
-        public void Company_EstaConfiguradoComoOwned() {
+        public void Company_TieneConversionJsonConfigurada() {
             // Arrange
             var entityType = _context.Model.FindEntityType(typeof(User));
 
             // Act
-            var navigation = entityType!.FindNavigation(nameof(User.Company));
+            var property = entityType!.FindProperty(nameof(User.Company));
 
             // Assert
-            navigation.Should().NotBeNull();
-            navigation!.TargetEntityType.IsOwned().Should().BeTrue();
-        }
-
-        [Test]
-        public void Address_Geo_EstaConfiguradoComoOwned() {
-            // Arrange
-            var userEntity = _context.Model.FindEntityType(typeof(User));
-
-            var addressNavigation =
-                userEntity!.FindNavigation(nameof(User.Address));
-
-            // Act
-            var geoNavigation =
-                addressNavigation!.TargetEntityType.FindNavigation("Geo");
-
-            // Assert
-            geoNavigation.Should().NotBeNull();
-            geoNavigation!.TargetEntityType.IsOwned().Should().BeTrue();
-        }
-
-        [Test]
-        public void Address_EstaConfiguradoComoJson() {
-            // Arrange
-            var entityType = _context.Model.FindEntityType(typeof(User));
-
-            var navigation =
-                entityType!.FindNavigation(nameof(User.Address));
-
-            // Act
-            var containerColumn =
-                navigation!.TargetEntityType
-                    .FindAnnotation("Relational:ContainerColumnName");
-
-            // Assert
-            containerColumn.Should().NotBeNull();
-        }
-
-        [Test]
-        public void Company_EstaConfiguradoComoJson() {
-            // Arrange
-            var entityType = _context.Model.FindEntityType(typeof(User));
-
-            var navigation =
-                entityType!.FindNavigation(nameof(User.Company));
-
-            // Act
-            var containerColumn =
-                navigation!.TargetEntityType
-                    .FindAnnotation("Relational:ContainerColumnName");
-
-            // Assert
-            containerColumn.Should().NotBeNull();
+            property.Should().NotBeNull();
+            property!.GetValueConverter().Should().NotBeNull();
+            property.GetColumnType().Should().Be("jsonb");
         }
     }
 

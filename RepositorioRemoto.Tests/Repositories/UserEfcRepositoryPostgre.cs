@@ -10,34 +10,15 @@ using Testcontainers.PostgreSql;
 
 namespace RepositorioRemoto.Tests.Repositories;
 
-[TestFixture]
 public abstract class UserEfcRepositoryPostgreTests
 {
-    protected static readonly PostgreSqlContainer PostgreSqlContainer = new PostgreSqlBuilder()
-        .WithImage("postgres:16-alpine")
-        .WithDatabase("testdb")
-        .WithUsername("postgres")
-        .WithPassword("postgres")
-        .Build();
-
-    [OneTimeSetUp]
-    public async Task OneTimeSetUpBase()
-    {
-        await PostgreSqlContainer.StartAsync();
-    }
-
-    [OneTimeTearDown]
-    public async Task OneTimeTearDownBase()
-    {
-        await PostgreSqlContainer.DisposeAsync();
-    }
-
-    // Instanciación del modelo únicamente mediante su constructor
     protected static User CrearUsuarioBase(int id = 0, string name = "John Doe", bool isDeleted = false)
     {
         var geo = new Geo("40.7128", "-74.0060");
         var address = new Address("Kulas Light", "Apt. 556", "Gwenborough", "92998-3874", geo);
         var company = new Company("Romaguera-Crona", "Multi-layered client-server neural-net", "harness real-time e-markets");
+
+        var ahora = DateTime.UtcNow;
 
         return new User(
             id,
@@ -45,12 +26,12 @@ public abstract class UserEfcRepositoryPostgreTests
             "johndoe",
             "john@example.com",
             address,
-            "1-770-736-8031 x56442",
+            "17707368031",
             "hildegard.org",
             company,
-            DateTime.UtcNow,
-            DateTime.UtcNow,
-            DateTime.MinValue,
+            ahora,
+            ahora,
+            ahora,
             isDeleted
         );
     }
@@ -58,14 +39,33 @@ public abstract class UserEfcRepositoryPostgreTests
     [TestFixture]
     public class CasosValidos : UserEfcRepositoryPostgreTests
     {
+        private readonly PostgreSqlContainer _postgreSqlContainer = new PostgreSqlBuilder()
+            .WithImage("postgres:16-alpine")
+            .WithDatabase("testdb")
+            .WithUsername("postgres")
+            .WithPassword("postgres")
+            .Build();
+
         private AppDbContextPostgre _context = null!;
         private UserEfcRepository _repository = null!;
+
+        [OneTimeSetUp]
+        public async Task OneTimeSetUp()
+        {
+            await _postgreSqlContainer.StartAsync();
+        }
+
+        [OneTimeTearDown]
+        public async Task OneTimeTearDown()
+        {
+            await _postgreSqlContainer.DisposeAsync();
+        }
 
         [SetUp]
         public async Task SetUp()
         {
             var options = new DbContextOptionsBuilder<AppDbContextPostgre>()
-                .UseNpgsql(PostgreSqlContainer.GetConnectionString())
+                .UseNpgsql(_postgreSqlContainer.GetConnectionString())
                 .Options;
 
             _context = new AppDbContextPostgre(options);
@@ -110,12 +110,15 @@ public abstract class UserEfcRepositoryPostgreTests
         {
             var user = CrearUsuarioBase();
             var createResult = await _repository.CreateAsync(user);
+            createResult.IsSuccess.Should().BeTrue();
 
-            var result = await _repository.GetByIdAsync(createResult.Value.Id);
+            var realId = createResult.Value.Id;
+
+            var result = await _repository.GetByIdAsync(realId);
 
             result.Should().NotBeNull();
             result.IsSuccess.Should().BeTrue();
-            result.Value.Id.Should().Be(createResult.Value.Id);
+            result.Value.Id.Should().Be(realId);
             result.Value.Name.Should().Be("John Doe");
         }
 
@@ -125,7 +128,7 @@ public abstract class UserEfcRepositoryPostgreTests
             var user = CrearUsuarioBase();
 
             var result = await _repository.CreateAsync(user);
-
+            
             result.Should().NotBeNull();
             result.IsSuccess.Should().BeTrue();
             result.Value.Id.Should().BeGreaterThan(0);
@@ -137,6 +140,8 @@ public abstract class UserEfcRepositoryPostgreTests
         {
             var userOriginal = CrearUsuarioBase(name: "Nombre Original");
             var createResult = await _repository.CreateAsync(userOriginal);
+            createResult.IsSuccess.Should().BeTrue();
+
             var id = createResult.Value.Id;
 
             _context.ChangeTracker.Clear();
@@ -151,7 +156,7 @@ public abstract class UserEfcRepositoryPostgreTests
             result.IsSuccess.Should().BeTrue();
             result.Value.Name.Should().Be("Nombre Actualizado");
 
-            var userInDb = await _context.Users.FindAsync(id);
+            var userInDb = await _context.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Id == id);
             userInDb.Should().NotBeNull();
             userInDb!.Name.Should().Be("Nombre Actualizado");
         }
@@ -161,6 +166,8 @@ public abstract class UserEfcRepositoryPostgreTests
         {
             var user = CrearUsuarioBase();
             var createResult = await _repository.CreateAsync(user);
+            createResult.IsSuccess.Should().BeTrue();
+
             var id = createResult.Value.Id;
 
             var result = await _repository.DeleteAsync(id);
@@ -169,7 +176,7 @@ public abstract class UserEfcRepositoryPostgreTests
             result.IsSuccess.Should().BeTrue();
             result.Value.Id.Should().Be(id);
 
-            var userInDb = await _context.Users.FindAsync(id);
+            var userInDb = await _context.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Id == id);
             userInDb.Should().BeNull();
         }
 
@@ -193,14 +200,33 @@ public abstract class UserEfcRepositoryPostgreTests
     [TestFixture]
     public class CasosInvalidosYExcepciones : UserEfcRepositoryPostgreTests
     {
+        private readonly PostgreSqlContainer _postgreSqlContainer = new PostgreSqlBuilder()
+            .WithImage("postgres:16-alpine")
+            .WithDatabase("testdb")
+            .WithUsername("postgres")
+            .WithPassword("postgres")
+            .Build();
+
         private AppDbContextPostgre _context = null!;
         private UserEfcRepository _repository = null!;
+
+        [OneTimeSetUp]
+        public async Task OneTimeSetUp()
+        {
+            await _postgreSqlContainer.StartAsync();
+        }
+
+        [OneTimeTearDown]
+        public async Task OneTimeTearDown()
+        {
+            await _postgreSqlContainer.DisposeAsync();
+        }
 
         [SetUp]
         public async Task SetUp()
         {
             var options = new DbContextOptionsBuilder<AppDbContextPostgre>()
-                .UseNpgsql(PostgreSqlContainer.GetConnectionString())
+                .UseNpgsql(_postgreSqlContainer.GetConnectionString())
                 .Options;
 
             _context = new AppDbContextPostgre(options);
@@ -222,7 +248,6 @@ public abstract class UserEfcRepositoryPostgreTests
             }
             catch (ObjectDisposedException)
             {
-                // Ignorar si la prueba cerró el DbContext para simular fallos en la BD
             }
         }
 
@@ -233,7 +258,7 @@ public abstract class UserEfcRepositoryPostgreTests
 
             result.Should().NotBeNull();
             result.IsFailure.Should().BeTrue();
-            result.Error.Should().BeOfType<DomainError>();
+            result.Error.Should().BeAssignableTo<DomainError>();
         }
 
         [Test]
@@ -245,20 +270,28 @@ public abstract class UserEfcRepositoryPostgreTests
 
             result.Should().NotBeNull();
             result.IsFailure.Should().BeTrue();
-            result.Error.Should().BeOfType<DomainError>();
+            result.Error.Should().BeAssignableTo<DomainError>();
         }
 
         [Test]
         public async Task UpdateAsync_DebeRetornarFailure_CuandoUsuarioEstaBorrado()
         {
-            var userBorrado = CrearUsuarioBase(isDeleted: true);
+            // Se crea con ID = 0 para que PostgreSQL/EF Core autogenere la clave primaria
+            var userBorrado = CrearUsuarioBase(id: 0, isDeleted: true);
             var createResult = await _repository.CreateAsync(userBorrado);
+            createResult.IsSuccess.Should().BeTrue();
 
-            var result = await _repository.UpdateAsync(createResult.Value.Id, userBorrado);
+            var id = createResult.Value.Id;
+
+            _context.ChangeTracker.Clear();
+
+            var userActualizacion = CrearUsuarioBase(id, isDeleted: true);
+
+            var result = await _repository.UpdateAsync(id, userActualizacion);
 
             result.Should().NotBeNull();
             result.IsFailure.Should().BeTrue();
-            result.Error.Should().BeOfType<DomainError>();
+            result.Error.Should().BeAssignableTo<DomainError>();
         }
 
         [Test]
@@ -268,23 +301,26 @@ public abstract class UserEfcRepositoryPostgreTests
 
             result.Should().NotBeNull();
             result.IsFailure.Should().BeTrue();
-            result.Error.Should().BeOfType<DomainError>();
+            result.Error.Should().BeAssignableTo<DomainError>();
         }
 
         [Test]
         public async Task DeleteAsync_DebeRetornarFailure_CuandoUsuarioEstaBorrado()
         {
-            var userBorrado = CrearUsuarioBase(isDeleted: true);
+            var userBorrado = CrearUsuarioBase(id: 0, isDeleted: true);
             var createResult = await _repository.CreateAsync(userBorrado);
+            createResult.IsSuccess.Should().BeTrue();
 
-            var result = await _repository.DeleteAsync(createResult.Value.Id);
+            var id = createResult.Value.Id;
+
+            _context.ChangeTracker.Clear();
+
+            var result = await _repository.DeleteAsync(id);
 
             result.Should().NotBeNull();
             result.IsFailure.Should().BeTrue();
-            result.Error.Should().BeOfType<DomainError>();
+            result.Error.Should().BeAssignableTo<DomainError>();
         }
-
-        // --- CUBRIR BLOQUES CATCH (EXCEPCIONES DE BD) ---
 
         [Test]
         public async Task CreateAsync_DebeRetornarFailure_CuandoOcurreExcepcionEnBD()
@@ -296,7 +332,7 @@ public abstract class UserEfcRepositoryPostgreTests
 
             result.Should().NotBeNull();
             result.IsFailure.Should().BeTrue();
-            result.Error.Should().BeOfType<DomainError>();
+            result.Error.Should().BeAssignableTo<DomainError>();
         }
 
         [Test]
@@ -304,14 +340,17 @@ public abstract class UserEfcRepositoryPostgreTests
         {
             var user = CrearUsuarioBase();
             var createResult = await _repository.CreateAsync(user);
+            createResult.IsSuccess.Should().BeTrue();
+
+            var id = createResult.Value.Id;
 
             await _context.DisposeAsync();
 
-            var result = await _repository.UpdateAsync(createResult.Value.Id, user);
+            var result = await _repository.UpdateAsync(id, user);
 
             result.Should().NotBeNull();
             result.IsFailure.Should().BeTrue();
-            result.Error.Should().BeOfType<DomainError>();
+            result.Error.Should().BeAssignableTo<DomainError>();
         }
 
         [Test]
@@ -319,14 +358,17 @@ public abstract class UserEfcRepositoryPostgreTests
         {
             var user = CrearUsuarioBase();
             var createResult = await _repository.CreateAsync(user);
+            createResult.IsSuccess.Should().BeTrue();
+
+            var id = createResult.Value.Id;
 
             await _context.DisposeAsync();
 
-            var result = await _repository.DeleteAsync(createResult.Value.Id);
+            var result = await _repository.DeleteAsync(id);
 
             result.Should().NotBeNull();
             result.IsFailure.Should().BeTrue();
-            result.Error.Should().BeOfType<DomainError>();
+            result.Error.Should().BeAssignableTo<DomainError>();
         }
 
         [Test]
@@ -338,7 +380,7 @@ public abstract class UserEfcRepositoryPostgreTests
 
             result.Should().NotBeNull();
             result.IsFailure.Should().BeTrue();
-            result.Error.Should().BeOfType<DomainError>();
+            result.Error.Should().BeAssignableTo<DomainError>();
         }
     }
 }
