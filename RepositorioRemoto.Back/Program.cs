@@ -1,4 +1,7 @@
-﻿using Serilog;
+﻿using Microsoft.Extensions.DependencyInjection;
+using RepositorioRemoto.Back.Infraestructure;
+using RepositorioRemoto.Back.Infrastructure;
+using Serilog;
 using Serilog.Events;
 
 namespace RepositorioRemoto.Back;
@@ -14,5 +17,10 @@ class Program {
             .CreateLogger();
 
         Log.Information("Aplicación iniciada");
+
+        IServiceCollection services = DependenciesProvider.ServicesProvider()
+            .AddDatabase()
+            .AddCache();
+        IServiceProvider provider = services.BuildServiceProvider();
     }
 }    
