@@ -1,4 +1,4 @@
-namespace RepositorioRemoto.Back.Cache;
+namespace RepositorioRemoto.Back.Cache.Common;
 
 
 public interface ICache

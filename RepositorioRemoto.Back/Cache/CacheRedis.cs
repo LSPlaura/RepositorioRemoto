@@ -1,3 +1,4 @@
+using RepositorioRemoto.Back.Cache.Common;
 using Serilog;
 
 namespace RepositorioRemoto.Back.Cache;

@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using RepositorioRemoto.Back.Cache;
+using RepositorioRemoto.Back.Cache.Common;
 using RepositorioRemoto.Back.Entity;
 using Serilog;
 
