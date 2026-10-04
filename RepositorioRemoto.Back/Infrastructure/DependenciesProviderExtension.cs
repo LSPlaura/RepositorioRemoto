@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using RepositorioRemoto.Back.Cache;
+using RepositorioRemoto.Back.Entity;
 using Serilog;
 
 namespace RepositorioRemoto.Back.Infrastructure;
@@ -9,69 +9,47 @@ namespace RepositorioRemoto.Back.Infrastructure;
 public static class DependenciesProviderExtension
 {
     /// <summary>
-    /// Registra el DbContext según el entorno (PostgreSQL en Producción, SQLite en Desarrollo).
+    /// Registra el DbContext según el entorno en config.config.
     /// </summary>
     public static IServiceCollection AddDatabase(this IServiceCollection services)
     {
-        var connectionString = configuration.GetConnectionString("DefaultConnection");
-
-        services.AddDbContext<AppDbContext>(options =>
+        if (config.config.Estado == "Prod")
         {
-            if (config.config.Estado = "Prod")
+            Log.Information("Configurando PostgreSQL para Producción...");
+            services.AddDbContext<AppDbContextPostgre>(options =>
             {
-                Log.Information("Configurando PostgreSQL para Producción...");
-
-                if (string.IsNullOrWhiteSpace(connectionString))
-                {
-                    throw new InvalidOperationException(
-                        "ConnectionStrings:DefaultConnection no está definida. " +
-                        "En producción es obligatorio configurarla (appsettings.json o variables de entorno).");
-                }
-
-                options.UseNpgsql(connectionString);
-            }
-            else
+                options.UseNpgsql(config.config.DbConnection);
+            });
+        }
+        else
+        {
+            Log.Information("Configurando SQLite para Desarrollo...");
+            services.AddDbContext<AppDbContextSqlite>(options =>
             {
-                Log.Information("Configurando SQLite para Desarrollo...");
-
-                if (string.IsNullOrWhiteSpace(connectionString))
-                {
-                    connectionString = "Data Source=local_database.db";
-                    Log.Warning("Usando SQLite por defecto para desarrollo: {ConnectionString}", connectionString);
-                }
-
-                options.UseSqlite(connectionString);
-            }
-        });
+                options.UseSqlite(config.config.DbConnection);
+            });
+        }
 
         return services;
     }
 
     /// <summary>
-    /// Registra la caché según el entorno (Redis en Producción, MemoryCache en Desarrollo).
+    /// Registra la caché según el entorno en config.config.
     /// </summary>
     public static IServiceCollection AddCache(this IServiceCollection services)
     {
-        if (config.config.Estado = "Prod")
+        if (config.config.Estado == "Prod")
         {
             Log.Information("Configurando caché con Redis para Producción...");
-
-            var redisConnectionString = config.config.CacheConnectionString("Redis");
-
-            if (string.IsNullOrWhiteSpace(redisConnectionString))
-            {
-                throw new InvalidOperationException(
-                    "ConnectionStrings:Redis no está definida. " +
-                    "En producción es obligatorio configurar la conexión a Redis.");
-            }
-
-            services.AddRedisCacheService(redisConnectionString);
+            services.AddSingleton<ICache>(sp => new RedisCache(config.config.CacheConnectionString));
         }
         else
         {
             Log.Information("Configurando caché en memoria (MemoryCache) para Desarrollo...");
-            services.AddMemoryCacheService();
+            services.AddMemoryCache();
+            services.AddSingleton<ICache, MemoryCache>();
         }
+
         return services;
     }
 }
