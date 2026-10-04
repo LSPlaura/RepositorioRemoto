@@ -4,7 +4,7 @@ using RepositorioRemoto.Back.Entity;
 using RepositorioRemoto.Back.Errors;
 using RepositorioRemoto.Back.Errors.Repository;
 using RepositorioRemoto.Back.Errors.Users;
-using RepositorioRemoto.Back.Infraestructure.Interfaces;
+using RepositorioRemoto.Back.Infrastructure.Interfaces;
 using RepositorioRemoto.Back.Models;
 using Serilog;
 

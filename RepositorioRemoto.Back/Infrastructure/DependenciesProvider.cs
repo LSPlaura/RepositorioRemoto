@@ -1,7 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
-using RepositorioRemoto.Back.Infraestructure.Interfaces;
+using RepositorioRemoto.Back.Infrastructure.Interfaces;
 
-namespace RepositorioRemoto.Back.Infraestructure;
+namespace RepositorioRemoto.Back.Infrastructure;
 
 public static class DependenciesProvider
 {

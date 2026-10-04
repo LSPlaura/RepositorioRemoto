@@ -3,7 +3,7 @@ using CSharpFunctionalExtensions;
 using RepositorioRemoto.Back.Dto;
 using RepositorioRemoto.Back.Errors;
 using RepositorioRemoto.Back.Errors.Users;
-using RepositorioRemoto.Back.Infraestructure.Interfaces;
+using RepositorioRemoto.Back.Infrastructure.Interfaces;
 using Serilog;
 
 namespace RepositorioRemoto.Back.Validator.User;
