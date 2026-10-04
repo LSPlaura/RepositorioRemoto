@@ -50,7 +50,7 @@ public abstract class UserEfcRepositoryPostgreTests
             company,
             DateTime.UtcNow,
             DateTime.UtcNow,
-            null,
+            DateTime.MinValue,
             isDeleted
         );
     }

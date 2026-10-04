@@ -33,7 +33,7 @@ public abstract class UserEfcRepositoryTests
             company,
             DateTime.UtcNow,
             DateTime.UtcNow,
-            null,
+            DateTime.MinValue,
             isDeleted
         );
     }
