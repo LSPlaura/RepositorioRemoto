@@ -11,20 +11,16 @@ public static class Configuracion {
     /// Obtiene la configuración cargada.
     /// </summary>
     public static IConfiguration Configuration { get; private set; } = null!;
-    
 
     /// <summary>
     /// Carga el archivo de configuración según el primer argumento.
     /// Si no se proporciona, utiliza Development.
     /// </summary>
     /// <param name="args">Argumentos recibidos en Main.</param>
-    /// <exception cref="ArgumentException">
-    /// El entorno indicado no es Development ni Production.
-    /// </exception>
     public static void Inicializar(string[] args) {
         Configuration = new ConfigurationBuilder()
             .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-            .AddJsonFile($"appsettings.{ApiName}.json", false, true)
+            .AddJsonFile($"appsettings.{ApiName.ToLower()}.json", false, true)
             .Build();
     }
 
@@ -44,9 +40,20 @@ public static class Configuracion {
     public static string RepositoryName => Configuration.GetValue<string>("Repository:Name") ?? "SQLite";
 
     /// <summary>
+    /// Obtiene la cadena de conexión de la base de datos.
+    /// </summary>
+    public static string DbConnection => Configuration.GetValue<string>("Repository:ConnectionString") ?? throw new InvalidOperationException("Falta Repository:ConnectionString en la configuración.");
+
+    /// <summary>
     /// Obtiene el nombre del proveedor de caché configurado.
     /// </summary>
     public static string CacheName => Configuration.GetValue<string>("Cache:Name") ?? "Memory";
+
+    /// <summary>
+    /// Obtiene la cadena de conexión de Redis.
+    /// Se consulta cuando el proveedor de caché seleccionado es Redis.
+    /// </summary>
+    public static string CacheConnectionString => Configuration.GetValue<string>("Cache:ConnectionString") ?? throw new InvalidOperationException("Falta Cache:ConnectionString en la configuración.");
 
     /// <summary>
     /// Obtiene el tiempo de vida configurado para los elementos de la caché.
@@ -57,4 +64,20 @@ public static class Configuracion {
     /// Obtiene el intervalo de sincronización en segundos.
     /// </summary>
     public static int CacheSincronizacion => Configuration.GetValue("Cache:Sincronización", 60);
+    
+    /// <summary>
+    /// Obtiene la ruta de la carpeta data en el directorio de trabajo actual.
+    /// </summary>
+    public static string DataFolder => Path.Combine(
+        Directory.GetCurrentDirectory(),
+        "data"
+    );
+
+    /// <summary>
+    /// Obtiene la ruta del archivo JSON de exportación de usuarios.
+    /// </summary>
+    public static string UsersJsonPath => Path.Combine(
+        DataFolder,
+        "users.json"
+    );
 }

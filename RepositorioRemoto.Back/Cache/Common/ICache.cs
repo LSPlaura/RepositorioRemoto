@@ -1,8 +1,7 @@
 namespace RepositorioRemoto.Back.Cache.Common;
 
 
-public interface ICache
-{
+public interface ICache {
     /// <summary>Obtiene un valor de la caché.</summary>
     /// <typeparam name="T">Tipo del valor.</typeparam>
     /// <param name="key">Clave del valor.</param>
