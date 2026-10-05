@@ -276,7 +276,6 @@ public abstract class UserEfcRepositoryPostgreTests
         [Test]
         public async Task UpdateAsync_DebeRetornarFailure_CuandoUsuarioEstaBorrado()
         {
-            // Se crea con ID = 0 para que PostgreSQL/EF Core autogenere la clave primaria
             var userBorrado = CrearUsuarioBase(id: 0, isDeleted: true);
             var createResult = await _repository.CreateAsync(userBorrado);
             createResult.IsSuccess.Should().BeTrue();

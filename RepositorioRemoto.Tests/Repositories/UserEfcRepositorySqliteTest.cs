@@ -212,7 +212,7 @@ public abstract class UserEfcRepositoryTests
             }
             catch (ObjectDisposedException)
             {
-                // Ignorar si la conexión o context ya fueron liberados
+                
             }
         }
 
@@ -273,13 +273,11 @@ public abstract class UserEfcRepositoryTests
             result.IsFailure.Should().BeTrue();
             result.Error.Should().BeAssignableTo<DomainError>();
         }
-
-        // --- COBRIR ERRORES DE BASE DE DATOS CERRANDO LA CONEXIÓN ---
-
+        
         [Test]
         public async Task CreateAsync_DebeRetornarFailure_CuandoOcurreExcepcionEnBD()
         {
-            _connection.Close(); // Simula fallo en la BD sin destruir el DbContext instance
+            _connection.Close();
 
             var user = CrearUsuarioBase();
             var result = await _repository.CreateAsync(user);
@@ -295,7 +293,7 @@ public abstract class UserEfcRepositoryTests
             var user = CrearUsuarioBase();
             var createResult = await _repository.CreateAsync(user);
 
-            _connection.Close(); // Cierra la conexión SQLite subyacente
+            _connection.Close();
 
             var result = await _repository.UpdateAsync(createResult.Value.Id, user);
 
@@ -310,7 +308,7 @@ public abstract class UserEfcRepositoryTests
             var user = CrearUsuarioBase();
             var createResult = await _repository.CreateAsync(user);
 
-            _connection.Close(); // Cierra la conexión SQLite subyacente
+            _connection.Close();
 
             var result = await _repository.DeleteAsync(createResult.Value.Id);
 
@@ -322,7 +320,7 @@ public abstract class UserEfcRepositoryTests
         [Test]
         public async Task DeleteAllAsync_DebeRetornarFailure_CuandoOcurreExcepcionEnBD()
         {
-            _connection.Close(); // Cierra la conexión SQLite subyacente
+            _connection.Close();
 
             var result = await _repository.DeleteAllAsync();
 
