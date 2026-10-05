@@ -12,6 +12,7 @@ public abstract class RedisCacheTests
     public class CasosValidos
     {
         private readonly RedisContainer _redisContainer = new RedisBuilder("redis:7-alpine")
+            .WithCleanUp(true)
             .Build();
 
         private IConnectionMultiplexer _redis = null!;
@@ -22,7 +23,9 @@ public abstract class RedisCacheTests
         {
             await _redisContainer.StartAsync();
             var configuration = ConfigurationOptions.Parse(_redisContainer.GetConnectionString());
+            
             configuration.AllowAdmin = true;
+            
             _redis = await ConnectionMultiplexer.ConnectAsync(configuration);
             _cache = new RedisCache(_redis);
         }
