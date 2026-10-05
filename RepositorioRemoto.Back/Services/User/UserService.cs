@@ -74,14 +74,15 @@ public class UserService(
 
     public async Task<Result<Models.User, DomainError>> CreateAsync(CreateUserRequest request) {
         try {
-            return await validator.Validate(request.ToModel())
-                .Bind(async u => {
-                    var creado = await api.CreateUserAsync(request);
-                    return repository.CreateAsync(u with { Id = creado.Id });
-                })
+            var usuario = request.ToModel();
+
+            return await validator.Validate(usuario)
+                .Map(_ => api.CreateUserAsync(request))
+                .Map(creado => usuario with { Id = creado.Id })
+                .Bind(u => repository.CreateAsync(u))
                 .Tap(u => notificationService.Notificar(new Notification(
                     TypeNotification.Create,
-                    $"Se ha creado un nuevo usuario.",
+                    $"Se ha creado el usuario con ID {u.Id}.",
                     DateTime.UtcNow)));
         } catch (Exception) {
             return Result.Failure<Models.User, DomainError>(ServiceErrors.CreateError());
