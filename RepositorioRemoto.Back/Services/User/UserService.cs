@@ -1,11 +1,16 @@
 using CSharpFunctionalExtensions;
+using Refit;
+using RepositorioRemoto.Back.Api;
 using RepositorioRemoto.Back.Cache.Common;
 using RepositorioRemoto.Back.Config;
 using RepositorioRemoto.Back.Dto.Users.Request;
+using RepositorioRemoto.Back.Enum;
 using RepositorioRemoto.Back.Errors;
 using RepositorioRemoto.Back.Errors.Service;
 using RepositorioRemoto.Back.Errors.Users;
 using RepositorioRemoto.Back.Infrastructure.Interfaces;
+using RepositorioRemoto.Back.Mappers;
+using RepositorioRemoto.Back.Models.Notification;
 using RepositorioRemoto.Back.Notifications;
 using RepositorioRemoto.Back.Repositories;
 using RepositorioRemoto.Back.Storage;
@@ -23,30 +28,94 @@ public class UserService(
     IUserRepository repository,
     ICache cache,
     IUserStorage storage,
-    INotificationService notificationService
+    INotificationService notificationService,
+    IApiJsonPlaceHolder api
     ) : IUserService, IScopedService {
     
-    
-    public async Task<Result<IEnumerable<Models.User>, DomainError>> GetAllAsync() {
-        throw new NotImplementedException();
+    public async Task<IEnumerable<Models.User>> GetAllAsync() {
+        var locales =  await repository.GetAllAsync();
+        if (locales.Any()) return locales;
+
+        var remotos = await api.GetUserAsync();
+        foreach (var u in remotos) {
+            await repository.CreateAsync(u);
+        }
+        return remotos;
     }
 
     public async Task<Result<Models.User, DomainError>> GetByIdAsync(int id) {
-        throw new NotImplementedException();
+        try {
+            var cacheado = await cache.GetAsync<Models.User>(GetKeyUser(id));
+            if (cacheado is not null) return Result.Success<Models.User, DomainError>(cacheado);
+
+            var local = await repository.GetByIdAsync(id);
+            if (local.IsSuccess) {
+                await cache.SetAsync(GetKeyUser(id), local.Value);
+                return Result.Success<Models.User, DomainError>(local.Value);
+            }
+
+            var remoto = await api.GetUserByIdAsync(id);
+            if (remoto is null) return Result.Failure<Models.User, DomainError>(UsersErrors.NotFoundError(id));
+
+            var guardado = await repository.CreateAsync(remoto);
+            if (guardado.IsFailure) return Result.Failure<Models.User, DomainError>(guardado.Error);
+
+            await cache.SetAsync(GetKeyUser(id), guardado.Value);
+            return Result.Success<Models.User, DomainError>(guardado.Value);
+        } catch (ApiException ex) when (
+            ex.StatusCode == System.Net.HttpStatusCode.NotFound) {
+            return Result.Failure<Models.User, DomainError>(
+                UsersErrors.NotFoundError(id));
+        } catch (Exception) {
+            return Result.Failure<Models.User, DomainError>(
+                ServiceErrors.GetByIdError(id));
+        }
     }
 
     public async Task<Result<Models.User, DomainError>> CreateAsync(CreateUserRequest request) {
-        throw new NotImplementedException();
+        try {
+            return await validator.Validate(request.ToModel())
+                .Bind(async u => {
+                    var creado = await api.CreateUserAsync(request);
+                    return repository.CreateAsync(u with { Id = creado.Id });
+                })
+                .Tap(u => notificationService.Notificar(new Notification(
+                    TypeNotification.Create,
+                    $"Se ha creado un nuevo usuario.",
+                    DateTime.UtcNow)));
+        } catch (Exception) {
+            return Result.Failure<Models.User, DomainError>(ServiceErrors.CreateError());
+        }
     }
 
     public async Task<Result<Models.User, DomainError>> UpdateAsync(int id, UpdateUserRequest request) {
-        throw new NotImplementedException();
+        try {
+            return await ComprobarExistenciaAsync(id)
+                .Tap(u => api.UpdateUserAsync(id, request))
+                .Bind(u => repository.UpdateAsync(id, request.ToModel()))
+                .Tap(u => cache.RemoveAsync(GetKeyUser(id)))
+                .Tap(u => notificationService.Notificar(new Notification(
+                    TypeNotification.Update,
+                    $"Se ha actualizado el usuario con ID {id}.",
+                    DateTime.UtcNow)));
+        } catch (Exception) {
+            return Result.Failure<Models.User, DomainError>(ServiceErrors.UpdateError(id));
+        }
     }
 
     public async Task<Result<Models.User, DomainError>> DeleteAsync(int id) {
-        return await ComprobarExistenciaAsync(id)
-            .Bind(u => repository.DeleteAsync(id))
-            .Tap(u => cache.RemoveAsync(GetKeyUser(id)));        
+        try {
+            return await ComprobarExistenciaAsync(id)
+                .Tap(u => api.DeleteUserAsync(id))
+                .Bind(u => repository.DeleteAsync(id))
+                .Tap(u => cache.RemoveAsync(GetKeyUser(id)))
+                .Tap(u => notificationService.Notificar( new Notification(
+                    TypeNotification.Delete,
+                    $"Se ha eliminado el usuario con ID {id}.",
+                    DateTime.UtcNow)));  
+        } catch (Exception) {
+            return Result.Failure<Models.User, DomainError>(ServiceErrors.DeleteError(id));
+        }
     }
 
     public async Task<Result<bool, DomainError>> ExportToJsonAsync() {

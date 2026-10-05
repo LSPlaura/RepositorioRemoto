@@ -56,4 +56,22 @@ public static class AddressMapper
             return DefaultAddress;
         }
     }
+    
+    /// <summary>
+    /// Convierte un AddressDto al modelo de dominio Address.
+    /// </summary>
+    /// <param name="dto">Dirección que se quiere convertir.</param>
+    /// <returns>Dirección convertida al modelo de dominio.</returns>
+    public static Address ToModel(this AddressDto dto) {
+        return new Address(
+            Street: dto.Street,
+            Suite: dto.Suite,
+            City: dto.City,
+            ZipCode: dto.ZipCode,
+            Geo: new Geo(
+                Lat: dto.Geo.Lat,
+                Lng: dto.Geo.Lng
+            )
+        );
+    }
 }
