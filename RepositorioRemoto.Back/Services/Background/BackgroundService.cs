@@ -1,13 +1,10 @@
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using RepositorioRemoto.Back.Api;
 using RepositorioRemoto.Back.Cache.Common;
 using RepositorioRemoto.Back.Repositories;
 using Serilog;
 
-namespace RepositorioRemoto.Back.Services;
+namespace RepositorioRemoto.Back.Services.Background;
 
 /// <summary>
 /// Servicio para la ejecución periódica de sincronización de usuarios en segundo plano.
@@ -46,7 +43,7 @@ public class BackgroundService(IServiceProvider provider, ICache cache)
     }
 
     /// <summary>
-    /// Realiza la limpieza de caché, liempieza de la base de datos e inserción de los usuarios de la API.
+    /// Realiza la limpieza de caché, limpieza de la base de datos e inserción de los usuarios de la API.
     /// </summary>
     /// <param name="repository">Repositorio para la gestión de usuarios en base de datos.</param>
     /// <param name="api">Cliente de la API remota para la obtención de datos.</param>
