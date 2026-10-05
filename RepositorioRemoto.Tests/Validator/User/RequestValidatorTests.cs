@@ -1,6 +1,5 @@
 using FluentAssertions;
 using RepositorioRemoto.Back.Dto.Users;
-using RepositorioRemoto.Back.Dto.Users.Request;
 using RepositorioRemoto.Back.Validator.User;
 
 namespace RepositorioRemoto.Test.Validator.User;

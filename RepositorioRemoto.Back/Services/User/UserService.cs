@@ -3,7 +3,7 @@ using Refit;
 using RepositorioRemoto.Back.Api;
 using RepositorioRemoto.Back.Cache.Common;
 using RepositorioRemoto.Back.Config;
-using RepositorioRemoto.Back.Dto.Users.Request;
+using RepositorioRemoto.Back.Dto.Users;
 using RepositorioRemoto.Back.Enum;
 using RepositorioRemoto.Back.Errors;
 using RepositorioRemoto.Back.Errors.Service;

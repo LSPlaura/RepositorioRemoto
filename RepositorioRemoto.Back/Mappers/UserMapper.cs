@@ -1,4 +1,4 @@
-using RepositorioRemoto.Back.Dto.Users.Request;
+using RepositorioRemoto.Back.Dto.Users;
 using RepositorioRemoto.Back.Models;
 
 namespace RepositorioRemoto.Back.Mappers;
