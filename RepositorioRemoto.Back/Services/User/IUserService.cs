@@ -16,7 +16,7 @@ public interface IUserService {
     /// Si está vacía, los obtiene de la API y los almacena.
     /// </summary>
     /// <returns>Usuarios encontrados o un error.</returns>
-    Task<Result<IEnumerable<UserModel>, DomainError>> GetAllAsync();
+    Task<IEnumerable<UserModel>> GetAllAsync();
 
     /// <summary>
     /// Busca un usuario en caché, base de datos y API, en ese orden.

@@ -5,8 +5,7 @@ namespace RepositorioRemoto.Back.Validator;
 /// <summary>
 /// Interfaz genérica para inversión de dependencias
 /// </summary>
-public interface IValidate<T>
-{
+public interface IValidate<T> {
     /// <summary>
     /// Implementa las validaciones necesarias y en caso de no cumplir con ellas
     /// retorna un error

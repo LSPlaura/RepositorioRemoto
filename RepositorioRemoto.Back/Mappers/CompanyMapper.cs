@@ -1,4 +1,5 @@
 using System.Text.Json;
+using RepositorioRemoto.Back.Dto.Users;
 using RepositorioRemoto.Back.Models;
 
 namespace RepositorioRemoto.Back.Mappers;
@@ -52,5 +53,18 @@ public static class CompanyMapper
         {
             return DefaultCompany;
         }
+    }
+    
+    /// <summary>
+    /// Convierte un CompanyDto al modelo de dominio Company.
+    /// </summary>
+    /// <param name="dto">Empresa que se quiere convertir.</param>
+    /// <returns>Empresa convertida al modelo de dominio.</returns>
+    public static Company ToModel(this CompanyDto dto) {
+        return new Company(
+            Name: dto.Name,
+            CatchPhrase: dto.CatchPhrase,
+            Bs: dto.Bs
+        );
     }
 }

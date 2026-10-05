@@ -11,40 +11,34 @@ public abstract record ServiceError(string Message) : DomainError(Message) {
         : ServiceError($"No se ha encontrado el usuario con el id: {Id}");
 
     /// <summary>
-    /// Error de validación de un campo del usuario.
-    /// </summary>
-    public sealed record ValidationError(string Field, string Message)
-        : ServiceError(Message);
-
-    /// <summary>
     /// Error al obtener todos los usuarios.
     /// </summary>
-    public sealed record GetAllError(string Detail)
-        : ServiceError($"Error al obtener los usuarios: {Detail}");
+    public sealed record GetAllError()
+        : ServiceError("Error al obtener los usuarios.");
 
     /// <summary>
     /// Error al obtener un usuario por su identificador.
     /// </summary>
-    public sealed record GetByIdError(int Id, string Detail)
-        : ServiceError($"Error al obtener el usuario con el id {Id}: {Detail}");
+    public sealed record GetByIdError(int Id)
+        : ServiceError("Error al obtener el usuario con el id {Id}.");
 
     /// <summary>
     /// Error al crear un usuario.
     /// </summary>
-    public sealed record CreateError(string Detail)
-        : ServiceError($"Error al crear el usuario: {Detail}");
+    public sealed record CreateError()
+        : ServiceError("Error al crear el usuario.}");
 
     /// <summary>
     /// Error al actualizar un usuario.
     /// </summary>
-    public sealed record UpdateError(int Id, string Detail)
-        : ServiceError($"Error al actualizar el usuario con el id {Id}: {Detail}");
+    public sealed record UpdateError(int Id)
+        : ServiceError($"Error al actualizar el usuario con el id {Id}.");
 
     /// <summary>
     /// Error al eliminar un usuario.
     /// </summary>
-    public sealed record DeleteError(int Id, string Detail)
-        : ServiceError($"Error al eliminar el usuario con el id {Id}: {Detail}");
+    public sealed record DeleteError(int Id)
+        : ServiceError($"Error al eliminar el usuario con el id {Id}.");
 
     /// <summary>
     /// Error al exportar los usuarios en formato JSON.
@@ -61,28 +55,24 @@ public static class ServiceErrors {
         return new ServiceError.NotFoundError(id);
     }
 
-    public static DomainError ValidationError(string field, string message) {
-        return new ServiceError.ValidationError(field, message);
+    public static DomainError GetAllError() {
+        return new ServiceError.GetAllError();
     }
 
-    public static DomainError GetAllError(string detail) {
-        return new ServiceError.GetAllError(detail);
+    public static DomainError GetByIdError(int id) {
+        return new ServiceError.GetByIdError(id);
     }
 
-    public static DomainError GetByIdError(int id, string detail) {
-        return new ServiceError.GetByIdError(id, detail);
+    public static DomainError CreateError() {
+        return new ServiceError.CreateError();
     }
 
-    public static DomainError CreateError(string detail) {
-        return new ServiceError.CreateError(detail);
+    public static DomainError UpdateError(int id) {
+        return new ServiceError.UpdateError(id);
     }
 
-    public static DomainError UpdateError(int id, string detail) {
-        return new ServiceError.UpdateError(id, detail);
-    }
-
-    public static DomainError DeleteError(int id, string detail) {
-        return new ServiceError.DeleteError(id, detail);
+    public static DomainError DeleteError(int id) {
+        return new ServiceError.DeleteError(id);
     }
 
     public static DomainError ExportToJsonError(string detail) {

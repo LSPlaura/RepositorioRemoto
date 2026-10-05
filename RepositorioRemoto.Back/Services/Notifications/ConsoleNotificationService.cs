@@ -1,8 +1,9 @@
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using RepositorioRemoto.Back.Models.Notification;
+using RepositorioRemoto.Back.Notifications;
 
-namespace RepositorioRemoto.Back.Notifications;
+namespace RepositorioRemoto.Back.Services.Notifications;
 
 /// <summary>
 /// Servicio que emite notificaciones a través de un flujo observable.
