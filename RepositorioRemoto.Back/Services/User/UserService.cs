@@ -22,7 +22,6 @@ namespace RepositorioRemoto.Back.Services.User;
 /// Gestiona usuarios mediante una API remota, un repositorio local y una caché.
 /// Trabaja directamente con el modelo de dominio User.
 /// </summary>
-
 public class UserService(
     IValidate<Models.User> validator,
     IUserRepository repository,
@@ -32,6 +31,7 @@ public class UserService(
     IApiJsonPlaceHolder api
     ) : IUserService, IScopedService {
     
+    /// <inheritdoc cref="IUserService.GetAllAsync"/>
     public async Task<IEnumerable<Models.User>> GetAllAsync() {
         var locales =  await repository.GetAllAsync();
         if (locales.Any()) return locales;
@@ -43,6 +43,7 @@ public class UserService(
         return remotos;
     }
 
+    /// <inheritdoc cref="IUserService.GetByIdAsync"/>
     public async Task<Result<Models.User, DomainError>> GetByIdAsync(int id) {
         try {
             var cacheado = await cache.GetAsync<Models.User>(GetKeyUser(id));
@@ -72,6 +73,7 @@ public class UserService(
         }
     }
 
+    /// <inheritdoc cref="IUserService.CreateAsync"/>
     public async Task<Result<Models.User, DomainError>> CreateAsync(CreateUserRequest request) {
         try {
             var usuario = request.ToModel();
@@ -89,12 +91,15 @@ public class UserService(
         }
     }
 
+    /// <inheritdoc cref="IUserService.UpdateAsync"/>
     public async Task<Result<Models.User, DomainError>> UpdateAsync(int id, UpdateUserRequest request) {
         try {
+            if (id != request.Id) return Result.Failure<Models.User, DomainError>(ServiceErrors.UpdateError(id));
+            if (validator.Validate(request.ToModel()).IsFailure) return Result.Failure<Models.User, DomainError>(ServiceErrors.UpdateError(id));
+
             return await ComprobarExistenciaAsync(id)
                 .Tap(u => api.UpdateUserAsync(id, request))
                 .Bind(u => repository.UpdateAsync(id, request.ToModel()))
-                .Tap(u => cache.RemoveAsync(GetKeyUser(id)))
                 .Tap(u => notificationService.Notificar(new Notification(
                     TypeNotification.Update,
                     $"Se ha actualizado el usuario con ID {id}.",
@@ -104,6 +109,7 @@ public class UserService(
         }
     }
 
+    /// <inheritdoc cref="IUserService.DeleteAsync"/>
     public async Task<Result<Models.User, DomainError>> DeleteAsync(int id) {
         try {
             return await ComprobarExistenciaAsync(id)
@@ -119,6 +125,7 @@ public class UserService(
         }
     }
 
+    /// <inheritdoc cref="IUserService.ExportToJsonAsync"/>
     public async Task<Result<bool, DomainError>> ExportToJsonAsync() {
         var items = await repository.GetAllAsync();
         var res = await storage.ExportarJsonAsync(items.AsEnumerable(), Configuracion.UsersJsonPath);
@@ -128,13 +135,21 @@ public class UserService(
         return Result.Success<bool, DomainError>(true);
     }
     
+    /// <summary>
+    /// Comprueba que existe el usuario con el id propocionado.
+    /// </summary>
+    /// <param name="id">Id del usuario.</param>
+    /// <returns>Succes o failure dependiendo del resultado.</returns>
     private async Task<Result<Models.User, DomainError>> ComprobarExistenciaAsync(int id) {
-        var res = await repository.GetByIdAsync(id);
+        var res = await GetByIdAsync(id);
         return res.IsSuccess
             ? Result.Success<Models.User, DomainError>(res.Value)
             : Result.Failure<Models.User, DomainError>(UsersErrors.NotFoundError(id));
     }
 
+    /// <summary>
+    /// Devuelve una clave personalizada para la cache en base al id del objeto.
+    /// </summary>
     private string GetKeyUser(int id) {
         return $"User:{id}";
     }
