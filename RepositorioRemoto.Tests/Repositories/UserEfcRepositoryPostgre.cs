@@ -39,8 +39,8 @@ public abstract class UserEfcRepositoryPostgreTests
     [TestFixture]
     public class CasosValidos : UserEfcRepositoryPostgreTests
     {
-        private readonly PostgreSqlContainer _postgreSqlContainer = new PostgreSqlBuilder()
-            .WithImage("postgres:16-alpine")
+        private readonly PostgreSqlContainer _postgreSqlContainer = new PostgreSqlBuilder("postgres:17-alpine")
+            .WithCleanUp(true)
             .WithDatabase("testdb")
             .WithUsername("postgres")
             .WithPassword("postgres")
