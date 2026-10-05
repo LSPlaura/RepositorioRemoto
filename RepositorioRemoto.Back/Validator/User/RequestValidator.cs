@@ -9,11 +9,11 @@ using Serilog;
 namespace RepositorioRemoto.Back.Validator.User;
 
 /// <summary>
-/// Validador para <see cref="RequestDto"/>
+/// Validador para <see cref="Models.User"/>
 /// </summary>
-public class RequestValidator : IValidate<RequestDto>, ITransientService {
+public class RequestValidator : IValidate<Models.User>, ITransientService {
     private readonly ILogger _logger = Log.ForContext<RequestValidator>();
-
+    
     private static readonly Regex _regexName = new(@"^[A-Za-z\s.-]{2,50}$");
     private static readonly Regex _regexUserName = new(@"^[A-Za-z0-9._-]{3,30}$");
     private static readonly Regex _regexEmail = new(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$");
@@ -21,7 +21,7 @@ public class RequestValidator : IValidate<RequestDto>, ITransientService {
     private static readonly Regex _regexWebsite = new(@"^(https?:\/\/)?(www\.)?[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(\/.*)?$");
 
     /// <inheritdoc />
-    public Result<bool, DomainError> Validate(RequestDto item) {
+    public Result<bool, DomainError> Validate(Models.User item) {
         var emptyCheckResult = CheckEmptyOrWhiteSpace(item);
         if (emptyCheckResult.IsFailure) return emptyCheckResult;
 
@@ -31,7 +31,8 @@ public class RequestValidator : IValidate<RequestDto>, ITransientService {
         return true;
     }
 
-    private Result<bool, DomainError> CheckEmptyOrWhiteSpace(RequestDto item) {
+    private Result<bool, DomainError> CheckEmptyOrWhiteSpace(Models.User item) {
+        
         if (string.IsNullOrWhiteSpace(item.Name)) {
             _logger.Debug("Error de validación: El campo Name está vacío o contiene solo espacios.");
             return UsersErrors.ValidationError("Name", "El nombre no puede estar vacío.");
@@ -74,7 +75,8 @@ public class RequestValidator : IValidate<RequestDto>, ITransientService {
         return true;
     }
 
-    private Result<bool, DomainError> CheckRegex(RequestDto item) {
+    private Result<bool, DomainError> CheckRegex(Models.User item) {
+        
         if (!_regexName.IsMatch(item.Name)) {
             _logger.Debug("Error de validación: El formato del campo Name no es válido.");
             return UsersErrors.ValidationError("Name", "El formato del nombre no es válido.");

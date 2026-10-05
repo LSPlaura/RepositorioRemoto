@@ -1,8 +1,9 @@
 using FluentAssertions;
 using RepositorioRemoto.Back.Dto.Users;
+using RepositorioRemoto.Back.Models;
 using RepositorioRemoto.Back.Validator.User;
 
-namespace RepositorioRemoto.Test.Validator.User;
+namespace RepositorioRemoto.Tests.Validator.User;
 
 [TestFixture]
 public class CompanyValidatorTests {
@@ -120,12 +121,10 @@ public class CompanyValidatorTests {
         }
     }
 
-    private static CompanyDto CrearCompanyValida(
-        string? name = "Romaguera-Crona",
+    private static Company CrearCompanyValida(string? name = "Romaguera-Crona",
         string? catchPhrase = "Multi-layered client-server",
-        string? bs = "harness real-time e-markets"
-    ) {
-        return new CompanyDto(
+        string? bs = "harness real-time e-markets") {
+        return new Company(
             name!,
             catchPhrase!,
             bs!

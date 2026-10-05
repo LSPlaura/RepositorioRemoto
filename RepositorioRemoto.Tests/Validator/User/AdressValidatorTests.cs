@@ -1,8 +1,8 @@
 using FluentAssertions;
-using RepositorioRemoto.Back.Dto.Users;
+using RepositorioRemoto.Back.Models;
 using RepositorioRemoto.Back.Validator.User;
 
-namespace RepositorioRemoto.Test.Validator.User;
+namespace RepositorioRemoto.Tests.Validator.User;
 
 [TestFixture]
 public class AddressValidatorTests {
@@ -201,7 +201,7 @@ public class AddressValidatorTests {
         }
     }
 
-    private static AddressDto CrearAddressValido(
+    private static Address CrearAddressValido(
         string? street = "Kulas Light",
         string? suite = "Apt. 556",
         string? city = "Gwenborough",
@@ -209,12 +209,12 @@ public class AddressValidatorTests {
         string? lat = "-37.3159",
         string? lng = "81.1496"
     ) {
-        return new AddressDto(
+        return new Address(
             street!,
             suite!,
             city!,
             zipCode!,
-            new GeoDto(
+            new Geo(
                 lat!,
                 lng!
             )
