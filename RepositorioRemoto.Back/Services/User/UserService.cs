@@ -46,7 +46,7 @@ public class UserService(
     public async Task<Result<Models.User, DomainError>> DeleteAsync(int id) {
         return await ComprobarExistenciaAsync(id)
             .Bind(u => repository.DeleteAsync(id))
-            .Tap(u => cache.RemoveAsync(id.ToString()));        
+            .Tap(u => cache.RemoveAsync(GetKeyUser(id)));        
     }
 
     public async Task<Result<bool, DomainError>> ExportToJsonAsync() {
@@ -63,5 +63,9 @@ public class UserService(
         return res.IsSuccess
             ? Result.Success<Models.User, DomainError>(res.Value)
             : Result.Failure<Models.User, DomainError>(UsersErrors.NotFoundError(id));
+    }
+
+    private string GetKeyUser(int id) {
+        return $"User:{id}";
     }
 }
