@@ -1,4 +1,8 @@
-﻿using FluentAssertions;
+﻿using System;
+using System.Text.Json;
+using FluentAssertions;
+using NUnit.Framework;
+using RepositorioRemoto.Back.Dto.Users;
 using RepositorioRemoto.Back.Mappers;
 using RepositorioRemoto.Back.Models;
 
@@ -6,6 +10,28 @@ namespace RepositorioRemoto.Tests.Mappers;
 
 [TestFixture]
 public class AddressMapperTests {
+
+    private const string JsonValido = """
+        {
+            "street": "Kulas Light",
+            "suite": "Apt. 556",
+            "city": "Gwenborough",
+            "zipCode": "92998-3874",
+            "geo": {
+                "lat": "-37.3159",
+                "lng": "81.1496"
+            }
+        }
+        """;
+
+    private static AddressDto CrearDto(string json) {
+        return JsonSerializer.Deserialize<AddressDto>(
+            json,
+            new JsonSerializerOptions {
+                PropertyNameCaseInsensitive = true
+            }
+        )!;
+    }
 
     [TestFixture]
     public sealed class CasosValidos {
@@ -28,160 +54,300 @@ public class AddressMapperTests {
 
         [Test]
         public void ToJson_AddressValido_ConvierteCorrectamente() {
-            // Arrange
+            //Act
+            var resultado = _address.ToJson();
 
-            // Act
-            var res = _address.ToJson();
+            //Assert
+            resultado.Should().NotBeNullOrEmpty();
 
-            // Assert
-            res.Should().NotBeNullOrEmpty();
-            res.Should().Contain("\"street\":\"Kulas Light\"");
-            res.Should().Contain("\"suite\":\"Apt. 556\"");
-            res.Should().Contain("\"city\":\"Gwenborough\"");
-            res.Should().Contain("\"zipCode\":\"92998-3874\"");
-            res.Should().Contain("\"lat\":\"-37.3159\"");
-            res.Should().Contain("\"lng\":\"81.1496\"");
+            using var documento = JsonDocument.Parse(resultado);
+            var raiz = documento.RootElement;
+
+            raiz.GetProperty("street").GetString().Should().Be(_address.Street);
+            raiz.GetProperty("suite").GetString().Should().Be(_address.Suite);
+            raiz.GetProperty("city").GetString().Should().Be(_address.City);
+            raiz.GetProperty("zipCode").GetString().Should().Be(_address.ZipCode);
+
+            var geo = raiz.GetProperty("geo");
+
+            geo.GetProperty("lat").GetString().Should().Be(_address.Geo.Lat);
+            geo.GetProperty("lng").GetString().Should().Be(_address.Geo.Lng);
+        }
+
+        [Test]
+        public void ToJson_AddressValido_UtilizaCamelCase() {
+            //Act
+            var resultado = _address.ToJson();
+
+            //Assert
+            using var documento = JsonDocument.Parse(resultado);
+            var raiz = documento.RootElement;
+
+            raiz.TryGetProperty("street", out _).Should().BeTrue();
+            raiz.TryGetProperty("zipCode", out _).Should().BeTrue();
+            raiz.TryGetProperty("geo", out _).Should().BeTrue();
+
+            raiz.TryGetProperty("Street", out _).Should().BeFalse();
+            raiz.TryGetProperty("ZipCode", out _).Should().BeFalse();
+            raiz.TryGetProperty("Geo", out _).Should().BeFalse();
+        }
+
+        [Test]
+        public void ToJson_AddressValido_NoIncluyeSaltosDeLinea() {
+            //Act
+            var resultado = _address.ToJson();
+
+            //Assert
+            resultado.Should().NotContain("\n");
+            resultado.Should().NotContain("\r");
         }
 
         [Test]
         public void ToAddress_JsonValido_ConvierteCorrectamente() {
-            // Arrange
-            const string json =
-                """
-                {
-                    "street": "Kulas Light",
-                    "suite": "Apt. 556",
-                    "city": "Gwenborough",
-                    "zipCode": "92998-3874",
-                    "geo": {
-                        "lat": "-37.3159",
-                        "lng": "81.1496"
-                    }
-                }
-                """;
+            //Arrange
+            var json = JsonValido;
 
-            // Act
-            var res = json.ToAddress();
+            //Act
+            var resultado = json.ToAddress();
 
-            // Assert
-            res.Should().NotBeNull();
-            res.Street.Should().Be("Kulas Light");
-            res.Suite.Should().Be("Apt. 556");
-            res.City.Should().Be("Gwenborough");
-            res.ZipCode.Should().Be("92998-3874");
-
-            res.Geo.Should().NotBeNull();
-            res.Geo.Lat.Should().Be("-37.3159");
-            res.Geo.Lng.Should().Be("81.1496");
+            //Assert
+            resultado.Should().NotBeNull();
+            resultado.Should().BeEquivalentTo(_address);
         }
 
         [Test]
         public void ToJsonYToAddress_AddressValido_MantieneDatos() {
-            // Arrange
-
-            // Act
+            //Act
             var json = _address.ToJson();
-            var res = json.ToAddress();
+            var resultado = json.ToAddress();
 
-            // Assert
-            res.Should().NotBeNull();
-            res.Street.Should().Be(_address.Street);
-            res.Suite.Should().Be(_address.Suite);
-            res.City.Should().Be(_address.City);
-            res.ZipCode.Should().Be(_address.ZipCode);
-            res.Geo.Lat.Should().Be(_address.Geo.Lat);
-            res.Geo.Lng.Should().Be(_address.Geo.Lng);
+            //Assert
+            resultado.Should().BeEquivalentTo(_address);
+            resultado.Should().NotBeSameAs(_address);
+        }
+
+        [Test]
+        public void ToJsonYToAddress_ConCaracteresEspeciales_MantieneDatos() {
+            //Arrange
+            var address = new Address(
+                Street: "Calle \"Alcalá\"\nNúmero 10",
+                Suite: "Piso 2\\B",
+                City: "Málaga",
+                ZipCode: "29001",
+                Geo: new Geo(
+                    Lat: "36.7213",
+                    Lng: "-4.4214"
+                )
+            );
+
+            //Act
+            var json = address.ToJson();
+            var resultado = json.ToAddress();
+
+            //Assert
+            resultado.Should().BeEquivalentTo(address);
+        }
+
+        [Test]
+        public void ToModel_DtoValido_ConvierteTodosLosCampos() {
+            //Arrange
+            var dto = CrearDto(JsonValido);
+
+            //Act
+            var resultado = dto.ToModel();
+
+            //Assert
+            resultado.Should().NotBeNull();
+            resultado.Should().BeEquivalentTo(_address);
+        }
+
+        [Test]
+        public void ToModel_DtoValido_CreaNuevaInstanciaDeGeo() {
+            //Arrange
+            var dto = CrearDto(JsonValido);
+
+            //Act
+            var resultado = dto.ToModel();
+
+            //Assert
+            resultado.Geo.Should().NotBeNull();
+            resultado.Geo.Should().NotBeSameAs(dto.Geo);
+            resultado.Geo.Lat.Should().Be(dto.Geo.Lat);
+            resultado.Geo.Lng.Should().Be(dto.Geo.Lng);
+        }
+
+        [Test]
+        public void ToModel_DtoConCadenasVacias_ConservaCadenasVacias() {
+            //Arrange
+            var dto = CrearDto("""
+                {
+                    "street": "",
+                    "suite": "",
+                    "city": "",
+                    "zipCode": "",
+                    "geo": {
+                        "lat": "",
+                        "lng": ""
+                    }
+                }
+                """);
+
+            var esperado = new Address(
+                Street: string.Empty,
+                Suite: string.Empty,
+                City: string.Empty,
+                ZipCode: string.Empty,
+                Geo: new Geo(
+                    Lat: string.Empty,
+                    Lng: string.Empty
+                )
+            );
+
+            //Act
+            var resultado = dto.ToModel();
+
+            //Assert
+            resultado.Should().BeEquivalentTo(esperado);
         }
     }
 
     [TestFixture]
     public sealed class CasosInvalidos {
 
+        private Address _addressPorDefecto = null!;
+
+        [SetUp]
+        public void Setup() {
+            _addressPorDefecto = new Address(
+                Street: string.Empty,
+                Suite: string.Empty,
+                City: string.Empty,
+                ZipCode: string.Empty,
+                Geo: new Geo(
+                    Lat: string.Empty,
+                    Lng: string.Empty
+                )
+            );
+        }
+
         [Test]
         public void ToJson_AddressNulo_RetornaCadenaVacia() {
-            // Arrange
+            //Arrange
             Address? address = null;
 
-            // Act
-            var res = address.ToJson();
+            //Act
+            var resultado = address.ToJson();
 
-            // Assert
-            res.Should().NotBeNull();
-            res.Should().BeEmpty();
+            //Assert
+            resultado.Should().BeEmpty();
+        }
+
+        [TestCase(null)]
+        [TestCase("")]
+        [TestCase("   ")]
+        [TestCase("\t")]
+        [TestCase("\r\n")]
+        public void ToAddress_JsonNuloVacioOBlanco_RetornaAddressPorDefecto(string? json) {
+            //Act
+            var resultado = json.ToAddress();
+
+            //Assert
+            resultado.Should().NotBeNull();
+            resultado.Should().BeEquivalentTo(_addressPorDefecto);
         }
 
         [Test]
-        public void ToAddress_JsonNulo_RetornaAddressPorDefecto() {
-            // Arrange
+        public void ToAddress_JsonConLiteralNull_RetornaAddressPorDefecto() {
+            //Arrange
+            const string json = "null";
+
+            //Act
+            var resultado = json.ToAddress();
+
+            //Assert
+            resultado.Should().NotBeNull();
+            resultado.Should().BeEquivalentTo(_addressPorDefecto);
+        }
+
+        [TestCase("{ esto no es un json valido }")]
+        [TestCase("{")]
+        [TestCase("{\"street\":")]
+        [TestCase("texto sin formato JSON")]
+        public void ToAddress_JsonMalFormado_RetornaAddressPorDefecto(string json) {
+            //Act
+            var resultado = json.ToAddress();
+
+            //Assert
+            resultado.Should().NotBeNull();
+            resultado.Should().BeEquivalentTo(_addressPorDefecto);
+        }
+
+        [TestCase("[]")]
+        [TestCase("123")]
+        [TestCase("true")]
+        [TestCase("\"texto\"")]
+        [TestCase("{\"street\":123}")]
+        [TestCase("{\"geo\":\"coordenadas incorrectas\"}")]
+        public void ToAddress_JsonConTiposIncompatibles_RetornaAddressPorDefecto(string json) {
+            //Act
+            var resultado = json.ToAddress();
+
+            //Assert
+            resultado.Should().NotBeNull();
+            resultado.Should().BeEquivalentTo(_addressPorDefecto);
+        }
+
+        [Test]
+        public void ToAddress_EntradasNulas_CreaInstanciasPorDefectoIndependientes() {
+            //Arrange
             string? json = null;
 
-            // Act
-            var res = json.ToAddress();
+            //Act
+            var primero = json.ToAddress();
+            var segundo = json.ToAddress();
 
-            // Assert
-            res.Should().NotBeNull();
-            res.Street.Should().BeEmpty();
-            res.Suite.Should().BeEmpty();
-            res.City.Should().BeEmpty();
-            res.ZipCode.Should().BeEmpty();
-            res.Geo.Should().NotBeNull();
-            res.Geo.Lat.Should().BeEmpty();
-            res.Geo.Lng.Should().BeEmpty();
+            //Assert
+            primero.Should().BeEquivalentTo(_addressPorDefecto);
+            segundo.Should().BeEquivalentTo(_addressPorDefecto);
+
+            primero.Should().NotBeSameAs(segundo);
+            primero.Geo.Should().NotBeSameAs(segundo.Geo);
         }
 
         [Test]
-        public void ToAddress_JsonVacio_RetornaAddressPorDefecto() {
-            // Arrange
-            const string json = "";
+        public void ToModel_DtoNulo_LanzaNullReferenceException() {
+            //Arrange
+            AddressDto dto = null!;
 
-            // Act
-            var res = json.ToAddress();
+            //Act
+            Action accion = () => {
+                _ = dto.ToModel();
+            };
 
-            // Assert
-            res.Should().NotBeNull();
-            res.Street.Should().BeEmpty();
-            res.Suite.Should().BeEmpty();
-            res.City.Should().BeEmpty();
-            res.ZipCode.Should().BeEmpty();
-            res.Geo.Lat.Should().BeEmpty();
-            res.Geo.Lng.Should().BeEmpty();
+            //Assert
+            accion.Should().Throw<NullReferenceException>();
         }
 
         [Test]
-        public void ToAddress_JsonConEspacios_RetornaAddressPorDefecto() {
-            // Arrange
-            const string json = "   ";
+        public void ToModel_DtoConGeoNulo_LanzaNullReferenceException() {
+            //Arrange
+            var dto = CrearDto("""
+                {
+                    "street": "Kulas Light",
+                    "suite": "Apt. 556",
+                    "city": "Gwenborough",
+                    "zipCode": "92998-3874",
+                    "geo": null
+                }
+                """);
 
-            // Act
-            var res = json.ToAddress();
+            //Act
+            Action accion = () => {
+                _ = dto.ToModel();
+            };
 
-            // Assert
-            res.Should().NotBeNull();
-            res.Street.Should().BeEmpty();
-            res.Suite.Should().BeEmpty();
-            res.City.Should().BeEmpty();
-            res.ZipCode.Should().BeEmpty();
-            res.Geo.Lat.Should().BeEmpty();
-            res.Geo.Lng.Should().BeEmpty();
-        }
-
-        [Test]
-        public void ToAddress_JsonInvalido_RetornaAddressPorDefecto() {
-            // Arrange
-            const string json = "{ esto no es un json valido }";
-
-            // Act
-            var res = json.ToAddress();
-
-            // Assert
-            res.Should().NotBeNull();
-            res.Street.Should().BeEmpty();
-            res.Suite.Should().BeEmpty();
-            res.City.Should().BeEmpty();
-            res.ZipCode.Should().BeEmpty();
-            res.Geo.Should().NotBeNull();
-            res.Geo.Lat.Should().BeEmpty();
-            res.Geo.Lng.Should().BeEmpty();
+            //Assert
+            accion.Should().Throw<NullReferenceException>();
         }
     }
 }
