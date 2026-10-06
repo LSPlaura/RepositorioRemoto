@@ -18,9 +18,15 @@ public static class Configuracion {
     /// </summary>
     /// <param name="args">Argumentos recibidos en Main.</param>
     public static void Inicializar(string[] args) {
+        var entorno = args.Length > 0 ? args[0] : "Development";
+
         Configuration = new ConfigurationBuilder()
             .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-            .AddJsonFile($"appsettings.{ApiName.ToLower()}.json", false, true)
+            .AddJsonFile(
+                $"appsettings.{entorno.ToLowerInvariant()}.json",
+                false,
+                true
+            )
             .Build();
     }
 

@@ -17,7 +17,7 @@
 <table>
 <tr>
 <th>Parser:</th>
-<td class="limit-width " title="MultiReport (4x Cobertura)">MultiReport (4x Cobertura)</td>
+<td class="limit-width " title="Cobertura">Cobertura</td>
 </tr>
 <tr>
 <th>Assemblies:</th>
@@ -25,15 +25,15 @@
 </tr>
 <tr>
 <th>Classes:</th>
-<td class="limit-width right" title="41">41</td>
+<td class="limit-width right" title="39">39</td>
 </tr>
 <tr>
 <th>Files:</th>
-<td class="limit-width right" title="37">37</td>
+<td class="limit-width right" title="35">35</td>
 </tr>
 <tr>
 <th>Coverage date:</th>
-<td class="limit-width " title="04/10/2026 - 10:43:14 - 05/10/2026 - 12:40:31">04/10/2026 - 10:43:14 - 05/10/2026 - 12:40:31</td>
+<td class="limit-width " title="06/10/2026 - 11:55:52">06/10/2026 - 11:55:52</td>
 </tr>
 </table>
 </div>
@@ -42,28 +42,28 @@
 <div class="card">
 <div class="card-header">Line coverage</div>
 <div class="card-body">
-<div class="large cardpercentagebar cardpercentagebar26">73%</div>
+<div class="large cardpercentagebar cardpercentagebar25">74%</div>
 <div class="table">
 <table>
 <tr>
 <th>Covered lines:</th>
-<td class="limit-width right" title="657">657</td>
+<td class="limit-width right" title="692">692</td>
 </tr>
 <tr>
 <th>Uncovered lines:</th>
-<td class="limit-width right" title="236">236</td>
+<td class="limit-width right" title="235">235</td>
 </tr>
 <tr>
 <th>Coverable lines:</th>
-<td class="limit-width right" title="893">893</td>
+<td class="limit-width right" title="927">927</td>
 </tr>
 <tr>
 <th>Total lines:</th>
-<td class="limit-width right" title="1584">1584</td>
+<td class="limit-width right" title="1735">1735</td>
 </tr>
 <tr>
 <th>Line coverage:</th>
-<td class="limit-width right" title="657 of 893">73.5%</td>
+<td class="limit-width right" title="692 of 927">74.6%</td>
 </tr>
 </table>
 </div>
@@ -72,20 +72,20 @@
 <div class="card">
 <div class="card-header">Branch coverage</div>
 <div class="card-body">
-<div class="large cardpercentagebar cardpercentagebar20">80%</div>
+<div class="large cardpercentagebar cardpercentagebar21">79%</div>
 <div class="table">
 <table>
 <tr>
 <th>Covered branches:</th>
-<td class="limit-width right" title="148">148</td>
+<td class="limit-width right" title="127">127</td>
 </tr>
 <tr>
 <th>Total branches:</th>
-<td class="limit-width right" title="184">184</td>
+<td class="limit-width right" title="160">160</td>
 </tr>
 <tr>
 <th>Branch coverage:</th>
-<td class="limit-width right" title="148 of 184">80.4%</td>
+<td class="limit-width right" title="127 of 160">79.3%</td>
 </tr>
 </table>
 </div>
@@ -103,8 +103,32 @@
 </div>
 <h1>Risk Hotspots</h1>
 <risk-hotspots>
+<div class="table-responsive">
+<table class="overview table-fixed stripped">
+<colgroup>
+<col class="column-min-200" />
+<col class="column-min-200" />
+<col class="column-min-200" />
+<col class="column105" />
+<col class="column105" />
+</colgroup>
+<thead><tr><th>Assembly</th>
+<th>Class</th>
+<th>Method</th>
+<th>Crap Score <a href="https://googletesting.blogspot.de/2011/02/this-code-is-crap.html" target="_blank"><i class="icon-info-circled"></i></a></th>
+<th>Cyclomatic complexity <a href="https://en.wikipedia.org/wiki/Cyclomatic_complexity" target="_blank"><i class="icon-info-circled"></i></a></th>
+</tr></thead>
+<tbody>
+<tr>
+<td>RepositorioRemoto.Back</td>
+<td><a href="RepositorioRemoto.Back_UserService.html">RepositorioRemoto.Back.Services.User.UserService</a></td>
+<td title="GetByIdAsync()"><a href="RepositorioRemoto.Back_UserService.html#file0_line47">GetByIdAsync()</a></td><td class="lightred right">72</td>
+<td class="lightgreen right">8</td>
+</tr>
+</tbody>
+</table>
+</div>
 </risk-hotspots>
-<p>No risk hotspots found.</p>
 <h1>Coverage</h1>
 <coverage-info>
 <div class="table-responsive">
@@ -126,52 +150,50 @@
 <tr class="header"><th></th><th colspan="6" class="center">Line coverage</th><th colspan="4" class="center">Branch coverage</th></tr>
 <tr><th>Name</th><th class="right">Covered</th><th class="right">Uncovered</th><th class="right">Coverable</th><th class="right">Total</th><th class="center" colspan="2">Percentage</th><th class="right">Covered</th><th class="right">Total</th><th class="center" colspan="2">Percentage</th></tr></thead>
 <tbody>
-<tr><th>RepositorioRemoto.Back</th><th class="right">657</th><th class="right">236</th><th class="right">893</th><th class="right">1744</th><th title="657/893" class="right">73.5%</th><th><table class="coverage"><tr><td class="green covered74">&nbsp;</td><td class="red covered26">&nbsp;</td></tr></table></th><th class="right">148</th><th class="right">184</th><th class="right" title="148/184">80.4%</th><th><table class="coverage"><tr><td class="green covered80">&nbsp;</td><td class="red covered20">&nbsp;</td></tr></table></th></tr>
-<tr><td><a href="RepositorioRemoto.Back_MemoryCache.html">RepositorioRemoto.Back.Cache.MemoryCache</a></td><td class="right">38</td><td class="right">11</td><td class="right">49</td><td class="right">85</td><td title="38/49" class="right">77.5%</td><td><table class="coverage"><tr><td class="green covered78">&nbsp;</td><td class="red covered22">&nbsp;</td></tr></table></td><td class="right">3</td><td class="right">4</td><td class="right" title="3/4">75%</td><td><table class="coverage"><tr><td class="green covered75">&nbsp;</td><td class="red covered25">&nbsp;</td></tr></table></td></tr>
+<tr><th>RepositorioRemoto.Back</th><th class="right">692</th><th class="right">235</th><th class="right">927</th><th class="right">1885</th><th title="692/927" class="right">74.6%</th><th><table class="coverage"><tr><td class="green covered75">&nbsp;</td><td class="red covered25">&nbsp;</td></tr></table></th><th class="right">127</th><th class="right">160</th><th class="right" title="127/160">79.3%</th><th><table class="coverage"><tr><td class="green covered79">&nbsp;</td><td class="red covered21">&nbsp;</td></tr></table></th></tr>
+<tr><td><a href="RepositorioRemoto.Back_MemoryCache.html">RepositorioRemoto.Back.Cache.MemoryCache</a></td><td class="right">49</td><td class="right">0</td><td class="right">49</td><td class="right">85</td><td title="49/49" class="right">100%</td><td><table class="coverage"><tr><td class="green covered100">&nbsp;</td></tr></table></td><td class="right">4</td><td class="right">4</td><td class="right" title="4/4">100%</td><td><table class="coverage"><tr><td class="green covered100">&nbsp;</td></tr></table></td></tr>
 <tr><td><a href="RepositorioRemoto.Back_RedisCache.html">RepositorioRemoto.Back.Cache.RedisCache</a></td><td class="right">54</td><td class="right">0</td><td class="right">54</td><td class="right">88</td><td title="54/54" class="right">100%</td><td><table class="coverage"><tr><td class="green covered100">&nbsp;</td></tr></table></td><td class="right">8</td><td class="right">8</td><td class="right" title="8/8">100%</td><td><table class="coverage"><tr><td class="green covered100">&nbsp;</td></tr></table></td></tr>
-<tr><td><a href="RepositorioRemoto.Back_ApiConfig.html">RepositorioRemoto.Back.Config.ApiConfig</a></td><td class="right">1</td><td class="right">0</td><td class="right">1</td><td class="right">9</td><td title="1/1" class="right">100%</td><td><table class="coverage"><tr><td class="green covered100">&nbsp;</td></tr></table></td><td class="right">0</td><td class="right">0</td><td class="right" title="-"></td><td><table class="coverage"><tr><td class="gray covered100">&nbsp;</td></tr></table></td></tr>
-<tr><td><a href="RepositorioRemoto.Back_Configuracion.html">RepositorioRemoto.Back.Config.Configuracion</a></td><td class="right">0</td><td class="right">23</td><td class="right">23</td><td class="right">83</td><td title="0/23" class="right">0%</td><td><table class="coverage"><tr><td class="red covered100">&nbsp;</td></tr></table></td><td class="right">0</td><td class="right">12</td><td class="right" title="0/12">0%</td><td><table class="coverage"><tr><td class="red covered100">&nbsp;</td></tr></table></td></tr>
-<tr><td><a href="RepositorioRemoto.Back_RequestDto.html">RepositorioRemoto.Back.Dto.RequestDto</a></td><td class="right">8</td><td class="right">0</td><td class="right">8</td><td class="right">12</td><td title="8/8" class="right">100%</td><td><table class="coverage"><tr><td class="green covered100">&nbsp;</td></tr></table></td><td class="right">0</td><td class="right">0</td><td class="right" title="-"></td><td><table class="coverage"><tr><td class="gray covered100">&nbsp;</td></tr></table></td></tr>
+<tr><td><a href="RepositorioRemoto.Back_Configuracion.html">RepositorioRemoto.Back.Config.Configuracion</a></td><td class="right">28</td><td class="right">0</td><td class="right">28</td><td class="right">89</td><td title="28/28" class="right">100%</td><td><table class="coverage"><tr><td class="green covered100">&nbsp;</td></tr></table></td><td class="right">14</td><td class="right">14</td><td class="right" title="14/14">100%</td><td><table class="coverage"><tr><td class="green covered100">&nbsp;</td></tr></table></td></tr>
 <tr><td><a href="RepositorioRemoto.Back_AddressDto.html">RepositorioRemoto.Back.Dto.Users.AddressDto</a></td><td class="right">7</td><td class="right">0</td><td class="right">7</td><td class="right">12</td><td title="7/7" class="right">100%</td><td><table class="coverage"><tr><td class="green covered100">&nbsp;</td></tr></table></td><td class="right">0</td><td class="right">0</td><td class="right" title="-"></td><td><table class="coverage"><tr><td class="gray covered100">&nbsp;</td></tr></table></td></tr>
 <tr><td><a href="RepositorioRemoto.Back_CompanyDto.html">RepositorioRemoto.Back.Dto.Users.CompanyDto</a></td><td class="right">5</td><td class="right">0</td><td class="right">5</td><td class="right">10</td><td title="5/5" class="right">100%</td><td><table class="coverage"><tr><td class="green covered100">&nbsp;</td></tr></table></td><td class="right">0</td><td class="right">0</td><td class="right" title="-"></td><td><table class="coverage"><tr><td class="gray covered100">&nbsp;</td></tr></table></td></tr>
+<tr><td><a href="RepositorioRemoto.Back_CreateUserRequest.html">RepositorioRemoto.Back.Dto.Users.CreateUserRequest</a></td><td class="right">1</td><td class="right">0</td><td class="right">1</td><td class="right">6</td><td title="1/1" class="right">100%</td><td><table class="coverage"><tr><td class="green covered100">&nbsp;</td></tr></table></td><td class="right">0</td><td class="right">0</td><td class="right" title="-"></td><td><table class="coverage"><tr><td class="gray covered100">&nbsp;</td></tr></table></td></tr>
 <tr><td><a href="RepositorioRemoto.Back_GeoDto.html">RepositorioRemoto.Back.Dto.Users.GeoDto</a></td><td class="right">4</td><td class="right">0</td><td class="right">4</td><td class="right">9</td><td title="4/4" class="right">100%</td><td><table class="coverage"><tr><td class="green covered100">&nbsp;</td></tr></table></td><td class="right">0</td><td class="right">0</td><td class="right" title="-"></td><td><table class="coverage"><tr><td class="gray covered100">&nbsp;</td></tr></table></td></tr>
-<tr><td><a href="RepositorioRemoto.Back_CreateUserRequest.html">RepositorioRemoto.Back.Dto.Users.Request.CreateUserRequest</a></td><td class="right">1</td><td class="right">0</td><td class="right">1</td><td class="right">6</td><td title="1/1" class="right">100%</td><td><table class="coverage"><tr><td class="green covered100">&nbsp;</td></tr></table></td><td class="right">0</td><td class="right">0</td><td class="right" title="-"></td><td><table class="coverage"><tr><td class="gray covered100">&nbsp;</td></tr></table></td></tr>
-<tr><td><a href="RepositorioRemoto.Back_UpdateUserRequest.html">RepositorioRemoto.Back.Dto.Users.Request.UpdateUserRequest</a></td><td class="right">1</td><td class="right">0</td><td class="right">1</td><td class="right">6</td><td title="1/1" class="right">100%</td><td><table class="coverage"><tr><td class="green covered100">&nbsp;</td></tr></table></td><td class="right">0</td><td class="right">0</td><td class="right" title="-"></td><td><table class="coverage"><tr><td class="gray covered100">&nbsp;</td></tr></table></td></tr>
+<tr><td><a href="RepositorioRemoto.Back_UpdateUserRequest.html">RepositorioRemoto.Back.Dto.Users.UpdateUserRequest</a></td><td class="right">1</td><td class="right">0</td><td class="right">1</td><td class="right">6</td><td title="1/1" class="right">100%</td><td><table class="coverage"><tr><td class="green covered100">&nbsp;</td></tr></table></td><td class="right">0</td><td class="right">0</td><td class="right" title="-"></td><td><table class="coverage"><tr><td class="gray covered100">&nbsp;</td></tr></table></td></tr>
 <tr><td><a href="RepositorioRemoto.Back_UserDto.html">RepositorioRemoto.Back.Dto.Users.UserDto</a></td><td class="right">10</td><td class="right">0</td><td class="right">10</td><td class="right">15</td><td title="10/10" class="right">100%</td><td><table class="coverage"><tr><td class="green covered100">&nbsp;</td></tr></table></td><td class="right">0</td><td class="right">0</td><td class="right" title="-"></td><td><table class="coverage"><tr><td class="gray covered100">&nbsp;</td></tr></table></td></tr>
-<tr><td><a href="RepositorioRemoto.Back_AppDbContextPostgre.html">RepositorioRemoto.Back.Entity.AppDbContextPostgre</a></td><td class="right">55</td><td class="right">0</td><td class="right">55</td><td class="right">55</td><td title="55/55" class="right">100%</td><td><table class="coverage"><tr><td class="green covered100">&nbsp;</td></tr></table></td><td class="right">0</td><td class="right">0</td><td class="right" title="-"></td><td><table class="coverage"><tr><td class="gray covered100">&nbsp;</td></tr></table></td></tr>
+<tr><td><a href="RepositorioRemoto.Back_AppDbContextPostgre.html">RepositorioRemoto.Back.Entity.AppDbContextPostgre</a></td><td class="right">46</td><td class="right">0</td><td class="right">46</td><td class="right">55</td><td title="46/46" class="right">100%</td><td><table class="coverage"><tr><td class="green covered100">&nbsp;</td></tr></table></td><td class="right">0</td><td class="right">0</td><td class="right" title="-"></td><td><table class="coverage"><tr><td class="gray covered100">&nbsp;</td></tr></table></td></tr>
 <tr><td><a href="RepositorioRemoto.Back_AppDbContextSqlite.html">RepositorioRemoto.Back.Entity.AppDbContextSqlite</a></td><td class="right">46</td><td class="right">0</td><td class="right">46</td><td class="right">69</td><td title="46/46" class="right">100%</td><td><table class="coverage"><tr><td class="green covered100">&nbsp;</td></tr></table></td><td class="right">0</td><td class="right">0</td><td class="right" title="-"></td><td><table class="coverage"><tr><td class="gray covered100">&nbsp;</td></tr></table></td></tr>
-<tr><td><a href="RepositorioRemoto.Back_ApiError.html">RepositorioRemoto.Back.Errors.Api.ApiError</a></td><td class="right">0</td><td class="right">1</td><td class="right">1</td><td class="right">6</td><td title="0/1" class="right">0%</td><td><table class="coverage"><tr><td class="red covered100">&nbsp;</td></tr></table></td><td class="right">0</td><td class="right">0</td><td class="right" title="-"></td><td><table class="coverage"><tr><td class="gray covered100">&nbsp;</td></tr></table></td></tr>
 <tr><td><a href="RepositorioRemoto.Back_DomainError.html">RepositorioRemoto.Back.Errors.DomainError</a></td><td class="right">1</td><td class="right">0</td><td class="right">1</td><td class="right">6</td><td title="1/1" class="right">100%</td><td><table class="coverage"><tr><td class="green covered100">&nbsp;</td></tr></table></td><td class="right">0</td><td class="right">0</td><td class="right" title="-"></td><td><table class="coverage"><tr><td class="gray covered100">&nbsp;</td></tr></table></td></tr>
 <tr><td><a href="RepositorioRemoto.Back_RepositoryError.html">RepositorioRemoto.Back.Errors.Repository.RepositoryError</a></td><td class="right">4</td><td class="right">0</td><td class="right">4</td><td class="right">32</td><td title="4/4" class="right">100%</td><td><table class="coverage"><tr><td class="green covered100">&nbsp;</td></tr></table></td><td class="right">0</td><td class="right">0</td><td class="right" title="-"></td><td><table class="coverage"><tr><td class="gray covered100">&nbsp;</td></tr></table></td></tr>
 <tr><td><a href="RepositorioRemoto.Back_RepositoryErrors.html">RepositorioRemoto.Back.Errors.Repository.RepositoryErrors</a></td><td class="right">9</td><td class="right">0</td><td class="right">9</td><td class="right">32</td><td title="9/9" class="right">100%</td><td><table class="coverage"><tr><td class="green covered100">&nbsp;</td></tr></table></td><td class="right">0</td><td class="right">0</td><td class="right" title="-"></td><td><table class="coverage"><tr><td class="gray covered100">&nbsp;</td></tr></table></td></tr>
-<tr><td><a href="RepositorioRemoto.Back_ServiceError.html">RepositorioRemoto.Back.Errors.Service.ServiceError</a></td><td class="right">0</td><td class="right">17</td><td class="right">17</td><td class="right">91</td><td title="0/17" class="right">0%</td><td><table class="coverage"><tr><td class="red covered100">&nbsp;</td></tr></table></td><td class="right">0</td><td class="right">0</td><td class="right" title="-"></td><td><table class="coverage"><tr><td class="gray covered100">&nbsp;</td></tr></table></td></tr>
-<tr><td><a href="RepositorioRemoto.Back_ServiceErrors.html">RepositorioRemoto.Back.Errors.Service.ServiceErrors</a></td><td class="right">0</td><td class="right">24</td><td class="right">24</td><td class="right">91</td><td title="0/24" class="right">0%</td><td><table class="coverage"><tr><td class="red covered100">&nbsp;</td></tr></table></td><td class="right">0</td><td class="right">0</td><td class="right" title="-"></td><td><table class="coverage"><tr><td class="gray covered100">&nbsp;</td></tr></table></td></tr>
-<tr><td><a href="RepositorioRemoto.Back_StorageError.html">RepositorioRemoto.Back.Errors.Storage.StorageError</a></td><td class="right">0</td><td class="right">2</td><td class="right">2</td><td class="right">14</td><td title="0/2" class="right">0%</td><td><table class="coverage"><tr><td class="red covered100">&nbsp;</td></tr></table></td><td class="right">0</td><td class="right">0</td><td class="right" title="-"></td><td><table class="coverage"><tr><td class="gray covered100">&nbsp;</td></tr></table></td></tr>
-<tr><td><a href="RepositorioRemoto.Back_StorageErrors.html">RepositorioRemoto.Back.Errors.Storage.StorageErrors</a></td><td class="right">0</td><td class="right">3</td><td class="right">3</td><td class="right">14</td><td title="0/3" class="right">0%</td><td><table class="coverage"><tr><td class="red covered100">&nbsp;</td></tr></table></td><td class="right">0</td><td class="right">0</td><td class="right" title="-"></td><td><table class="coverage"><tr><td class="gray covered100">&nbsp;</td></tr></table></td></tr>
+<tr><td><a href="RepositorioRemoto.Back_ServiceError.html">RepositorioRemoto.Back.Errors.Service.ServiceError</a></td><td class="right">0</td><td class="right">13</td><td class="right">13</td><td class="right">81</td><td title="0/13" class="right">0%</td><td><table class="coverage"><tr><td class="red covered100">&nbsp;</td></tr></table></td><td class="right">0</td><td class="right">0</td><td class="right" title="-"></td><td><table class="coverage"><tr><td class="gray covered100">&nbsp;</td></tr></table></td></tr>
+<tr><td><a href="RepositorioRemoto.Back_ServiceErrors.html">RepositorioRemoto.Back.Errors.Service.ServiceErrors</a></td><td class="right">0</td><td class="right">21</td><td class="right">21</td><td class="right">81</td><td title="0/21" class="right">0%</td><td><table class="coverage"><tr><td class="red covered100">&nbsp;</td></tr></table></td><td class="right">0</td><td class="right">0</td><td class="right" title="-"></td><td><table class="coverage"><tr><td class="gray covered100">&nbsp;</td></tr></table></td></tr>
+<tr><td><a href="RepositorioRemoto.Back_StorageError.html">RepositorioRemoto.Back.Errors.Storage.StorageError</a></td><td class="right">2</td><td class="right">0</td><td class="right">2</td><td class="right">14</td><td title="2/2" class="right">100%</td><td><table class="coverage"><tr><td class="green covered100">&nbsp;</td></tr></table></td><td class="right">0</td><td class="right">0</td><td class="right" title="-"></td><td><table class="coverage"><tr><td class="gray covered100">&nbsp;</td></tr></table></td></tr>
+<tr><td><a href="RepositorioRemoto.Back_StorageErrors.html">RepositorioRemoto.Back.Errors.Storage.StorageErrors</a></td><td class="right">3</td><td class="right">0</td><td class="right">3</td><td class="right">14</td><td title="3/3" class="right">100%</td><td><table class="coverage"><tr><td class="green covered100">&nbsp;</td></tr></table></td><td class="right">0</td><td class="right">0</td><td class="right" title="-"></td><td><table class="coverage"><tr><td class="gray covered100">&nbsp;</td></tr></table></td></tr>
 <tr><td><a href="RepositorioRemoto.Back_UsersError.html">RepositorioRemoto.Back.Errors.Users.UsersError</a></td><td class="right">3</td><td class="right">0</td><td class="right">3</td><td class="right">23</td><td title="3/3" class="right">100%</td><td><table class="coverage"><tr><td class="green covered100">&nbsp;</td></tr></table></td><td class="right">0</td><td class="right">0</td><td class="right" title="-"></td><td><table class="coverage"><tr><td class="gray covered100">&nbsp;</td></tr></table></td></tr>
 <tr><td><a href="RepositorioRemoto.Back_UsersErrors.html">RepositorioRemoto.Back.Errors.Users.UsersErrors</a></td><td class="right">6</td><td class="right">0</td><td class="right">6</td><td class="right">23</td><td title="6/6" class="right">100%</td><td><table class="coverage"><tr><td class="green covered100">&nbsp;</td></tr></table></td><td class="right">0</td><td class="right">0</td><td class="right" title="-"></td><td><table class="coverage"><tr><td class="gray covered100">&nbsp;</td></tr></table></td></tr>
-<tr><td><a href="RepositorioRemoto.Back_DependenciesProvider.html">RepositorioRemoto.Back.Infrastructure.DependenciesProvider</a></td><td class="right">16</td><td class="right">1</td><td class="right">17</td><td class="right">29</td><td title="16/17" class="right">94.1%</td><td><table class="coverage"><tr><td class="green covered94">&nbsp;</td><td class="red covered6">&nbsp;</td></tr></table></td><td class="right">0</td><td class="right">0</td><td class="right" title="-"></td><td><table class="coverage"><tr><td class="gray covered100">&nbsp;</td></tr></table></td></tr>
+<tr><td><a href="RepositorioRemoto.Back_DependenciesProvider.html">RepositorioRemoto.Back.Infrastructure.DependenciesProvider</a></td><td class="right">0</td><td class="right">16</td><td class="right">16</td><td class="right">29</td><td title="0/16" class="right">0%</td><td><table class="coverage"><tr><td class="red covered100">&nbsp;</td></tr></table></td><td class="right">0</td><td class="right">0</td><td class="right" title="-"></td><td><table class="coverage"><tr><td class="gray covered100">&nbsp;</td></tr></table></td></tr>
 <tr><td><a href="RepositorioRemoto.Back_DependenciesProviderExtension.html">RepositorioRemoto.Back.Infrastructure.DependenciesProviderExtension</a></td><td class="right">0</td><td class="right">26</td><td class="right">26</td><td class="right">46</td><td title="0/26" class="right">0%</td><td><table class="coverage"><tr><td class="red covered100">&nbsp;</td></tr></table></td><td class="right">0</td><td class="right">4</td><td class="right" title="0/4">0%</td><td><table class="coverage"><tr><td class="red covered100">&nbsp;</td></tr></table></td></tr>
-<tr><td><a href="RepositorioRemoto.Back_AddressMapper.html">RepositorioRemoto.Back.Mappers.AddressMapper</a></td><td class="right">27</td><td class="right">0</td><td class="right">27</td><td class="right">59</td><td title="27/27" class="right">100%</td><td><table class="coverage"><tr><td class="green covered100">&nbsp;</td></tr></table></td><td class="right">5</td><td class="right">6</td><td class="right" title="5/6">83.3%</td><td><table class="coverage"><tr><td class="green covered83">&nbsp;</td><td class="red covered17">&nbsp;</td></tr></table></td></tr>
-<tr><td><a href="RepositorioRemoto.Back_CompanyMapper.html">RepositorioRemoto.Back.Mappers.CompanyMapper</a></td><td class="right">25</td><td class="right">0</td><td class="right">25</td><td class="right">56</td><td title="25/25" class="right">100%</td><td><table class="coverage"><tr><td class="green covered100">&nbsp;</td></tr></table></td><td class="right">5</td><td class="right">6</td><td class="right" title="5/6">83.3%</td><td><table class="coverage"><tr><td class="green covered83">&nbsp;</td><td class="red covered17">&nbsp;</td></tr></table></td></tr>
+<tr><td><a href="RepositorioRemoto.Back_AddressMapper.html">RepositorioRemoto.Back.Mappers.AddressMapper</a></td><td class="right">39</td><td class="right">0</td><td class="right">39</td><td class="right">77</td><td title="39/39" class="right">100%</td><td><table class="coverage"><tr><td class="green covered100">&nbsp;</td></tr></table></td><td class="right">6</td><td class="right">6</td><td class="right" title="6/6">100%</td><td><table class="coverage"><tr><td class="green covered100">&nbsp;</td></tr></table></td></tr>
+<tr><td><a href="RepositorioRemoto.Back_CompanyMapper.html">RepositorioRemoto.Back.Mappers.CompanyMapper</a></td><td class="right">32</td><td class="right">0</td><td class="right">32</td><td class="right">70</td><td title="32/32" class="right">100%</td><td><table class="coverage"><tr><td class="green covered100">&nbsp;</td></tr></table></td><td class="right">6</td><td class="right">6</td><td class="right" title="6/6">100%</td><td><table class="coverage"><tr><td class="green covered100">&nbsp;</td></tr></table></td></tr>
+<tr><td><a href="RepositorioRemoto.Back_UserMapper.html">RepositorioRemoto.Back.Mappers.UserMapper</a></td><td class="right">30</td><td class="right">0</td><td class="right">30</td><td class="right">54</td><td title="30/30" class="right">100%</td><td><table class="coverage"><tr><td class="green covered100">&nbsp;</td></tr></table></td><td class="right">0</td><td class="right">0</td><td class="right" title="-"></td><td><table class="coverage"><tr><td class="gray covered100">&nbsp;</td></tr></table></td></tr>
 <tr><td><a href="RepositorioRemoto.Back_Address.html">RepositorioRemoto.Back.Models.Address</a></td><td class="right">8</td><td class="right">0</td><td class="right">8</td><td class="right">14</td><td title="8/8" class="right">100%</td><td><table class="coverage"><tr><td class="green covered100">&nbsp;</td></tr></table></td><td class="right">0</td><td class="right">0</td><td class="right" title="-"></td><td><table class="coverage"><tr><td class="gray covered100">&nbsp;</td></tr></table></td></tr>
 <tr><td><a href="RepositorioRemoto.Back_Company.html">RepositorioRemoto.Back.Models.Company</a></td><td class="right">6</td><td class="right">0</td><td class="right">6</td><td class="right">12</td><td title="6/6" class="right">100%</td><td><table class="coverage"><tr><td class="green covered100">&nbsp;</td></tr></table></td><td class="right">0</td><td class="right">0</td><td class="right" title="-"></td><td><table class="coverage"><tr><td class="gray covered100">&nbsp;</td></tr></table></td></tr>
 <tr><td><a href="RepositorioRemoto.Back_Geo.html">RepositorioRemoto.Back.Models.Geo</a></td><td class="right">5</td><td class="right">0</td><td class="right">5</td><td class="right">11</td><td title="5/5" class="right">100%</td><td><table class="coverage"><tr><td class="green covered100">&nbsp;</td></tr></table></td><td class="right">0</td><td class="right">0</td><td class="right" title="-"></td><td><table class="coverage"><tr><td class="gray covered100">&nbsp;</td></tr></table></td></tr>
-<tr><td><a href="RepositorioRemoto.Back_Notification.html">RepositorioRemoto.Back.Models.Notification.Notification</a></td><td class="right">0</td><td class="right">5</td><td class="right">5</td><td class="right">12</td><td title="0/5" class="right">0%</td><td><table class="coverage"><tr><td class="red covered100">&nbsp;</td></tr></table></td><td class="right">0</td><td class="right">0</td><td class="right" title="-"></td><td><table class="coverage"><tr><td class="gray covered100">&nbsp;</td></tr></table></td></tr>
+<tr><td><a href="RepositorioRemoto.Back_Notification.html">RepositorioRemoto.Back.Models.Notification.Notification</a></td><td class="right">5</td><td class="right">0</td><td class="right">5</td><td class="right">12</td><td title="5/5" class="right">100%</td><td><table class="coverage"><tr><td class="green covered100">&nbsp;</td></tr></table></td><td class="right">0</td><td class="right">0</td><td class="right" title="-"></td><td><table class="coverage"><tr><td class="gray covered100">&nbsp;</td></tr></table></td></tr>
 <tr><td><a href="RepositorioRemoto.Back_User.html">RepositorioRemoto.Back.Models.User</a></td><td class="right">15</td><td class="right">0</td><td class="right">15</td><td class="right">20</td><td title="15/15" class="right">100%</td><td><table class="coverage"><tr><td class="green covered100">&nbsp;</td></tr></table></td><td class="right">0</td><td class="right">0</td><td class="right" title="-"></td><td><table class="coverage"><tr><td class="gray covered100">&nbsp;</td></tr></table></td></tr>
-<tr><td><a href="RepositorioRemoto.Back_ConsoleNotificationService.html">RepositorioRemoto.Back.Notifications.ConsoleNotificationService</a></td><td class="right">0</td><td class="right">9</td><td class="right">9</td><td class="right">28</td><td title="0/9" class="right">0%</td><td><table class="coverage"><tr><td class="red covered100">&nbsp;</td></tr></table></td><td class="right">0</td><td class="right">0</td><td class="right" title="-"></td><td><table class="coverage"><tr><td class="gray covered100">&nbsp;</td></tr></table></td></tr>
-<tr><td><a href="RepositorioRemoto.Back_Program.html">RepositorioRemoto.Back.Program</a></td><td class="right">0</td><td class="right">17</td><td class="right">17</td><td class="right">25</td><td title="0/17" class="right">0%</td><td><table class="coverage"><tr><td class="red covered100">&nbsp;</td></tr></table></td><td class="right">0</td><td class="right">0</td><td class="right" title="-"></td><td><table class="coverage"><tr><td class="gray covered100">&nbsp;</td></tr></table></td></tr>
-<tr><td><a href="RepositorioRemoto.Back_UserEfcRepository.html">RepositorioRemoto.Back.Repositories.UserEfcRepository</a></td><td class="right">122</td><td class="right">2</td><td class="right">124</td><td class="right">152</td><td title="122/124" class="right">98.3%</td><td><table class="coverage"><tr><td class="green covered98">&nbsp;</td><td class="red covered2">&nbsp;</td></tr></table></td><td class="right">23</td><td class="right">26</td><td class="right" title="23/26">88.4%</td><td><table class="coverage"><tr><td class="green covered88">&nbsp;</td><td class="red covered12">&nbsp;</td></tr></table></td></tr>
-<tr><td><a href="RepositorioRemoto.Back_BackgroundService.html">RepositorioRemoto.Back.Services.Background.BackgroundService</a></td><td class="right">0</td><td class="right">29</td><td class="right">29</td><td class="right">62</td><td title="0/29" class="right">0%</td><td><table class="coverage"><tr><td class="red covered100">&nbsp;</td></tr></table></td><td class="right">0</td><td class="right">6</td><td class="right" title="0/6">0%</td><td><table class="coverage"><tr><td class="red covered100">&nbsp;</td></tr></table></td></tr>
-<tr><td><a href="RepositorioRemoto.Back_UserService.html">RepositorioRemoto.Back.Services.User.UserService</a></td><td class="right">0</td><td class="right">35</td><td class="right">35</td><td class="right">71</td><td title="0/35" class="right">0%</td><td><table class="coverage"><tr><td class="red covered100">&nbsp;</td></tr></table></td><td class="right">0</td><td class="right">4</td><td class="right" title="0/4">0%</td><td><table class="coverage"><tr><td class="red covered100">&nbsp;</td></tr></table></td></tr>
-<tr><td><a href="RepositorioRemoto.Back_UserStorage.html">RepositorioRemoto.Back.Storage.UserStorage</a></td><td class="right">0</td><td class="right">31</td><td class="right">31</td><td class="right">66</td><td title="0/31" class="right">0%</td><td><table class="coverage"><tr><td class="red covered100">&nbsp;</td></tr></table></td><td class="right">0</td><td class="right">4</td><td class="right" title="0/4">0%</td><td><table class="coverage"><tr><td class="red covered100">&nbsp;</td></tr></table></td></tr>
-<tr><td><a href="RepositorioRemoto.Back_AddressValidator.html">RepositorioRemoto.Back.Validator.User.AddressValidator</a></td><td class="right">62</td><td class="right">0</td><td class="right">62</td><td class="right">112</td><td title="62/62" class="right">100%</td><td><table class="coverage"><tr><td class="green covered100">&nbsp;</td></tr></table></td><td class="right">28</td><td class="right">28</td><td class="right" title="28/28">100%</td><td><table class="coverage"><tr><td class="green covered100">&nbsp;</td></tr></table></td></tr>
-<tr><td><a href="RepositorioRemoto.Back_CompanyValidator.html">RepositorioRemoto.Back.Validator.User.CompanyValidator</a></td><td class="right">28</td><td class="right">0</td><td class="right">28</td><td class="right">59</td><td title="28/28" class="right">100%</td><td><table class="coverage"><tr><td class="green covered100">&nbsp;</td></tr></table></td><td class="right">12</td><td class="right">12</td><td class="right" title="12/12">100%</td><td><table class="coverage"><tr><td class="green covered100">&nbsp;</td></tr></table></td></tr>
-<tr><td><a href="RepositorioRemoto.Back_RequestValidator.html">RepositorioRemoto.Back.Validator.User.RequestValidator</a></td><td class="right">90</td><td class="right">0</td><td class="right">90</td><td class="right">119</td><td title="90/90" class="right">100%</td><td><table class="coverage"><tr><td class="green covered100">&nbsp;</td></tr></table></td><td class="right">64</td><td class="right">64</td><td class="right" title="64/64">100%</td><td><table class="coverage"><tr><td class="green covered100">&nbsp;</td></tr></table></td></tr>
+<tr><td><a href="RepositorioRemoto.Back_Program.html">RepositorioRemoto.Back.Program</a></td><td class="right">0</td><td class="right">14</td><td class="right">14</td><td class="right">25</td><td title="0/14" class="right">0%</td><td><table class="coverage"><tr><td class="red covered100">&nbsp;</td></tr></table></td><td class="right">0</td><td class="right">0</td><td class="right" title="-"></td><td><table class="coverage"><tr><td class="gray covered100">&nbsp;</td></tr></table></td></tr>
+<tr><td><a href="RepositorioRemoto.Back_UserEfcRepository.html">RepositorioRemoto.Back.Repositories.UserEfcRepository</a></td><td class="right">87</td><td class="right">6</td><td class="right">93</td><td class="right">152</td><td title="87/93" class="right">93.5%</td><td><table class="coverage"><tr><td class="green covered94">&nbsp;</td><td class="red covered6">&nbsp;</td></tr></table></td><td class="right">13</td><td class="right">16</td><td class="right" title="13/16">81.2%</td><td><table class="coverage"><tr><td class="green covered81">&nbsp;</td><td class="red covered19">&nbsp;</td></tr></table></td></tr>
+<tr><td><a href="RepositorioRemoto.Back_BackgroundService.html">RepositorioRemoto.Back.Services.Background.BackgroundService</a></td><td class="right">0</td><td class="right">35</td><td class="right">35</td><td class="right">68</td><td title="0/35" class="right">0%</td><td><table class="coverage"><tr><td class="red covered100">&nbsp;</td></tr></table></td><td class="right">0</td><td class="right">6</td><td class="right" title="0/6">0%</td><td><table class="coverage"><tr><td class="red covered100">&nbsp;</td></tr></table></td></tr>
+<tr><td><a href="RepositorioRemoto.Back_ConsoleNotificationService.html">RepositorioRemoto.Back.Services.Notifications.ConsoleNotificationService</a></td><td class="right">0</td><td class="right">9</td><td class="right">9</td><td class="right">29</td><td title="0/9" class="right">0%</td><td><table class="coverage"><tr><td class="red covered100">&nbsp;</td></tr></table></td><td class="right">0</td><td class="right">0</td><td class="right" title="-"></td><td><table class="coverage"><tr><td class="gray covered100">&nbsp;</td></tr></table></td></tr>
+<tr><td><a href="RepositorioRemoto.Back_UserService.html">RepositorioRemoto.Back.Services.User.UserService</a></td><td class="right">0</td><td class="right">95</td><td class="right">95</td><td class="right">156</td><td title="0/95" class="right">0%</td><td><table class="coverage"><tr><td class="red covered100">&nbsp;</td></tr></table></td><td class="right">0</td><td class="right">20</td><td class="right" title="0/20">0%</td><td><table class="coverage"><tr><td class="red covered100">&nbsp;</td></tr></table></td></tr>
+<tr><td><a href="RepositorioRemoto.Back_UserStorage.html">RepositorioRemoto.Back.Storage.UserStorage</a></td><td class="right">31</td><td class="right">0</td><td class="right">31</td><td class="right">66</td><td title="31/31" class="right">100%</td><td><table class="coverage"><tr><td class="green covered100">&nbsp;</td></tr></table></td><td class="right">4</td><td class="right">4</td><td class="right" title="4/4">100%</td><td><table class="coverage"><tr><td class="green covered100">&nbsp;</td></tr></table></td></tr>
+<tr><td><a href="RepositorioRemoto.Back_AddressValidator.html">RepositorioRemoto.Back.Validator.User.AddressValidator</a></td><td class="right">62</td><td class="right">0</td><td class="right">62</td><td class="right">113</td><td title="62/62" class="right">100%</td><td><table class="coverage"><tr><td class="green covered100">&nbsp;</td></tr></table></td><td class="right">28</td><td class="right">28</td><td class="right" title="28/28">100%</td><td><table class="coverage"><tr><td class="green covered100">&nbsp;</td></tr></table></td></tr>
+<tr><td><a href="RepositorioRemoto.Back_CompanyValidator.html">RepositorioRemoto.Back.Validator.User.CompanyValidator</a></td><td class="right">28</td><td class="right">0</td><td class="right">28</td><td class="right">60</td><td title="28/28" class="right">100%</td><td><table class="coverage"><tr><td class="green covered100">&nbsp;</td></tr></table></td><td class="right">12</td><td class="right">12</td><td class="right" title="12/12">100%</td><td><table class="coverage"><tr><td class="green covered100">&nbsp;</td></tr></table></td></tr>
+<tr><td><a href="RepositorioRemoto.Back_RequestValidator.html">RepositorioRemoto.Back.Validator.User.RequestValidator</a></td><td class="right">65</td><td class="right">0</td><td class="right">65</td><td class="right">121</td><td title="65/65" class="right">100%</td><td><table class="coverage"><tr><td class="green covered100">&nbsp;</td></tr></table></td><td class="right">32</td><td class="right">32</td><td class="right" title="32/32">100%</td><td><table class="coverage"><tr><td class="green covered100">&nbsp;</td></tr></table></td></tr>
 </tbody>
 </table>
 </div>
 </coverage-info>
-<div class="footer">Generated by: ReportGenerator 5.5.10.0<br />05/10/2026 - 12:41:44<br /><a href="https://github.com/danielpalme/ReportGenerator">GitHub</a> | <a href="https://reportgenerator.io">reportgenerator.io</a></div></div></div>
+<div class="footer">Generated by: ReportGenerator 5.5.11.0<br />06/10/2026 - 11:55:55<br /><a href="https://github.com/danielpalme/ReportGenerator">GitHub</a> | <a href="https://reportgenerator.io">reportgenerator.io</a></div></div></div>
 <script type="text/javascript" src="main.js"></script>
 </body></html>
