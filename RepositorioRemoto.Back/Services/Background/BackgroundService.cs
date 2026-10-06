@@ -56,7 +56,13 @@ public class BackgroundService(IServiceProvider provider, ICache cache)
 
         foreach (var user in users)
         {
-            await repository.CreateAsync(user);
+            var newUser = user with
+            {
+                CreateAt = DateTime.UtcNow,
+                UpdateAt = DateTime.UtcNow,
+                DeleteAt = default
+            };
+            await repository.CreateAsync(newUser);
         }
     }
 }

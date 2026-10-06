@@ -3,6 +3,7 @@ using CSharpFunctionalExtensions;
 using RepositorioRemoto.Back.Dto.Users;
 using RepositorioRemoto.Back.Errors;
 using RepositorioRemoto.Back.Errors.Users;
+using RepositorioRemoto.Back.Models;
 using Serilog;
 
 namespace RepositorioRemoto.Back.Validator.User;
@@ -20,7 +21,7 @@ public static class AddressValidator {
     private static readonly Regex _regexZipCode = new(@"^[A-Za-z0-9\s-]{3,10}$");
     private static readonly Regex _regexGeoCoordinate = new(@"^-?\d{1,3}(\.\d{1,8})?$");
 
-    public static Result<bool, DomainError> CheckEmptyOrWhiteSpace(this AddressDto item) {
+    public static Result<bool, DomainError> CheckEmptyOrWhiteSpace(this Address item) {
         if (string.IsNullOrWhiteSpace(item.Street)) {
             _logger.Debug("Error de validación: El campo Street está vacío o contiene solo espacios.");
             return UsersErrors.ValidationError("Street", "La calle no puede estar vacía.");
@@ -51,7 +52,7 @@ public static class AddressValidator {
         return true;
     }
 
-    public static Result<bool, DomainError> CheckRegex(this AddressDto item) {
+    public static Result<bool, DomainError> CheckRegex(this Address item) {
         if (!_regexStreet.IsMatch(item.Street)) {
             _logger.Debug("Error de validación: El formato del campo Street no es válido.");
             return UsersErrors.ValidationError("Street", "El formato de la calle no es válido.");
@@ -82,7 +83,7 @@ public static class AddressValidator {
         return true;
     }
 
-    private static Result<bool, DomainError> GeoCheckEmptyOrWhiteSpace(this GeoDto item) {
+    private static Result<bool, DomainError> GeoCheckEmptyOrWhiteSpace(this Geo item) {
         if (string.IsNullOrWhiteSpace(item.Lat)) {
             _logger.Debug("Error de validación: El campo Lat está vacío o contiene solo espacios.");
             return UsersErrors.ValidationError("Lat", "La latitud no puede estar vacía.");
@@ -96,7 +97,7 @@ public static class AddressValidator {
         return true;
     }
 
-    private static Result<bool, DomainError> GeoCheckRegex(this GeoDto item) {
+    private static Result<bool, DomainError> GeoCheckRegex(this Geo item) {
         if (!_regexGeoCoordinate.IsMatch(item.Lat)) {
             _logger.Debug("Error de validación: El formato de la latitud (Lat) no es válido.");
             return UsersErrors.ValidationError("Lat", "El formato de la latitud no es válido.");

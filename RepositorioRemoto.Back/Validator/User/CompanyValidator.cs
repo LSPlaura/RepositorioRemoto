@@ -3,6 +3,7 @@ using CSharpFunctionalExtensions;
 using RepositorioRemoto.Back.Dto.Users;
 using RepositorioRemoto.Back.Errors;
 using RepositorioRemoto.Back.Errors.Users;
+using RepositorioRemoto.Back.Models;
 using Serilog;
 
 namespace RepositorioRemoto.Back.Validator.User;
@@ -13,12 +14,12 @@ namespace RepositorioRemoto.Back.Validator.User;
 /// </summary>
 public static class CompanyValidator {
     private static readonly ILogger _logger = Log.ForContext(typeof(CompanyValidator));
-
+    
     private static readonly Regex _regexName = new(@"^[A-Za-z0-9\s.,#-]{2,100}$");
     private static readonly Regex _regexCatchPhrase = new(@"^[A-Za-z0-9\s.,#-]{3,150}$");
     private static readonly Regex _regexBs = new(@"^[A-Za-z0-9\s.,#-]{3,150}$");
 
-    public static Result<bool, DomainError> CheckEmptyOrWhiteSpace(this CompanyDto item) {
+    public static Result<bool, DomainError> CheckEmptyOrWhiteSpace(this Company item) {
         if (string.IsNullOrWhiteSpace(item.Name)) {
             _logger.Debug("Error de validación: El campo Name de la empresa está vacío o contiene solo espacios.");
             return UsersErrors.ValidationError("Name", "El nombre de la empresa no puede estar vacío.");
@@ -37,7 +38,7 @@ public static class CompanyValidator {
         return true;
     }
 
-    public static Result<bool, DomainError> CheckRegex(this CompanyDto item)
+    public static Result<bool, DomainError> CheckRegex(this Company item)
     {
         if (!_regexName.IsMatch(item.Name)) {
             _logger.Debug("Error de validación: El formato del campo Name de la empresa no es válido.");

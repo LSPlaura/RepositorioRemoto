@@ -1,9 +1,9 @@
 using FluentAssertions;
 using RepositorioRemoto.Back.Dto.Users;
-using RepositorioRemoto.Back.Dto.Users.Request;
+using RepositorioRemoto.Back.Models;
 using RepositorioRemoto.Back.Validator.User;
 
-namespace RepositorioRemoto.Test.Validator.User;
+namespace RepositorioRemoto.Tests.Validator.User;
 
 [TestFixture]
 public class RequestValidatorTests {
@@ -21,7 +21,7 @@ public class RequestValidatorTests {
         [Test]
         public void Validate_RequestValido_RetornaSuccess() {
             // Arrange
-            var request = CrearRequestValido();
+            var request = CrearUserValido();
 
             // Act
             var res = _validator.Validate(request);
@@ -46,7 +46,7 @@ public class RequestValidatorTests {
         [TestCase(" ")]
         public void Validate_NameVacioONulo_RetornaFailure(string? name) {
             // Arrange
-            var request = CrearRequestValido(name: name);
+            var request = CrearUserValido(name: name);
 
             // Act
             var res = _validator.Validate(request);
@@ -60,7 +60,7 @@ public class RequestValidatorTests {
         [TestCase(" ")]
         public void Validate_UserNameVacioONulo_RetornaFailure(string? userName) {
             // Arrange
-            var request = CrearRequestValido(userName: userName);
+            var request = CrearUserValido(userName: userName);
 
             // Act
             var res = _validator.Validate(request);
@@ -74,7 +74,7 @@ public class RequestValidatorTests {
         [TestCase(" ")]
         public void Validate_EmailVacioONulo_RetornaFailure(string? email) {
             // Arrange
-            var request = CrearRequestValido(email: email);
+            var request = CrearUserValido(email: email);
 
             // Act
             var res = _validator.Validate(request);
@@ -87,7 +87,7 @@ public class RequestValidatorTests {
         public void Validate_AddressConCampoVacio_RetornaFailure() {
             // Arrange
             var address = CrearAddressValido(street: "");
-            var request = CrearRequestValido(address: address);
+            var request = CrearUserValido(address: address);
 
             // Act
             var res = _validator.Validate(request);
@@ -101,7 +101,7 @@ public class RequestValidatorTests {
         [TestCase(" ")]
         public void Validate_PhoneVacioONulo_RetornaFailure(string? phone) {
             // Arrange
-            var request = CrearRequestValido(phone: phone);
+            var request = CrearUserValido(phone: phone);
 
             // Act
             var res = _validator.Validate(request);
@@ -115,7 +115,7 @@ public class RequestValidatorTests {
         [TestCase(" ")]
         public void Validate_WebsiteVacioONulo_RetornaFailure(string? website) {
             // Arrange
-            var request = CrearRequestValido(website: website);
+            var request = CrearUserValido(website: website);
 
             // Act
             var res = _validator.Validate(request);
@@ -128,7 +128,7 @@ public class RequestValidatorTests {
         public void Validate_CompanyConCampoVacio_RetornaFailure() {
             // Arrange
             var company = CrearCompanyValida(name: "");
-            var request = CrearRequestValido(company: company);
+            var request = CrearUserValido(company: company);
 
             // Act
             var res = _validator.Validate(request);
@@ -142,7 +142,7 @@ public class RequestValidatorTests {
         [TestCase("Lucia@")]
         public void Validate_NameFormatoInvalido_RetornaFailure(string name) {
             // Arrange
-            var request = CrearRequestValido(name: name);
+            var request = CrearUserValido(name: name);
 
             // Act
             var res = _validator.Validate(request);
@@ -156,7 +156,7 @@ public class RequestValidatorTests {
         [TestCase("usuario!")]
         public void Validate_UserNameFormatoInvalido_RetornaFailure(string userName) {
             // Arrange
-            var request = CrearRequestValido(userName: userName);
+            var request = CrearUserValido(userName: userName);
 
             // Act
             var res = _validator.Validate(request);
@@ -170,7 +170,7 @@ public class RequestValidatorTests {
         [TestCase("correo@correo")]
         public void Validate_EmailFormatoInvalido_RetornaFailure(string email) {
             // Arrange
-            var request = CrearRequestValido(email: email);
+            var request = CrearUserValido(email: email);
 
             // Act
             var res = _validator.Validate(request);
@@ -183,7 +183,7 @@ public class RequestValidatorTests {
         public void Validate_AddressRegexInvalida_RetornaFailure() {
             // Arrange
             var address = CrearAddressValido(street: "@@@");
-            var request = CrearRequestValido(address: address);
+            var request = CrearUserValido(address: address);
 
             // Act
             var res = _validator.Validate(request);
@@ -196,7 +196,7 @@ public class RequestValidatorTests {
         [TestCase("@@@")]
         public void Validate_PhoneFormatoInvalido_RetornaFailure(string phone) {
             // Arrange
-            var request = CrearRequestValido(phone: phone);
+            var request = CrearUserValido(phone: phone);
 
             // Act
             var res = _validator.Validate(request);
@@ -209,7 +209,7 @@ public class RequestValidatorTests {
         [TestCase("localhost")]
         public void Validate_WebsiteFormatoInvalido_RetornaFailure(string website) {
             // Arrange
-            var request = CrearRequestValido(website: website);
+            var request = CrearUserValido(website: website);
 
             // Act
             var res = _validator.Validate(request);
@@ -222,7 +222,7 @@ public class RequestValidatorTests {
         public void Validate_CompanyRegexInvalida_RetornaFailure() {
             // Arrange
             var company = CrearCompanyValida(name: "@@@");
-            var request = CrearRequestValido(company: company);
+            var request = CrearUserValido(company: company);
 
             // Act
             var res = _validator.Validate(request);
@@ -232,27 +232,37 @@ public class RequestValidatorTests {
         }
     }
 
-    private static CreateUserRequest CrearRequestValido(
-        string? name = "Lucia Fuertes",
-        string? userName = "lucia_027",
-        string? email = "lucia@example.com",
-        AddressDto? address = null,
-        string? phone = "+34 612 345 678",
-        string? website = "https://example.com",
-        CompanyDto? company = null
+    private static Back.Models.User CrearUserValido(
+        int id = 23,
+        string name = "Lucia Fuertes",
+        string userName = "lucia_027",
+        string email = "lucia@example.com",
+        Address? address = null,
+        string phone = "+34 612 345 678",
+        string website = "https://example.com",
+        Company? company = null,
+        DateTime createdAt = default,
+        DateTime updatedAt = default,
+        DateTime deletedAt = default, 
+        bool isActive = true  
     ) {
-        return new CreateUserRequest(
-            name!,
-            userName!,
-            email!,
+        return new Back.Models.User(
+            id,
+            name,
+            userName,
+            email,
             address ?? CrearAddressValido(),
-            phone!,
-            website!,
-            company ?? CrearCompanyValida()
+            phone,
+            website,
+            company ?? CrearCompanyValida(),
+            createdAt,
+            updatedAt,
+            deletedAt,
+            isActive
         );
     }
 
-    private static AddressDto CrearAddressValido(
+    private static Address CrearAddressValido(
         string? street = "Kulas Light",
         string? suite = "Apt. 556",
         string? city = "Gwenborough",
@@ -260,24 +270,24 @@ public class RequestValidatorTests {
         string? lat = "-37.3159",
         string? lng = "81.1496"
     ) {
-        return new AddressDto(
+        return new Address(
             street!,
             suite!,
             city!,
             zipCode!,
-            new GeoDto(
+            new Geo(
                 lat!,
                 lng!
             )
         );
     }
 
-    private static CompanyDto CrearCompanyValida(
+    private static Company CrearCompanyValida(
         string? name = "Romaguera-Crona",
         string? catchPhrase = "Multi-layered client-server",
         string? bs = "harness real-time e-markets"
     ) {
-        return new CompanyDto(
+        return new Company(
             name!,
             catchPhrase!,
             bs!
