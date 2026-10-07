@@ -37,9 +37,9 @@ public class UserService(
         if (locales.Any()) return locales;
 
         var remotos = await api.GetUserAsync();
-        foreach (var u in remotos) {
-            await repository.CreateAsync(u);
-        }
+        // foreach (var u in remotos) {
+        //     await repository.CreateAsync(u);
+        // }
         return remotos;
     }
 

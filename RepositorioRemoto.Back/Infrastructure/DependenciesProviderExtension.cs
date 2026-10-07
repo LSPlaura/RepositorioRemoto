@@ -85,6 +85,7 @@ public static class DependenciesProviderExtension {
 
             return RestService.For<IApiJsonPlaceHolder>(client);
         });
+
         return services;
     }
 }

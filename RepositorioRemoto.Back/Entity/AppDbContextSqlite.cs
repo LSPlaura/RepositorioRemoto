@@ -25,7 +25,8 @@ public class AppDbContextSqlite(DbContextOptions<AppDbContextSqlite> options) : 
     protected override void OnModelCreating(ModelBuilder modelBuilder) {
         modelBuilder.Entity<User>(entity => {
                 entity.ToTable("users");
-                entity.HasKey(e => e.Id);
+                
+                entity.Property(e => e.Id);
                 
                 entity.Property(e => e.Name)
                     .HasMaxLength(50);

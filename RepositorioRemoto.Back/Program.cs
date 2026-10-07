@@ -86,7 +86,7 @@ public class Program {
     private static async Task ProbarCargaInicialAsync(IServiceProvider provider) {
         using var scope = provider.CreateScope();
 
-        var service = scope.ServiceProvider.GetRequiredService<IUserService>();
+        var api = scope.ServiceProvider.GetRequiredService<IApiJsonPlaceHolder>();
         var repository = scope.ServiceProvider.GetRequiredService<IUserRepository>();
         var cache = scope.ServiceProvider.GetRequiredService<ICache>();
 
@@ -95,16 +95,22 @@ public class Program {
         var deleteResult = await repository.DeleteAllAsync();
 
         Comprobar(deleteResult.IsSuccess, "Base de datos local limpiada");
+        
+        var users = await api.GetUserAsync();
+        
+        Comprobar(users.Count > 0, $"Se han cargado {users.Count} usuarios desde la API");
 
-        var usuarios = (await service.GetAllAsync()).ToList();
-
-        Comprobar(usuarios.Count > 0, $"Se han cargado {usuarios.Count} usuarios desde la API");
+        foreach (var u in users)
+        {
+          var result = await repository.CreateAsync(u);
+          Console.WriteLine($"{result.Error}");
+        }
 
         var locales = (await repository.GetAllAsync()).ToList();
 
-        Comprobar(locales.Count == usuarios.Count, "Los usuarios se han guardado en la BD local");
+        Comprobar(locales.Count == users.Count, "Los usuarios se han guardado en la BD local");
 
-        MostrarUsuarios(usuarios);
+        MostrarUsuarios(locales);
     }
 
     private static async Task ProbarGetAllLocalAsync(IServiceProvider provider) {

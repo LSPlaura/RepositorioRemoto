@@ -43,19 +43,10 @@ public class UserEfcRepository(DbContext context) : IUserRepository, IScopedServ
     {
         try
         {
-            var entry = await _context.Set<User>().AddAsync(entity);
-            
-            entry.Property(u => u.Id).IsTemporary = false;
+            await _context.Set<User>().AddAsync(entity);
 
             await _context.SaveChangesAsync();
             
-            await _context.Database.ExecuteSqlRawAsync(@"
-            SELECT setval(
-                pg_get_serial_sequence('users', 'Id'), 
-                COALESCE((SELECT MAX(""Id"") FROM users), 1)
-            );
-        ");
-
             _logger.Debug("Se ha registrado correctamente la nueva entidad.");
             return Result.Success<User, DomainError>(entity);
         }
@@ -158,3 +149,4 @@ public class UserEfcRepository(DbContext context) : IUserRepository, IScopedServ
         }
     }
 }
+
