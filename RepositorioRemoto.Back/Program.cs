@@ -149,14 +149,22 @@ public class Program {
         var listaAgregada = new List<User>();
         foreach (var user in usuarios)
         {
-            var request = new CreateUserRequest(user.Name, user.UserName, user.Email, user.Address.ToDto(), user.Phone, user.Website, user.Company.ToDto() );
-            var a = await service.CreateAsync(request);
-            listaAgregada.Add(a.Value);
+            var a = await repository.CreateAsync(user);
+            if (a.IsSuccess)
+            {
+                listaAgregada.Add(a.Value);
+            }
+            else
+            {
+                Console.WriteLine($"{a.Error}");
+            }
         }
 
         var despues = (await repository.GetAllAsync()).ToList();
 
-        Comprobar(despues.Count == usuarios.Count, "Los usuarios de la API se almacenan en BD");
+        Comprobar(
+            listaAgregada.Count == usuarios.Count && despues.Count == usuarios.Count,
+            "Los usuarios de la API se almacenan en BD");
     }
 
     private static async Task ProbarGetByIdApiAsync(IServiceProvider provider) {
@@ -219,13 +227,13 @@ public class Program {
         using var scope = provider.CreateScope();
 
         var service = scope.ServiceProvider.GetRequiredService<IUserService>();
-        var repository = scope.ServiceProvider.GetRequiredService<IUserRepository>();
         var cache = scope.ServiceProvider.GetRequiredService<ICache>();
 
         var usuario = CrearUsuarioValido().ToModel();
         var usuarioCache = usuario with
         {
-            Id = 1
+            Id = 1,
+            Name = "Usuario Desde Cache"
         };
 
         await cache.SetAsync("User:1", usuarioCache);
@@ -674,13 +682,26 @@ public class Program {
     private static async Task PrepararDatosAsync(IServiceProvider provider) {
         using var scope = provider.CreateScope();
 
-        var service = scope.ServiceProvider.GetRequiredService<IUserService>();
+        var api = scope.ServiceProvider.GetRequiredService<IApiJsonPlaceHolder>();
         var repository = scope.ServiceProvider.GetRequiredService<IUserRepository>();
         var cache = scope.ServiceProvider.GetRequiredService<ICache>();
 
         await cache.RemoveAllAsync();
-        await repository.DeleteAllAsync();
-        await service.GetAllAsync();
+
+        var deleteResult = await repository.DeleteAllAsync();
+        if (deleteResult.IsFailure) {
+            throw new InvalidOperationException(
+                $"No se han podido preparar los datos: {deleteResult.Error.Message}");
+        }
+
+        var usuarios = await api.GetUserAsync();
+        foreach (var usuario in usuarios) {
+            var createResult = await repository.CreateAsync(usuario);
+            if (createResult.IsFailure) {
+                throw new InvalidOperationException(
+                    $"No se ha podido preparar el usuario {usuario.Id}: {createResult.Error.Message}");
+            }
+        }
     }
 
     private static CreateUserRequest CrearUsuarioValido() {

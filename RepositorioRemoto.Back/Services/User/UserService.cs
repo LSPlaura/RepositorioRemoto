@@ -70,20 +70,54 @@ public class UserService(
     }
 
     /// <inheritdoc cref="IUserService.CreateAsync"/>
-    public async Task<Result<Models.User, DomainError>> CreateAsync(CreateUserRequest request) {
-        try {
+    public async Task<Result<Models.User, DomainError>> CreateAsync(CreateUserRequest request)
+    {
+        try
+        {
             var usuario = request.ToModel();
 
-            return await validator.Validate(usuario)
-                .Map(_ => api.CreateUserAsync(request))
-                .Map(creado => usuario with { Id = creado.Id })
-                .Bind(u => repository.CreateAsync(u))
-                .Tap(u => notificationService.Notificar(new Notification(
-                    TypeNotification.Create,
-                    $"Se ha creado el usuario con ID {u.Id}.",
-                    DateTime.UtcNow)));
-        } catch (Exception) {
-            return Result.Failure<Models.User, DomainError>(ServiceErrors.CreateError());
+            var validacion = validator.Validate(usuario);
+
+            if (validacion.IsFailure)
+            {
+                Console.WriteLine($"Validación fallida: {validacion.Error.Message}");
+                return Result.Failure<Models.User, DomainError>(validacion.Error);
+            }
+
+            var creado = await api.CreateUserAsync(request);
+
+            Console.WriteLine(
+                $"POST API -> Nombre: {request.Name} | Id devuelto: {creado.Id}"
+            );
+
+            var usuarioParaGuardar = usuario with
+            {
+                Id = creado.Id
+            };
+
+            var resultado = await repository.CreateAsync(usuarioParaGuardar);
+
+            if (resultado.IsFailure)
+            {
+                Console.WriteLine(
+                    $"Error insertando en BD: {resultado.Error.Message}"
+                );
+
+                return resultado;
+            }
+
+            notificationService.Notificar(new Notification(
+                TypeNotification.Create,
+                $"Se ha creado el usuario con ID {resultado.Value.Id}.",
+                DateTime.UtcNow));
+
+            return resultado;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error en CreateAsync: {ex}");
+            return Result.Failure<Models.User, DomainError>(
+                ServiceErrors.CreateError());
         }
     }
 
