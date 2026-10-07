@@ -19,6 +19,7 @@ using RepositorioRemoto.Back.Services.User;
 using RepositorioRemoto.Back.Storage;
 using System.Reactive.Linq;
 using System.Text;
+using RepositorioRemoto.Back.Mappers;
 using RepositorioRemoto.Back.Services.Background;
 
 namespace RepositorioRemoto.Back;
@@ -209,14 +210,11 @@ public class Program {
         var repository = scope.ServiceProvider.GetRequiredService<IUserRepository>();
         var cache = scope.ServiceProvider.GetRequiredService<ICache>();
 
-        var local = await repository.GetByIdAsync(1);
-
-        if (local.IsFailure) {
-            Comprobar(false, "No se ha podido preparar la prueba de caché");
-            return;
-        }
-
-        var usuarioCache = local.Value with { Name = "Usuario Desde Cache" };
+        var usuario = CrearUsuarioValido().ToModel();
+        var usuarioCache = usuario with
+        {
+            Id = 1
+        };
 
         await cache.SetAsync("User:1", usuarioCache);
 
