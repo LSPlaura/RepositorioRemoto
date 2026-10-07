@@ -90,8 +90,7 @@ public class RedisCache(IConnectionMultiplexer redis) : ICache
         }
         catch (Exception ex)
         {
-            _logger.Error(ex, "Error limpiando la caché en Redis.");
-            throw;
+            _logger.Warning(ex, "Error limpiando la caché en Redis.");
         }
     }
 }

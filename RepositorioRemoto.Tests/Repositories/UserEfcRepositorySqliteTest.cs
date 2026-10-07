@@ -293,7 +293,7 @@ public abstract class UserEfcRepositoryTests
             var user = CrearUsuarioBase();
             var createResult = await _repository.CreateAsync(user);
 
-            _connection.Close();
+            _context.Dispose();
 
             var result = await _repository.UpdateAsync(createResult.Value.Id, user);
 

@@ -49,7 +49,7 @@ public abstract class UserServiceTests
         }
 
         [Test]
-        public async Task GetAllAsync_DebeConsultarApiYGuardarUsuarios_CuandoElRepositorioEstaVacio()
+        public async Task GetAllAsync_DebeConsultarApi_CuandoElRepositorioEstaVacio()
         {
             var users = new List<User> { User(1), User(2) };
             _repository.Setup(x => x.GetAllAsync()).ReturnsAsync(Array.Empty<User>());
@@ -59,7 +59,7 @@ public abstract class UserServiceTests
 
             result.Should().BeEquivalentTo(users);
             _api.Verify(x => x.GetUserAsync(), Times.Once);
-            _repository.Verify(x => x.CreateAsync(It.IsAny<User>()), Times.Exactly(2));
+            _repository.Verify(x => x.CreateAsync(It.IsAny<User>()), Times.Never);
         }
 
         [Test]

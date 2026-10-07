@@ -28,15 +28,12 @@ public class AppDbContextSqlite(DbContextOptions<AppDbContextSqlite> options) : 
                 
                 entity.Property(e => e.Id);
                 
-                entity.Property(e => e.Name)
-                    .HasMaxLength(50);
+                entity.Property(e => e.Name);
                 
-                entity.Property(e => e.UserName)
-                    .HasMaxLength(30);
+                entity.Property(e => e.UserName);
                 
                 entity.Property(e => e.Email)
-                    .IsRequired()
-                    .HasMaxLength(254);
+                    .IsRequired();
                 
                 // Conversión explícita de objeto Address a string JSON para almacenamiento en SQLite
                 entity.Property(e => e.Address)
@@ -46,11 +43,9 @@ public class AppDbContextSqlite(DbContextOptions<AppDbContextSqlite> options) : 
                     );
                 
                 entity.Property(e => e.Phone)
-                    .IsRequired()
-                    .HasMaxLength(15);
+                    .IsRequired();
                 
-                entity.Property(e => e.Website)
-                    .HasMaxLength(250);
+                entity.Property(e => e.Website);
                 
                 // Conversión explícita de objeto Company a string JSON para almacenamiento en SQLite
                 entity.Property(e => e.Company)
