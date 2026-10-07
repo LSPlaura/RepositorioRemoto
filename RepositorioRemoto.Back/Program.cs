@@ -34,7 +34,7 @@ public class Program {
         services.AddCache();
         services.AddSingleton<INotificationService, ConsoleNotificationService>();
         services.AddScoped<IUserStorage, UserStorage>();
-        services.AddSingleton<RepositorioRemoto.Back.Services.Background.BackgroundService>();
+        services.AddSingleton<Services.Background.BackgroundService>();
 
         services.AddSingleton<IApiJsonPlaceHolder>(_ => {
             var client = new HttpClient {
@@ -44,7 +44,7 @@ public class Program {
             return RestService.For<IApiJsonPlaceHolder>(client);
         });
 
-        using var provider = services.BuildServiceProvider();
+        await using var provider = services.BuildServiceProvider();
 
         var notificationService = provider.GetRequiredService<INotificationService>();
         var notificaciones = new List<Notification>();
@@ -629,7 +629,7 @@ public class Program {
         Console.WriteLine("Esperando al ciclo real de sincronización de 60 segundos...");
         Console.ResetColor();
 
-        var backgroundService = provider.GetRequiredService<RepositorioRemoto.Back.Services.Background.BackgroundService>();
+        var backgroundService = provider.GetRequiredService<Services.Background.BackgroundService>();
 
         using var cancellationTokenSource = new CancellationTokenSource();
 

@@ -32,4 +32,17 @@
         <PackageReference Include="System.Reactive" Version="7.0.0" />
     </ItemGroup>
 
+
+    <ItemGroup>
+        <None Update="appsettings.development.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+        </None>
+
+        <None Update="appsettings.production.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+        </None>
+    </ItemGroup>
+
 </Project>
