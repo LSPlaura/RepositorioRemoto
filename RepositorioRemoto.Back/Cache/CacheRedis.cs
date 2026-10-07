@@ -68,21 +68,30 @@ public class RedisCache(IConnectionMultiplexer redis) : ICache
     {
         try
         {
-            // Para limpiar toda la base de datos en Redis, se itera sobre los endpoints del servidor.
+            var database = redis.GetDatabase();
             var endpoints = redis.GetEndPoints();
 
             foreach (var endpoint in endpoints)
             {
                 var server = redis.GetServer(endpoint);
-                if (!server.IsReplica)
+
+                if (server.IsReplica)
                 {
-                    await server.FlushDatabaseAsync();
+                    continue;
+                }
+
+                var keys = server.Keys(database.Database).ToArray();
+
+                if (keys.Length > 0)
+                {
+                    await database.KeyDeleteAsync(keys);
                 }
             }
         }
         catch (Exception ex)
         {
-            _logger.Warning(ex, "Error limpiando la caché en Redis.");
+            _logger.Error(ex, "Error limpiando la caché en Redis.");
+            throw;
         }
     }
 }

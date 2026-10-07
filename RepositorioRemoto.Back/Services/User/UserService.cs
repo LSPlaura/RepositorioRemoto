@@ -125,11 +125,13 @@ public class UserService(
     public async Task<Result<Models.User, DomainError>> UpdateAsync(int id, UpdateUserRequest request) {
         try {
             if (id != request.Id) return Result.Failure<Models.User, DomainError>(ServiceErrors.UpdateError(id));
-            if (validator.Validate(request.ToModel()).IsFailure) return Result.Failure<Models.User, DomainError>(ServiceErrors.UpdateError(id));
+            var usuarioActualizado = request.ToModel();
+            if (validator.Validate(usuarioActualizado).IsFailure) return Result.Failure<Models.User, DomainError>(ServiceErrors.UpdateError(id));
 
             return await ComprobarExistenciaAsync(id)
                 .Tap(u => api.UpdateUserAsync(id, request))
-                .Bind(u => repository.UpdateAsync(id, request.ToModel()))
+                .Bind(u => repository.UpdateAsync(id, usuarioActualizado))
+                .Tap(u => cache.SetAsync(GetKeyUser(id), u))
                 .Tap(u => notificationService.Notificar(new Notification(
                     TypeNotification.Update,
                     $"Se ha actualizado el usuario con ID {id}.",
