@@ -43,7 +43,10 @@ public class UserEfcRepository(DbContext context) : IUserRepository, IScopedServ
     {
         try
         {
-            await _context.Set<User>().AddAsync(entity);
+            var entry = await _context.Set<User>().AddAsync(entity);
+            
+            entry.Property(u => u.Id).IsTemporary = false;
+
             await _context.SaveChangesAsync();
             
             await _context.Database.ExecuteSqlRawAsync(@"
@@ -143,13 +146,9 @@ public class UserEfcRepository(DbContext context) : IUserRepository, IScopedServ
     {
         try
         {
-            var entities = await _context.Set<User>().ToListAsync();
-            _context.Set<User>().RemoveRange(entities);
-            await _context.SaveChangesAsync();
-            
-            await _context.Database.ExecuteSqlRawAsync("ALTER SEQUENCE users_Id_seq RESTART WITH 1;");
+            await _context.Database.ExecuteSqlRawAsync("TRUNCATE TABLE users RESTART IDENTITY CASCADE;");
 
-            _logger.Debug("Se han eliminado todas las entidades registrados.");
+            _logger.Debug("Se han eliminado todas las entidades registradas.");
             return Result.Success<bool, DomainError>(true);
         }
         catch (Exception ex)
