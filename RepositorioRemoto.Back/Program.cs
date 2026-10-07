@@ -139,8 +139,14 @@ public class Program {
         Comprobar(antes.Count == 0, "La BD está vacía antes del GET ALL");
 
         var usuarios = (await service.GetAllAsync()).ToList();
-
         Comprobar(usuarios.Count > 0, "Los usuarios se obtienen desde la API");
+        var listaAgregada = new List<User>();
+        foreach (var user in usuarios)
+        {
+            var request = new CreateUserRequest(user.Name, user.UserName, user.Email, user.Address.ToDto(), user.Phone, user.Website, user.Company.ToDto() );
+            var a = await service.CreateAsync(request);
+            listaAgregada.Add(a.Value);
+        }
 
         var despues = (await repository.GetAllAsync()).ToList();
 
