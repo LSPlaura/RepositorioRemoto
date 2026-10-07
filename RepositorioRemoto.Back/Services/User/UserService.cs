@@ -36,11 +36,7 @@ public class UserService(
         var locales =  await repository.GetAllAsync();
         if (locales.Any()) return locales;
 
-        var remotos = await api.GetUserAsync();
-        // foreach (var u in remotos) {
-        //     await repository.CreateAsync(u);
-        // }
-        return remotos;
+        return await api.GetUserAsync();
     }
 
     /// <inheritdoc cref="IUserService.GetByIdAsync"/>

@@ -5,7 +5,7 @@ using RepositorioRemoto.Back.Models;
 namespace RepositorioRemoto.Back.Mappers;
 
 /// <summary>
-/// Métodos de extensión para mapeo y conversión de Company.
+/// Métodos de extensión para mapeo y conversión de Company y CompanyDto.
 /// </summary>
 public static class CompanyMapper
 {
@@ -60,11 +60,26 @@ public static class CompanyMapper
     /// </summary>
     /// <param name="dto">Empresa que se quiere convertir.</param>
     /// <returns>Empresa convertida al modelo de dominio.</returns>
-    public static Company ToModel(this CompanyDto dto) {
+    public static Company ToModel(this CompanyDto dto)
+    {
         return new Company(
             Name: dto.Name,
             CatchPhrase: dto.CatchPhrase,
             Bs: dto.Bs
+        );
+    }
+
+    /// <summary>
+    /// Convierte el modelo de dominio Company a CompanyDto.
+    /// </summary>
+    /// <param name="company">Empresa del modelo de dominio que se quiere convertir.</param>
+    /// <returns>CompanyDto resultante.</returns>
+    public static CompanyDto ToDto(this Company company)
+    {
+        return new CompanyDto(
+            Name: company.Name,
+            CatchPhrase: company.CatchPhrase,
+            Bs: company.Bs
         );
     }
 }
