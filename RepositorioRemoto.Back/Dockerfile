@@ -39,4 +39,4 @@ RUN mkdir -p /app/data && chown -R app:app /app && chmod -R 777 /app/data
 USER app
 
 # Para Development
-ENTRYPOINT ["dotnet", "RepositorioRemoto.Back.dll", "Production"]
+ENTRYPOINT ["dotnet", "RepositorioRemoto.Back.dll", "Development"]
