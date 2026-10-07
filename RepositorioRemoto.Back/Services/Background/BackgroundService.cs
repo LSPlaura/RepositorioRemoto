@@ -1,6 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using RepositorioRemoto.Back.Api;
 using RepositorioRemoto.Back.Cache.Common;
+using RepositorioRemoto.Back.Infrastructure.Interfaces;
 using RepositorioRemoto.Back.Repositories;
 using Serilog;
 
@@ -9,7 +10,7 @@ namespace RepositorioRemoto.Back.Services.Background;
 /// <summary>
 /// Servicio para la ejecución periódica de sincronización de usuarios en segundo plano.
 /// </summary>
-public class BackgroundService(IServiceProvider provider, ICache cache)
+public class BackgroundService(IServiceProvider provider, ICache cache) : IBackgroundService, ISingletonService
 {
     private readonly ILogger _logger = Log.ForContext<BackgroundService>();
 

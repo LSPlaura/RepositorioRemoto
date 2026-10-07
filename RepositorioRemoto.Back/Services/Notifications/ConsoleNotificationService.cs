@@ -1,5 +1,6 @@
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
+using RepositorioRemoto.Back.Infrastructure.Interfaces;
 using RepositorioRemoto.Back.Models.Notification;
 using RepositorioRemoto.Back.Notifications;
 
@@ -8,7 +9,7 @@ namespace RepositorioRemoto.Back.Services.Notifications;
 /// <summary>
 /// Servicio que emite notificaciones a través de un flujo observable.
 /// </summary>
-public class ConsoleNotificationService : INotificationService, IDisposable {
+public class ConsoleNotificationService : INotificationService, IDisposable, ISingletonService {
     /// <summary>
     /// Emisor de notificaciones que las distribuye a los suscriptores activos.
     /// </summary>

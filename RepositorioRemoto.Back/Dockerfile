@@ -5,14 +5,16 @@ FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 
-COPY ["RepositorioRemoto.Back/RepositorioRemoto.Back.csproj", "RepositorioRemoto.Back/"]
+# 1. Copiar el csproj directamente
+COPY ["RepositorioRemoto.Back.csproj", "./"]
 
-RUN dotnet restore "RepositorioRemoto.Back/RepositorioRemoto.Back.csproj"
+# 2. Restaurar dependencias
+RUN dotnet restore "RepositorioRemoto.Back.csproj"
 
+# 3. Copiar todo el contenido del proyecto
 COPY . .
 
-WORKDIR "/src/RepositorioRemoto.Back"
-
+# 4. Compilar el proyecto
 RUN dotnet build "RepositorioRemoto.Back.csproj" \
     -c $BUILD_CONFIGURATION \
     -o /app/build
@@ -28,8 +30,13 @@ RUN dotnet publish "RepositorioRemoto.Back.csproj" \
 FROM base AS final
 WORKDIR /app
 
+# Copiar archivos publicados
 COPY --from=publish /app/publish .
 
-RUN mkdir -p /app/data && chmod -R 777 /app/data
+# Crear el directorio /app/data para SQLite y asignar permisos
+RUN mkdir -p /app/data && chown -R app:app /app && chmod -R 777 /app/data
 
-ENTRYPOINT ["dotnet", "RepositorioRemoto.Back.dll"]
+USER app
+
+# Para Development
+ENTRYPOINT ["dotnet", "RepositorioRemoto.Back.dll", "Development"]

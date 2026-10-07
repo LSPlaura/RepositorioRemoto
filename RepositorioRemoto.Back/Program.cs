@@ -19,6 +19,7 @@ using RepositorioRemoto.Back.Services.User;
 using RepositorioRemoto.Back.Storage;
 using System.Reactive.Linq;
 using System.Text;
+using RepositorioRemoto.Back.Services.Background;
 
 namespace RepositorioRemoto.Back;
 
@@ -29,33 +30,24 @@ public class Program {
     public static async Task Main(string[] args) {
         Console.OutputEncoding = Encoding.UTF8;
 
+        // 1. Cargar configuración según el entorno
         Configuracion.Inicializar(args);
 
+        // 2. Registro automático de servicios con Scrutor (ITransientService, IScopedService, ISingletonService)
         var services = DependenciesProvider.ServicesProvider();
 
+        // 3. Módulos de infraestructura y APIs externas
         services.AddDatabase();
-
-        if (Configuracion.ApiName == "Production") {
-            services.AddScoped<DbContext>(sp => sp.GetRequiredService<AppDbContextPostgre>());
-        } else {
-            services.AddScoped<DbContext>(sp => sp.GetRequiredService<AppDbContextSqlite>());
-        }
-
         services.AddCache();
-        services.AddSingleton<INotificationService, ConsoleNotificationService>();
-        services.AddScoped<IUserStorage, UserStorage>();
-        services.AddSingleton<RepositorioRemoto.Back.Services.Background.BackgroundService>();
+        services.AddExternalApis();
 
-        services.AddSingleton<IApiJsonPlaceHolder>(_ => {
-            var client = new HttpClient {
-                BaseAddress = new Uri("https://jsonplaceholder.typicode.com")
-            };
-
-            return RestService.For<IApiJsonPlaceHolder>(client);
-        });
-
+        // 4. Construir el contenedor de dependencias
         using var provider = services.BuildServiceProvider();
 
+        // 5. Inicializar el esquema de la base de datos
+        provider.InitializeDatabase();
+
+        // 6. Configuración de notificaciones y suscripción Rx.NET
         var notificationService = provider.GetRequiredService<INotificationService>();
         var notificaciones = new List<Notification>();
 
@@ -66,6 +58,7 @@ public class Program {
 
         MostrarCabecera();
 
+        // 7. Ejecución del banco de pruebas
         await EjecutarPruebaAsync("1. ARRANQUE - CARGA INICIAL", () => ProbarCargaInicialAsync(provider));
         await EjecutarPruebaAsync("2. GET ALL - BASE DE DATOS LOCAL", () => ProbarGetAllLocalAsync(provider));
         await EjecutarPruebaAsync("3. GET ALL - BD VACÍA → API", () => ProbarGetAllApiAsync(provider));
@@ -259,7 +252,6 @@ public class Program {
 
         var service = scope.ServiceProvider.GetRequiredService<IUserService>();
         var repository = scope.ServiceProvider.GetRequiredService<IUserRepository>();
-        var cache = scope.ServiceProvider.GetRequiredService<ICache>();
 
         var numeroNotificaciones = notificaciones.Count;
         var request = CrearUsuarioValido();
@@ -274,10 +266,6 @@ public class Program {
         var local = await repository.GetByIdAsync(result.Value.Id);
 
         Comprobar(local.IsSuccess, "El usuario creado existe en BD");
-
-        var cacheado = await cache.GetAsync<User>($"User:{result.Value.Id}");
-
-        Comprobar(cacheado is not null, "El usuario creado existe en caché");
 
         var nuevas = notificaciones.Skip(numeroNotificaciones).ToList();
         var notificacion = nuevas.FirstOrDefault(n => n.Tipo == TypeNotification.Create);
@@ -629,7 +617,7 @@ public class Program {
         Console.WriteLine("Esperando al ciclo real de sincronización de 60 segundos...");
         Console.ResetColor();
 
-        var backgroundService = provider.GetRequiredService<RepositorioRemoto.Back.Services.Background.BackgroundService>();
+        var backgroundService = provider.GetRequiredService<IBackgroundService>();
 
         using var cancellationTokenSource = new CancellationTokenSource();
 

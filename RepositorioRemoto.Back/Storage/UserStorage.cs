@@ -5,12 +5,13 @@ using System.Text.Json.Serialization;
 using CSharpFunctionalExtensions;
 using RepositorioRemoto.Back.Errors;
 using RepositorioRemoto.Back.Errors.Storage;
+using RepositorioRemoto.Back.Infrastructure.Interfaces;
 using RepositorioRemoto.Back.Models;
 using Serilog;
 
 namespace RepositorioRemoto.Back.Storage;
 
-public class UserStorage : IUserStorage {
+public class UserStorage : IUserStorage, IScopedService {
     private readonly ILogger _logger = Log.ForContext<UserStorage>();
 
     private readonly JsonSerializerOptions _options = new() {
