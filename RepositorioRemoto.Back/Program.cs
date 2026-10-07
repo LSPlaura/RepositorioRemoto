@@ -578,69 +578,86 @@ public class Program {
 
         return Task.CompletedTask;
     }
-
+    
     private static async Task ProbarBackgroundServiceAsync(IServiceProvider provider) {
         await PrepararDatosAsync(provider);
-
-        const int idTemporal = 999;
-
+    
+        int idTemporal;
+        string emailTemporal;
+    
         using (var scope = provider.CreateScope()) {
-            var repository = scope.ServiceProvider.GetRequiredService<IUserRepository>();
-            var cache = scope.ServiceProvider.GetRequiredService<ICache>();
-
-            var usuarioBase = await repository.GetByIdAsync(1);
-
-            if (usuarioBase.IsFailure) {
-                Comprobar(false, "No se ha podido preparar la prueba del BackgroundService");
+            var service = scope.ServiceProvider.GetRequiredService<IUserService>();
+            var cacheInicial = scope.ServiceProvider.GetRequiredService<ICache>();
+    
+            var request = CrearUsuarioValido() with {
+                Name = "Usuario Background",
+                UserName = "background.test",
+                Email = "background.test@gmail.com"
+            };
+    
+            var createResult = await service.CreateAsync(request);
+    
+            if (createResult.IsFailure) {
+                Comprobar(false, $"No se ha podido crear el usuario temporal: {createResult.Error.Message}");
                 return;
             }
-
-            var usuarioTemporal = usuarioBase.Value with {
-                Id = idTemporal,
-                Name = "Usuario Temporal Background"
-            };
-
-            var createResult = await repository.CreateAsync(usuarioTemporal);
-
-            Comprobar(createResult.IsSuccess, "Usuario temporal creado en BD");
-
-            await cache.SetAsync($"User:{idTemporal}", usuarioTemporal);
-
-            var cacheAntes = await cache.GetAsync<User>($"User:{idTemporal}");
-
+    
+            var usuarioTemporal = createResult.Value;
+    
+            idTemporal = usuarioTemporal.Id;
+            emailTemporal = usuarioTemporal.Email;
+    
+            Comprobar(true, $"Usuario temporal creado con ID {idTemporal}");
+    
+            await cacheInicial.SetAsync($"User:{idTemporal}", usuarioTemporal);
+    
+            var cacheAntes = await cacheInicial.GetAsync<User>($"User:{idTemporal}");
+    
             Comprobar(cacheAntes is not null, "Usuario temporal creado en caché");
         }
-
+    
         Console.ForegroundColor = ConsoleColor.Yellow;
         Console.WriteLine();
         Console.WriteLine("Iniciando BackgroundService...");
         Console.WriteLine("Esperando al ciclo real de sincronización de 60 segundos...");
         Console.ResetColor();
-
+    
         var backgroundService = provider.GetRequiredService<IBackgroundService>();
-
+    
         using var cancellationTokenSource = new CancellationTokenSource();
-
+    
         cancellationTokenSource.CancelAfter(TimeSpan.FromSeconds(65));
-
+    
         try {
             await backgroundService.StartAsync(cancellationTokenSource.Token);
         } catch (OperationCanceledException) {
         }
-
+    
         using var scopeVerificacion = provider.CreateScope();
-
+    
         var repositoryVerificacion = scopeVerificacion.ServiceProvider.GetRequiredService<IUserRepository>();
         var cacheVerificacion = scopeVerificacion.ServiceProvider.GetRequiredService<ICache>();
-
-        var temporalDespues = await repositoryVerificacion.GetByIdAsync(idTemporal);
-        var cacheDespues = await cacheVerificacion.GetAsync<User>($"User:{idTemporal}");
+    
         var usuarios = (await repositoryVerificacion.GetAllAsync()).ToList();
-
-        Comprobar(temporalDespues.IsFailure, "El BackgroundService elimina los datos locales anteriores");
-        Comprobar(cacheDespues is null, "El BackgroundService limpia la caché");
-        Comprobar(usuarios.Count > 0, "El BackgroundService vuelve a cargar usuarios desde la API");
-
+        var cacheDespues = await cacheVerificacion.GetAsync<User>($"User:{idTemporal}");
+    
+        var usuarioTemporalSigueExistiendo = usuarios.Any(u => u.Email == emailTemporal);
+    
+        Comprobar(
+            !usuarioTemporalSigueExistiendo,
+            "El BackgroundService elimina los datos locales anteriores"
+        );
+    
+        Comprobar(
+            cacheDespues is null,
+            "El BackgroundService limpia la caché"
+        );
+    
+        Comprobar(
+            usuarios.Count > 0,
+            "El BackgroundService vuelve a cargar usuarios desde la API"
+        );
+    
         Console.WriteLine($"Usuarios después de sincronizar: {usuarios.Count}");
     }
 
