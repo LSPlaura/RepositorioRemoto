@@ -45,6 +45,13 @@ public class UserEfcRepository(DbContext context) : IUserRepository, IScopedServ
         {
             await _context.Set<User>().AddAsync(entity);
             await _context.SaveChangesAsync();
+            
+            await _context.Database.ExecuteSqlRawAsync(@"
+            SELECT setval(
+                pg_get_serial_sequence('users', 'Id'), 
+                COALESCE((SELECT MAX(""Id"") FROM users), 1)
+            );
+        ");
 
             _logger.Debug("Se ha registrado correctamente la nueva entidad.");
             return Result.Success<User, DomainError>(entity);
@@ -86,8 +93,8 @@ public class UserEfcRepository(DbContext context) : IUserRepository, IScopedServ
             }
             else
             {
-                userEntry.CurrentValues.SetValues(entity);
-                userEntry.State = EntityState.Modified;
+                _context.Entry(user).CurrentValues.SetValues(entity);
+                _context.Entry(user).Property(u => u.Id).IsModified = false;
             }
 
             await _context.SaveChangesAsync();
@@ -139,6 +146,8 @@ public class UserEfcRepository(DbContext context) : IUserRepository, IScopedServ
             var entities = await _context.Set<User>().ToListAsync();
             _context.Set<User>().RemoveRange(entities);
             await _context.SaveChangesAsync();
+            
+            await _context.Database.ExecuteSqlRawAsync("ALTER SEQUENCE users_Id_seq RESTART WITH 1;");
 
             _logger.Debug("Se han eliminado todas las entidades registrados.");
             return Result.Success<bool, DomainError>(true);
