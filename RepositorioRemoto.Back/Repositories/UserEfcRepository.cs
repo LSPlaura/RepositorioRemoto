@@ -133,11 +133,11 @@ public class UserEfcRepository(DbContext context) : IUserRepository, IScopedServ
         }
     }
 
-    public async Task<Result<bool, DomainError>> DeleteAllAsync()
+   public async Task<Result<bool, DomainError>> DeleteAllAsync()
     {
         try
         {
-            await _context.Database.ExecuteSqlRawAsync("TRUNCATE TABLE users RESTART IDENTITY CASCADE;");
+            await _context.Set<User>().ExecuteDeleteAsync();
 
             _logger.Debug("Se han eliminado todas las entidades registradas.");
             return Result.Success<bool, DomainError>(true);
@@ -145,8 +145,8 @@ public class UserEfcRepository(DbContext context) : IUserRepository, IScopedServ
         catch (Exception ex)
         {
             _logger.Debug(ex, "Error al intentar eliminar todas las entidades.");
-            return Result.Failure<bool, DomainError>(RepositoryErrors.DeletedError());
+            return Result.Failure<bool, DomainError>(
+                RepositoryErrors.DeletedError());
         }
     }
 }
-
