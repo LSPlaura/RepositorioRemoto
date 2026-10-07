@@ -6,26 +6,30 @@ ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 
 COPY ["RepositorioRemoto.Back/RepositorioRemoto.Back.csproj", "RepositorioRemoto.Back/"]
+
 RUN dotnet restore "RepositorioRemoto.Back/RepositorioRemoto.Back.csproj"
 
 COPY . .
 
 WORKDIR "/src/RepositorioRemoto.Back"
-RUN dotnet build "RepositorioRemoto.Back.csproj" -c $BUILD_CONFIGURATION -o /app/build
+
+RUN dotnet build "RepositorioRemoto.Back.csproj" \
+    -c $BUILD_CONFIGURATION \
+    -o /app/build
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "RepositorioRemoto.Back.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+
+RUN dotnet publish "RepositorioRemoto.Back.csproj" \
+    -c $BUILD_CONFIGURATION \
+    -o /app/publish \
+    /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 
 COPY --from=publish /app/publish .
 
-RUN mkdir -p /app/bin/Debug/net10.0
-
-COPY ["RepositorioRemoto.Back/appsettings.development.json", "/app/bin/Debug/net10.0/appsettings.development.json"]
-
-RUN test -f /app/bin/Debug/net10.0/appsettings.development.json
+RUN mkdir -p /app/data && chmod -R 777 /app/data
 
 ENTRYPOINT ["dotnet", "RepositorioRemoto.Back.dll"]

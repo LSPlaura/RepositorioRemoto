@@ -1,11 +1,12 @@
-using System.Text;
 using CSharpFunctionalExtensions;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Refit;
 using RepositorioRemoto.Back.Api;
 using RepositorioRemoto.Back.Cache.Common;
 using RepositorioRemoto.Back.Config;
 using RepositorioRemoto.Back.Dto.Users;
+using RepositorioRemoto.Back.Entity;
 using RepositorioRemoto.Back.Enum;
 using RepositorioRemoto.Back.Errors;
 using RepositorioRemoto.Back.Infrastructure;
@@ -16,6 +17,8 @@ using RepositorioRemoto.Back.Repositories;
 using RepositorioRemoto.Back.Services.Notifications;
 using RepositorioRemoto.Back.Services.User;
 using RepositorioRemoto.Back.Storage;
+using System.Reactive.Linq;
+using System.Text;
 
 namespace RepositorioRemoto.Back;
 
@@ -31,10 +34,17 @@ public class Program {
         var services = DependenciesProvider.ServicesProvider();
 
         services.AddDatabase();
+
+        if (Configuracion.ApiName == "Production") {
+            services.AddScoped<DbContext>(sp => sp.GetRequiredService<AppDbContextPostgre>());
+        } else {
+            services.AddScoped<DbContext>(sp => sp.GetRequiredService<AppDbContextSqlite>());
+        }
+
         services.AddCache();
         services.AddSingleton<INotificationService, ConsoleNotificationService>();
         services.AddScoped<IUserStorage, UserStorage>();
-        services.AddSingleton<Services.Background.BackgroundService>();
+        services.AddSingleton<RepositorioRemoto.Back.Services.Background.BackgroundService>();
 
         services.AddSingleton<IApiJsonPlaceHolder>(_ => {
             var client = new HttpClient {
@@ -44,7 +54,7 @@ public class Program {
             return RestService.For<IApiJsonPlaceHolder>(client);
         });
 
-        await using var provider = services.BuildServiceProvider();
+        using var provider = services.BuildServiceProvider();
 
         var notificationService = provider.GetRequiredService<INotificationService>();
         var notificaciones = new List<Notification>();
@@ -59,25 +69,20 @@ public class Program {
         await EjecutarPruebaAsync("1. ARRANQUE - CARGA INICIAL", () => ProbarCargaInicialAsync(provider));
         await EjecutarPruebaAsync("2. GET ALL - BASE DE DATOS LOCAL", () => ProbarGetAllLocalAsync(provider));
         await EjecutarPruebaAsync("3. GET ALL - BD VACÍA → API", () => ProbarGetAllApiAsync(provider));
-
         await EjecutarPruebaAsync("4. GET BY ID - API → BD → CACHÉ", () => ProbarGetByIdApiAsync(provider));
         await EjecutarPruebaAsync("5. GET BY ID - BASE DE DATOS → CACHÉ", () => ProbarGetByIdBaseDatosAsync(provider));
         await EjecutarPruebaAsync("6. GET BY ID - CACHÉ", () => ProbarGetByIdCacheAsync(provider));
         await EjecutarPruebaAsync("7. GET BY ID - USUARIO INEXISTENTE", () => ProbarGetByIdInexistenteAsync(provider));
-
         await EjecutarPruebaAsync("8. CREATE - USUARIO VÁLIDO", () => ProbarCreateValidoAsync(provider, notificaciones));
         await EjecutarPruebaAsync("9. CREATE - CASOS INVÁLIDOS", () => ProbarCreateInvalidosAsync(provider, notificaciones));
         await EjecutarPruebaAsync("10. CREATE - NULL", () => ProbarCreateNullAsync(provider, notificaciones));
-
         await EjecutarPruebaAsync("11. UPDATE - USUARIO VÁLIDO", () => ProbarUpdateValidoAsync(provider, notificaciones));
         await EjecutarPruebaAsync("12. UPDATE - IDS DIFERENTES", () => ProbarUpdateIdsDiferentesAsync(provider, notificaciones));
         await EjecutarPruebaAsync("13. UPDATE - DATOS INVÁLIDOS", () => ProbarUpdateInvalidoAsync(provider, notificaciones));
         await EjecutarPruebaAsync("14. UPDATE - USUARIO INEXISTENTE", () => ProbarUpdateInexistenteAsync(provider, notificaciones));
         await EjecutarPruebaAsync("15. UPDATE - NULL", () => ProbarUpdateNullAsync(provider, notificaciones));
-
         await EjecutarPruebaAsync("16. DELETE - USUARIO VÁLIDO", () => ProbarDeleteValidoAsync(provider, notificaciones));
         await EjecutarPruebaAsync("17. DELETE - USUARIO INEXISTENTE", () => ProbarDeleteInexistenteAsync(provider, notificaciones));
-
         await EjecutarPruebaAsync("18. EXPORTAR USUARIOS A JSON", () => ProbarExportacionAsync(provider));
         await EjecutarPruebaAsync("19. NOTIFICACIONES RX.NET", () => ProbarNotificacionesAsync(notificaciones));
         await EjecutarPruebaAsync("20. BACKGROUND SERVICE - SINCRONIZACIÓN", () => ProbarBackgroundServiceAsync(provider));
@@ -257,7 +262,6 @@ public class Program {
         var cache = scope.ServiceProvider.GetRequiredService<ICache>();
 
         var numeroNotificaciones = notificaciones.Count;
-
         var request = CrearUsuarioValido();
         var result = await service.CreateAsync(request);
 
@@ -296,16 +300,12 @@ public class Program {
         await ComprobarCreateFailure(service, valido with { Name = "" }, "Nombre vacío");
         await ComprobarCreateFailure(service, valido with { Name = "A" }, "Nombre demasiado corto");
         await ComprobarCreateFailure(service, valido with { Name = "123456" }, "Nombre inválido");
-
         await ComprobarCreateFailure(service, valido with { UserName = "" }, "Username vacío");
         await ComprobarCreateFailure(service, valido with { UserName = "a" }, "Username demasiado corto");
-
         await ComprobarCreateFailure(service, valido with { Email = "" }, "Email vacío");
         await ComprobarCreateFailure(service, valido with { Email = "correo-invalido" }, "Email inválido");
-
         await ComprobarCreateFailure(service, valido with { Phone = "" }, "Teléfono vacío");
         await ComprobarCreateFailure(service, valido with { Phone = "telefono" }, "Teléfono inválido");
-
         await ComprobarCreateFailure(service, valido with { Website = "" }, "Website vacío");
         await ComprobarCreateFailure(service, valido with { Website = "web" }, "Website inválida");
 
@@ -416,7 +416,7 @@ public class Program {
         MostrarResultado(result);
 
         Comprobar(result.IsFailure, "IDs diferentes devuelven Failure");
-        Comprobar(notificaciones.Count == numeroNotificaciones, "Un Update con IDs diferentes no genera notificación");
+        Comprobar(notificaciones.Count == numeroNotificaciones, "Update con IDs diferentes no genera notificación");
     }
 
     private static async Task ProbarUpdateInvalidoAsync(IServiceProvider provider, List<Notification> notificaciones) {
@@ -433,7 +433,7 @@ public class Program {
         MostrarResultado(result);
 
         Comprobar(result.IsFailure, "Update con datos inválidos devuelve Failure");
-        Comprobar(notificaciones.Count == numeroNotificaciones, "Un Update inválido no genera notificación");
+        Comprobar(notificaciones.Count == numeroNotificaciones, "Update inválido no genera notificación");
     }
 
     private static async Task ProbarUpdateInexistenteAsync(IServiceProvider provider, List<Notification> notificaciones) {
@@ -525,7 +525,7 @@ public class Program {
         MostrarResultado(result);
 
         Comprobar(result.IsFailure, "Delete de usuario inexistente devuelve Failure");
-        Comprobar(notificaciones.Count == numeroNotificaciones, "Delete de usuario inexistente no genera notificación");
+        Comprobar(notificaciones.Count == numeroNotificaciones, "Delete inexistente no genera notificación");
     }
 
     private static async Task ProbarExportacionAsync(IServiceProvider provider) {
@@ -585,8 +585,8 @@ public class Program {
         Comprobar(create > 0, "Se ha recibido al menos una notificación Create");
         Comprobar(update > 0, "Se ha recibido al menos una notificación Update");
         Comprobar(delete > 0, "Se ha recibido al menos una notificación Delete");
-        Comprobar(notificaciones.All(n => n.Timestamp != default), "Todas las notificaciones contienen Timestamp");
-        Comprobar(notificaciones.All(n => !string.IsNullOrWhiteSpace(n.Mensaje)), "Todas las notificaciones contienen Mensaje");
+        Comprobar(notificaciones.Count > 0 && notificaciones.All(n => n.Timestamp != default), "Todas las notificaciones contienen Timestamp");
+        Comprobar(notificaciones.Count > 0 && notificaciones.All(n => !string.IsNullOrWhiteSpace(n.Mensaje)), "Todas las notificaciones contienen Mensaje");
 
         return Task.CompletedTask;
     }
@@ -629,7 +629,7 @@ public class Program {
         Console.WriteLine("Esperando al ciclo real de sincronización de 60 segundos...");
         Console.ResetColor();
 
-        var backgroundService = provider.GetRequiredService<Services.Background.BackgroundService>();
+        var backgroundService = provider.GetRequiredService<RepositorioRemoto.Back.Services.Background.BackgroundService>();
 
         using var cancellationTokenSource = new CancellationTokenSource();
 
