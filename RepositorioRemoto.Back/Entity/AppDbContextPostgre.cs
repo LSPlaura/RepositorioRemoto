@@ -13,16 +13,13 @@ public class AppDbContextPostgre(DbContextOptions<AppDbContextPostgre> options) 
                 entity.ToTable("users");
 
                 entity.Property(e => e.Id);
-                
-                entity.Property(e => e.Name)
-                    .HasMaxLength(50);
-                
-                entity.Property(e => e.UserName)
-                    .HasMaxLength(30);
-                
+
+                entity.Property(e => e.Name);
+
+                entity.Property(e => e.UserName);
+
                 entity.Property(e => e.Email)
-                    .IsRequired()
-                    .HasMaxLength(254);
+                    .IsRequired();
                 
                 entity.Property(e => e.Address)
                     .HasConversion(
@@ -30,13 +27,11 @@ public class AppDbContextPostgre(DbContextOptions<AppDbContextPostgre> options) 
                         json => json.ToAddress()
                     )
                     .HasColumnType("jsonb");
-                
+
                 entity.Property(e => e.Phone)
-                    .IsRequired()
-                    .HasMaxLength(15);
-                
-                entity.Property(e => e.Website)
-                    .HasMaxLength(250);
+                    .IsRequired();
+
+                entity.Property(e => e.Website);
                 
                 entity.Property(e => e.Company)
                     .HasConversion(

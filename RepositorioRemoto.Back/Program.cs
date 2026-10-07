@@ -103,7 +103,7 @@ public class Program {
         foreach (var u in users)
         {
           var result = await repository.CreateAsync(u);
-          Console.WriteLine($"{result.Error}");
+          Console.WriteLine($"{result.Value}");
         }
 
         var locales = (await repository.GetAllAsync()).ToList();
