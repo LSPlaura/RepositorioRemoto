@@ -3,10 +3,51 @@
     build:
       context: .
       dockerfile: Dockerfile
+    container_name: repositorioremoto_backend
+    ports:
+      - "8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+        required: false
+      redis:
+        condition: service_started
+        required: false
     environment:
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT:-Development}
       - ConnectionStrings__SqliteConnection=Data Source=/app/data/app.db
+      - ConnectionStrings__PostgresConnection=Host=db;Port=5432;Database=repositorio_db;Username=postgres;Password=tu_password
+      - ConnectionStrings__RedisConnection=redis:6379
+      - Cache__ConnectionString=redis:6379
     volumes:
       - sqlite_data:/app/data
 
+  db:
+    image: postgres:16-alpine
+    container_name: postgres_db
+    profiles: ["prod"]
+    restart: always
+    environment:
+      POSTGRES_DB: repositorio_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: tu_password
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d repositorio_db"]
+      interval: 3s
+      timeout: 3s
+      retries: 5
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    container_name: redis_cache
+    profiles: ["prod"]
+    restart: always
+    volumes:
+      - redis_data:/data
+
 volumes:
   sqlite_data:
+  postgres_data:
+  redis_data:
